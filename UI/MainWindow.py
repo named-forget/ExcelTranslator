@@ -43,11 +43,11 @@ class MainWindow(QMainWindow):
         newAction.clicked.connect(self.new)
 
         #下拉框新增
-        openAction_OutputFolder = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_folder.ico'), '打开输出目录', self)
-        openAction_OutputFolder.setText("打开输出目录")
+        self.openAction_OutputFolder = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_folder.ico'), '打开输出目录', self)
+        self.openAction_OutputFolder.setText("打开输出目录")
         #openAction.setShortcut('Ctrl+O')
-        openAction_OutputFolder.setStatusTip('新增')
-        openAction_OutputFolder.clicked.connect(self.open)
+        self.openAction_OutputFolder.setStatusTip('新增')
+        self.openAction_OutputFolder.clicked.connect(self.open)
 
         #运行
         self.button_run = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_run.ico'), '运行', self)
@@ -206,7 +206,7 @@ class MainWindow(QMainWindow):
         tb1 = self.addToolBar('File')
         tb1.addWidget(newAction)
         tb1.addWidget(self.button_run)
-        tb1.addWidget(saveAction)
+        #tb1.addWidget(saveAction)
 
         tb2 = self.addToolBar('Edit')
         tb2.addWidget(self.button_multiRun)
@@ -219,7 +219,7 @@ class MainWindow(QMainWindow):
         tb_Output = self.addToolBar('Output')
         tb_Output.addWidget(self.label_OutputFolder)
         tb_Output.addWidget((self.comboBox_outputfolder))
-        tb_Output.addWidget(openAction_OutputFolder)
+        tb_Output.addWidget(self.openAction_OutputFolder)
 
         tb_Config = self.addToolBar('Config')
         tb_Config.addWidget(self.label_xmlFIle)
@@ -232,15 +232,26 @@ class MainWindow(QMainWindow):
         tb_templatefile.addAction(self.action_renametemplate)
         tb_templatefile.addWidget((self.comboBox_templatefile))
         tb_templatefile.addWidget(self.button_ViewTemplateFile)
-        # 添加状态栏，以显示每个Action的StatusTip信息
+        # 控件样式调整
+        self.label_OutputFolder.setStyleSheet('text-align: center;'
+                                              'margin-top:11px;'
+                                              'margin-bottom:5px')
+        self.label_xmlFIle.setStyleSheet('text-align: center;'
+                                         'margin-top:11px;'
+                                         'margin-bottom:5px')
+        self.label_templatefile.setStyleSheet('text-align: center;'
+                                              'margin-top:11px;'
+                                              'margin-bottom:5px')
+        # self.self.openAction_OutputFolder.setContentsMargins(15,0,0,0)
 
-        #控件调整
-        self.comboBox_outputfolder.setMaximumSize(300, 30)
-        self.comboBox_outputfolder.setMinimumSize(300, 30)
-        self.comboBox_xmlFIle.setMaximumSize(100, 30)
-        self.comboBox_xmlFIle.setMinimumSize(100, 30)
-        self.comboBox_templatefile.setMaximumSize(200, 30)
-        self.comboBox_templatefile.setMinimumSize(200, 30)
+        self.openAction_OutputFolder.setStyleSheet("margin-left:15px;padding:5px")
+        self.button_ViewTemplateFile.setStyleSheet("margin-left:15px;padding:8px")
+        self.button_ViewXml.setStyleSheet("margin-left:15px;padding:8px")
+
+        self.comboBox_outputfolder.setStyleSheet("width:300px;padding:5px")
+        self.comboBox_templatefile.setStyleSheet("width:200px;padding:5px")
+        self.comboBox_xmlFIle.setStyleSheet("width:100px;padding:5px")
+
 
         self.statusBar()
 
@@ -294,6 +305,9 @@ class MainWindow(QMainWindow):
         templatefile = self.comboBox_templatefile.currentData()
         inputFile = self.button_run.statusTip()
         outputFile = os.path.join(outputFolder, os.path.basename(inputFile))
+        if not os.path.isfile(inputFile):
+            QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
+            return
         self.textEdit.append("开始转换文件：{0} 模式：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
                                                                          self.comboBox_xmlFIle.currentText(),
                                                                          self.comboBox_templatefile.currentText(),
@@ -400,18 +414,20 @@ class MainWindow(QMainWindow):
                         if flag != self.str_OutputFolder:
                             existsName = ": " + item.attrib["Name"]
                 if isExistsItem:
-                    QMessageBox.warning(self, '警告', '该项已添加' + existsName, QMessageBox.Yes)
+                    QMessageBox.warning(self, '警告', '该项已存在' + existsName, QMessageBox.Yes)
                     combobox.setCurrentIndex(1)
                 else:
                     if flag == self.str_OutputFolder:
                         element = XETree.Element("Folder")
+                        element.text = folder_Exolorer
                     elif flag == self.str_xmlFIle:
                         element = XETree.Element("File")
                         element.set("Name", "模式" + str(len(items) + 1))
+                        element.text = self.xmlFolderPath + "/" + os.path.basename(folder_Exolorer)
                     else:
                         element = XETree.Element("File")
                         element.set("Name", os.path.basename(folder_Exolorer)[0:-5])
-                    element.text = folder_Exolorer
+                        element.text = self.templateFoldetPath + "/" + os.path.basename(folder_Exolorer)
                     node.append(element)
                     if flag == self.str_OutputFolder:
                         combobox.addItem(folder_Exolorer, str(len(items) + 1))
@@ -515,10 +531,14 @@ class MainWindow(QMainWindow):
             tree.write(self.configFilePath, encoding='utf-8', xml_declaration=True)
 
     def viewXml(self):
-        os.startfile(self.comboBox_xmlFIle.currentData())
+        file = self.comboBox_xmlFIle.currentData()
+        if file is not  None and os.path.isfile(file):
+            os.startfile(file)
 
     def viewTemplateFile(self):
-        os.startfile(self.comboBox_templatefile.currentData())
+        file = self.comboBox_templatefile.currentData()
+        if file is not  None and os.path.isfile(file):
+            os.startfile(file)
 # if __name__ == '__main__':
 #     app = QApplication(sys.argv)
 #     w = MainWindow()
