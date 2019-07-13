@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/UI/Tab.py" line="168" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6fef069c-6d09-4a32-b094-1982b4aceeda" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ExcelTranslator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ExcelTranslator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GuiRcFile/Tab.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UI/WorkTab.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GuiRcFile/untitled.ui" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/MainWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,85 +18,116 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/UI/untitled.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="3230">
+                    <caret line="170" column="49" selection-start-line="170" selection-start-column="47" selection-end-line="170" selection-end-column="49" />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/UI/Tab.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="440">
+                    <caret line="188" column="104" lean-forward="true" selection-start-line="188" selection-start-column="104" selection-end-line="188" selection-end-column="104" />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UI/test.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/UI/WorkTab.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="579">
-              <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
+            <state relative-caret-position="120">
+              <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#27#119#0" expanded="true" />
+                <element signature="e#198#396#0" />
+                <element signature="e#429#751#0" />
+                <element signature="e#1867#2577#0" />
+                <element signature="e#1141#2217#0" />
+                <element signature="e#2384#2967#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GuiRcFile/Tab.ui">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7">
+              <caret line="50" column="22" lean-forward="true" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/UI/MainWindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="252" column="70" selection-start-line="252" selection-start-column="70" selection-end-line="252" selection-end-column="70" />
+            <state relative-caret-position="-838">
+              <caret line="89" column="19" lean-forward="true" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
               <folding>
                 <element signature="n#!!doc" />
-                <element signature="e#844#947#0" />
-                <element signature="e#1176#1190#0" />
-                <element signature="e#11693#11860#0" />
-                <element signature="e#11866#11914#0" />
-                <element signature="e#11975#12414#0" />
-                <element signature="e#11998#12047#0" />
-                <element signature="e#12455#12888#0" />
-                <element signature="e#12581#12741#0" />
-                <element signature="e#12649#12741#0" />
-                <element signature="e#12750#12783#0" />
-                <element signature="e#12917#13891#0" />
-                <element signature="e#13274#13353#0" />
-                <element signature="e#13925#15852#0" />
-                <element signature="e#14039#15852#0" />
-                <element signature="e#14556#15719#0" />
-                <element signature="e#15088#15719#0" />
-                <element signature="e#15139#15719#0" />
-                <element signature="e#15313#15619#0" />
-                <element signature="e#15882#16077#0" />
-                <element signature="e#16118#16393#0" />
-                <element signature="e#16275#16393#0" />
-                <element signature="e#16434#16553#0" />
-                <element signature="e#16596#16633#0" />
-                <element signature="e#16672#16819#0" />
-                <element signature="e#16862#16868#0" />
-                <element signature="e#16928#20762#0" />
-                <element signature="e#17005#20723#0" />
-                <element signature="e#17055#17515#0" />
-                <element signature="e#17407#17515#0" />
-                <element signature="e#17700#20661#0" />
-                <element signature="e#17985#18187#0" />
-                <element signature="e#18042#18187#0" />
-                <element signature="e#18241#18359#0" />
-                <element signature="e#18402#20661#0" />
-                <element signature="e#18460#18549#0" />
-                <element signature="e#18625#18829#0" />
-                <element signature="e#18880#19102#0" />
-                <element signature="e#19222#19341#0" />
-                <element signature="e#19417#19916#0" />
-                <element signature="e#19997#20531#0" />
-                <element signature="e#20811#21447#0" />
-                <element signature="e#20971#21447#0" />
-                <element signature="e#21523#22061#0" />
-                <element signature="e#21726#22061#0" />
-                <element signature="e#22122#22615#0" />
-                <element signature="e#22180#22504#0" />
-                <element signature="e#22531#22615#0" />
-                <element signature="e#22651#23382#0" />
-                <element signature="e#22873#23382#0" />
-                <element signature="e#23081#23197#0" />
-                <element signature="e#23140#23197#0" />
-                <element signature="e#23422#24171#0" />
-                <element signature="e#23652#24171#0" />
-                <element signature="e#23865#23981#0" />
-                <element signature="e#23924#23981#0" />
-                <element signature="e#24204#24332#0" />
-                <element signature="e#24374#24507#0" />
-                <element signature="e#23123#23151#0" />
+                <element signature="e#66#75#0" expanded="true" />
+                <element signature="e#1655#1669#0" />
+                <element signature="e#8298#8304#0" />
+                <element signature="e#9538#9565#0" />
+                <element signature="e#10734#10886#0" />
+                <element signature="e#10929#11071#0" />
+                <element signature="e#10805#10958#0" />
+                <element signature="e#12252#12300#0" />
+                <element signature="e#12361#12800#0" />
+                <element signature="e#12384#12433#0" />
+                <element signature="e#13297#14271#0" />
+                <element signature="e#13654#13733#0" />
+                <element signature="e#14727#16563#0" />
+                <element signature="e#16262#16457#0" />
+                <element signature="e#16498#16773#0" />
+                <element signature="e#16655#16773#0" />
+                <element signature="e#16814#16933#0" />
+                <element signature="e#16976#17013#0" />
+                <element signature="e#17052#17199#0" />
+                <element signature="e#17242#17248#0" />
+                <element signature="e#18365#18567#0" />
+                <element signature="e#18422#18567#0" />
+                <element signature="e#18621#18739#0" />
+                <element signature="e#18840#18929#0" />
+                <element signature="e#19005#19209#0" />
+                <element signature="e#19260#19482#0" />
+                <element signature="e#19602#19721#0" />
+                <element signature="e#19797#20296#0" />
+                <element signature="e#20377#20911#0" />
+                <element signature="e#21191#21827#0" />
+                <element signature="e#21351#21827#0" />
+                <element signature="e#21903#22441#0" />
+                <element signature="e#22106#22441#0" />
+                <element signature="e#22502#22995#0" />
+                <element signature="e#22560#22884#0" />
+                <element signature="e#22911#22995#0" />
+                <element signature="e#23031#23762#0" />
+                <element signature="e#23253#23762#0" />
+                <element signature="e#23461#23577#0" />
+                <element signature="e#23520#23577#0" />
+                <element signature="e#23802#24551#0" />
+                <element signature="e#24032#24551#0" />
+                <element signature="e#24245#24361#0" />
+                <element signature="e#24304#24361#0" />
+                <element signature="e#24584#24712#0" />
+                <element signature="e#24754#24887#0" />
+                <element signature="e#33911#33939#0" />
               </folding>
             </state>
           </provider>
@@ -101,8 +136,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ShowDIalog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="228">
+              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -113,22 +148,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FileTranslator/template.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="903">
-              <caret line="103" column="5" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
+            <state relative-caret-position="-808">
+              <caret line="104" column="10" lean-forward="true" selection-start-line="104" selection-start-column="10" selection-end-line="104" selection-end-column="10" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UI/openfile.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="88" column="13" lean-forward="true" selection-start-line="127" selection-start-column="12" selection-end-line="129" selection-end-column="64" />
-              <folding>
-                <element signature="e#196#231#0" expanded="true" />
+                <element signature="e#303#1457#0" />
+                <element signature="e#1508#2009#0" />
               </folding>
             </state>
           </provider>
@@ -145,17 +170,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>fname</find>
-      <find>fileExolorer</find>
-      <find>show</find>
-      <find>QIcon</find>
-      <find>are</find>
-      <find>open</find>
-      <find>EventCombox_Output</find>
-      <find>comboBox</find>
-      <find>iniReder</find>
-      <find>print</find>
-      <find>filepath</find>
       <find>OutputFolder</find>
       <find>self.combobox</find>
       <find>/</find>
@@ -163,6 +177,29 @@
       <find>xmlFIle</find>
       <find>action_renameXml</find>
       <find>openAction_OutputFolder</find>
+      <find>QtGui.</find>
+      <find>setSeabornParams</find>
+      <find>set_palette</find>
+      <find>&quot;jet&quot;</find>
+      <find>loadData</find>
+      <find>read_csv</find>
+      <find>pd</find>
+      <find>window_open</find>
+      <find>tableWidget</find>
+      <find>MainWindow</find>
+      <find>tabWidget</find>
+      <find>button_ViewTemplateFile</find>
+      <find>toolba</find>
+      <find>__</find>
+      <find>wb</find>
+      <find>colnum</find>
+      <find>set</find>
+      <find>self.widget</find>
+      <find>icon</find>
+      <find>datatype</find>
+      <find>self..</find>
+      <find>f.name</find>
+      <find>this is</find>
     </findStrings>
     <replaceStrings>
       <replace>file_Exolorer</replace>
@@ -173,6 +210,13 @@
       <replace>templatefile</replace>
       <replace>action_renametemplate</replace>
       <replace>self.openAction_OutputFolder</replace>
+      <replace>&quot;husl&quot;</replace>
+      <replace>self</replace>
+      <replace>workTab</replace>
+      <replace>i</replace>
+      <replace>dataType</replace>
+      <replace>filepath</replace>
+      <replace>self.</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -183,11 +227,16 @@
       <list>
         <option value="$PROJECT_DIR$/texteditor.py" />
         <option value="$PROJECT_DIR$/UI/MainWIndow.py" />
-        <option value="$PROJECT_DIR$/ShowDIalog.py" />
         <option value="$PROJECT_DIR$/UI/openfile.py" />
-        <option value="$PROJECT_DIR$/UI/test.py" />
+        <option value="$PROJECT_DIR$/GuiRcFile/untitled.ui" />
+        <option value="$PROJECT_DIR$/ShowDIalog.py" />
+        <option value="$PROJECT_DIR$/UI/Config/WorkTab.py" />
+        <option value="$PROJECT_DIR$/UI/untitled.py" />
         <option value="$PROJECT_DIR$/FileTranslator/template.py" />
+        <option value="$PROJECT_DIR$/UI/Tab.py" />
+        <option value="$PROJECT_DIR$/UI/test.py" />
         <option value="$PROJECT_DIR$/UI/MainWindow.py" />
+        <option value="$PROJECT_DIR$/UI/WorkTab.py" />
       </list>
     </option>
   </component>
@@ -224,7 +273,24 @@
             <path>
               <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
               <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
+              <item name="Resource" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
+              <item name="Resource" type="462c0819:PsiDirectoryNode" />
+              <item name="icon" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
               <item name="UI" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
+              <item name="UI" type="462c0819:PsiDirectoryNode" />
+              <item name="Config" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -235,22 +301,24 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Resource/icon" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\UI" />
-      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource\icon" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\PythonProject\ExcelTranslator\Resource\icon" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource\icon" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\FileTranslator" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTransfor" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\PythonProject\ExcelTranslator\UI" />
+      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\UI" />
+      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource\icon" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -266,50 +334,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.ShowDIalog">
-    <configuration name="MainWIndow" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="ExcelTranslator" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UI" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\UI\MainWindow.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="MainWindow" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="ExcelTranslator" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UI" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UI/MainWindow.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="ShowDIalog" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ExcelTranslator" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -324,6 +348,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ShowDIalog.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="WorkTab" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ExcelTranslator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UI/WorkTab.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -367,7 +413,29 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\UI\MainWindow.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/texteditor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="untitled" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ExcelTranslator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UI/untitled.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -379,10 +447,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.ShowDIalog" />
-        <item itemvalue="Python.MainWindow" />
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.MainWIndow" />
         <item itemvalue="Python.texteditor" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.WorkTab" />
+        <item itemvalue="Python.untitled" />
       </list>
     </recent_temporary>
   </component>
@@ -399,12 +467,13 @@
       <workItem from="1562811566196" duration="27247000" />
       <workItem from="1562894742901" duration="23851000" />
       <workItem from="1562934688338" duration="393000" />
-      <workItem from="1562937133226" duration="7789000" />
+      <workItem from="1562937133226" duration="11328000" />
+      <workItem from="1562990680684" duration="39829000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59280000" />
+    <option name="totallyTimeSpent" value="102648000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -417,24 +486,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2062" height="1126" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25499" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25748503" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.498503" visible="true" weight="0.32595575" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.499002" weight="0.39738432" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49201596" weight="0.32595575" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.493513" weight="0.39738432" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.499501" weight="0.32997987" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.499501" weight="0.32997987" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50149703" side_tool="true" visible="true" weight="0.32595575" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50798404" side_tool="true" visible="true" weight="0.32595575" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.499501" weight="0.32997987" />
-      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.499501" weight="0.32997987" />
+      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.499002" weight="0.84205234" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -481,74 +549,103 @@
           <line>118</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/UI/MainWindow.py</url>
+          <line>384</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="combobox.currentData()" />
-        <watch expression="combobox.currentData() == &quot;New&quot;" />
-        <watch expression="folder_Exolorer != &quot;&quot;" />
-        <watch expression="folder_Exolorer" />
-        <watch expression="os.getcwd()" language="Python" />
-        <watch expression="self.textEdit.repaint()" language="Python" />
+        <watch expression="self.workTab.find()" language="Python" />
+        <watch expression="self.workTab.findChild(WorkTab.Tab,f.name)" language="Python" />
+        <watch expression="filename[-5:-1]" language="Python" />
+        <watch expression="filename[-5:]" language="Python" />
+        <watch expression="filename[-5:0] == &quot;.xlsx&quot;" language="Python" />
+        <watch expression="self.workTab.removeTab(0)" language="Python" />
+        <watch expression="self.workTab.findChild(WorkTab.Tab, filepath)" language="Python" />
+        <watch expression="tab.setParent(None)" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ExcelTransfor$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1562842224222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTransfor$ShowDIalog.coverage" NAME="ShowDIalog Coverage Results" MODIFIED="1562842411296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$test.coverage" NAME="test Coverage Results" MODIFIED="1562914261347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$test.coverage" NAME="test Coverage Results" MODIFIED="1563030363769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$WorkTab.coverage" NAME="WorkTab Coverage Results" MODIFIED="1563003367475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTransfor$texteditor.coverage" NAME="texteditor Coverage Results" MODIFIED="1562825481751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$untitled.coverage" NAME="untitled Coverage Results" MODIFIED="1562955113387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTransfor$test.coverage" NAME="test Coverage Results" MODIFIED="1562841064115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTranslator$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1562950986535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$ShowDIalog.coverage" NAME="ShowDIalog Coverage Results" MODIFIED="1562951569385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$ShowDIalog.coverage" NAME="ShowDIalog Coverage Results" MODIFIED="1563041008956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$texteditor.coverage" NAME="texteditor Coverage Results" MODIFIED="1563034945621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ExcelTransfor$openfile.coverage" NAME="openfile Coverage Results" MODIFIED="1562813621195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTransfor$MainWIndow.coverage" NAME="MainWIndow Coverage Results" MODIFIED="1562825887737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
   </component>
   <component name="debuggerHistoryManager">
+    <expressions id="breakpointLogExpression">
+      <expression>
+        <expression-string>self.tabarray[0] = WorkTab.Tab()
+        self.tabarray[0].setObjectName(&quot;tab&quot;)
+        self.workTab.addTab(self.tabarray[0], &quot;New&quot;)
+
+        self.widget = QtWidgets.QWidget(self.tab)
+        self.widget.setGeometry(QtCore.QRect(9, 9, 401, 501))
+        self.widget.setObjectName(&quot;widget&quot;)
+        
+        self.tableWidget = QtWidgets.QTableWidget(self.widget)
+        self.tableWidget.setGeometry(QtCore.QRect(40, -10, 401, 501))
+        # self.tabarray[0] = WorkTab.Tab(self)
+        # self.tabarray[0] .setObjectName(&quot;tab0&quot;)
+        # self.workTab.addTab(self.tabarray[0], &quot;New&quot;)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
     <expressions id="watch">
       <expression>
-        <expression-string>self.textEdit.repaint()</expression-string>
+        <expression-string>self.workTab.findChild(WorkTab.Tab, filepath)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>os.getcwd()</expression-string>
+        <expression-string>tab.setParent(None)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>node.getchildren()[0].text</expression-string>
+        <expression-string>self.workTab.removeTab(0)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>node.getchildren()</expression-string>
+        <expression-string>filename[-5:]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>tree.getroot()</expression-string>
+        <expression-string>filename[-5:1]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>tree.getroot().find(str_OutputFolder).children()</expression-string>
+        <expression-string>filename[-5:-1]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>tree.getroot().find(str_OutputFolder)</expression-string>
+        <expression-string>filename[-5:0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>root.find(str_OutputFolder)</expression-string>
+        <expression-string>filename[-5:0] == &quot;.xlsx&quot;</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>root.getchildren()[str_OutputFolder]</expression-string>
+        <expression-string>self.workTab.findChild(WorkTab.Tab,f.name)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -592,13 +689,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/GuiRcFile/test.ui">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/configparser.py" />
     <entry file="file://$PROJECT_DIR$/Resource/icon/Icon_create.ico">
       <provider selected="true" editor-type-id="images" />
@@ -613,117 +703,231 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/xml/etree/ElementTree.py" />
-    <entry file="file://$PROJECT_DIR$/GuiRcFile/untitled.ui">
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/seaborn/palettes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="44" lean-forward="true" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+        <state relative-caret-position="327">
+          <caret line="221" column="12" lean-forward="true" selection-start-line="221" selection-start-column="12" selection-end-line="221" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="1013" selection-start-line="1013" selection-end-line="1013" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/UI/openfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="88" column="13" lean-forward="true" selection-start-line="127" selection-start-column="12" selection-end-line="129" selection-end-column="64" />
+        <state relative-caret-position="114">
+          <caret line="6" column="54" selection-start-line="6" selection-start-column="54" selection-end-line="6" selection-end-column="54" />
           <folding>
             <element signature="e#196#231#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FileTranslator/template.py">
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QWidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="903">
-          <caret line="103" column="5" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="451">
+          <caret line="1134" column="99" selection-start-line="1134" selection-start-column="93" selection-end-line="1134" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/workbook/workbook.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="69" column="42" lean-forward="true" selection-start-line="69" selection-start-column="42" selection-end-line="69" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/packaging/workbook.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="38" column="23" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/xml/etree/ElementTree.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3629">
+          <caret line="174" column="28" selection-start-line="174" selection-start-column="22" selection-end-line="174" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtCore/Qt.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="25" lean-forward="true" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QTableWidgetItem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/ntpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="182" selection-start-line="182" selection-end-line="182" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/Tab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="188" column="104" lean-forward="true" selection-start-line="188" selection-start-column="104" selection-end-line="188" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/reader/excel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/UI/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
+        <state relative-caret-position="285">
+          <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ShowDIalog.py">
+    <entry file="file://$PROJECT_DIR$/GuiRcFile/test.ui">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="304">
+          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QTabWidget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3705">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/texteditor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-702">
+          <caret line="71" column="45" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileTranslator/template.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-808">
+          <caret line="104" column="10" lean-forward="true" selection-start-line="104" selection-start-column="10" selection-end-line="104" selection-end-column="10" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#303#1457#0" />
+            <element signature="e#1508#2009#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/untitled.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3230">
+          <caret line="170" column="49" selection-start-line="170" selection-start-column="47" selection-end-line="170" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/UI/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="252" column="70" selection-start-line="252" selection-start-column="70" selection-end-line="252" selection-end-column="70" />
+        <state relative-caret-position="-838">
+          <caret line="89" column="19" lean-forward="true" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
           <folding>
             <element signature="n#!!doc" />
-            <element signature="e#844#947#0" />
-            <element signature="e#1176#1190#0" />
-            <element signature="e#11693#11860#0" />
-            <element signature="e#11866#11914#0" />
-            <element signature="e#11975#12414#0" />
-            <element signature="e#11998#12047#0" />
-            <element signature="e#12455#12888#0" />
-            <element signature="e#12581#12741#0" />
-            <element signature="e#12649#12741#0" />
-            <element signature="e#12750#12783#0" />
-            <element signature="e#12917#13891#0" />
-            <element signature="e#13274#13353#0" />
-            <element signature="e#13925#15852#0" />
-            <element signature="e#14039#15852#0" />
-            <element signature="e#14556#15719#0" />
-            <element signature="e#15088#15719#0" />
-            <element signature="e#15139#15719#0" />
-            <element signature="e#15313#15619#0" />
-            <element signature="e#15882#16077#0" />
-            <element signature="e#16118#16393#0" />
-            <element signature="e#16275#16393#0" />
-            <element signature="e#16434#16553#0" />
-            <element signature="e#16596#16633#0" />
-            <element signature="e#16672#16819#0" />
-            <element signature="e#16862#16868#0" />
-            <element signature="e#16928#20762#0" />
-            <element signature="e#17005#20723#0" />
-            <element signature="e#17055#17515#0" />
-            <element signature="e#17407#17515#0" />
-            <element signature="e#17700#20661#0" />
-            <element signature="e#17985#18187#0" />
-            <element signature="e#18042#18187#0" />
-            <element signature="e#18241#18359#0" />
-            <element signature="e#18402#20661#0" />
-            <element signature="e#18460#18549#0" />
-            <element signature="e#18625#18829#0" />
-            <element signature="e#18880#19102#0" />
-            <element signature="e#19222#19341#0" />
-            <element signature="e#19417#19916#0" />
-            <element signature="e#19997#20531#0" />
-            <element signature="e#20811#21447#0" />
-            <element signature="e#20971#21447#0" />
-            <element signature="e#21523#22061#0" />
-            <element signature="e#21726#22061#0" />
-            <element signature="e#22122#22615#0" />
-            <element signature="e#22180#22504#0" />
-            <element signature="e#22531#22615#0" />
-            <element signature="e#22651#23382#0" />
-            <element signature="e#22873#23382#0" />
-            <element signature="e#23081#23197#0" />
-            <element signature="e#23140#23197#0" />
-            <element signature="e#23422#24171#0" />
-            <element signature="e#23652#24171#0" />
-            <element signature="e#23865#23981#0" />
-            <element signature="e#23924#23981#0" />
-            <element signature="e#24204#24332#0" />
-            <element signature="e#24374#24507#0" />
-            <element signature="e#23123#23151#0" />
+            <element signature="e#66#75#0" expanded="true" />
+            <element signature="e#1655#1669#0" />
+            <element signature="e#8298#8304#0" />
+            <element signature="e#9538#9565#0" />
+            <element signature="e#10734#10886#0" />
+            <element signature="e#10929#11071#0" />
+            <element signature="e#10805#10958#0" />
+            <element signature="e#12252#12300#0" />
+            <element signature="e#12361#12800#0" />
+            <element signature="e#12384#12433#0" />
+            <element signature="e#13297#14271#0" />
+            <element signature="e#13654#13733#0" />
+            <element signature="e#14727#16563#0" />
+            <element signature="e#16262#16457#0" />
+            <element signature="e#16498#16773#0" />
+            <element signature="e#16655#16773#0" />
+            <element signature="e#16814#16933#0" />
+            <element signature="e#16976#17013#0" />
+            <element signature="e#17052#17199#0" />
+            <element signature="e#17242#17248#0" />
+            <element signature="e#18365#18567#0" />
+            <element signature="e#18422#18567#0" />
+            <element signature="e#18621#18739#0" />
+            <element signature="e#18840#18929#0" />
+            <element signature="e#19005#19209#0" />
+            <element signature="e#19260#19482#0" />
+            <element signature="e#19602#19721#0" />
+            <element signature="e#19797#20296#0" />
+            <element signature="e#20377#20911#0" />
+            <element signature="e#21191#21827#0" />
+            <element signature="e#21351#21827#0" />
+            <element signature="e#21903#22441#0" />
+            <element signature="e#22106#22441#0" />
+            <element signature="e#22502#22995#0" />
+            <element signature="e#22560#22884#0" />
+            <element signature="e#22911#22995#0" />
+            <element signature="e#23031#23762#0" />
+            <element signature="e#23253#23762#0" />
+            <element signature="e#23461#23577#0" />
+            <element signature="e#23520#23577#0" />
+            <element signature="e#23802#24551#0" />
+            <element signature="e#24032#24551#0" />
+            <element signature="e#24245#24361#0" />
+            <element signature="e#24304#24361#0" />
+            <element signature="e#24584#24712#0" />
+            <element signature="e#24754#24887#0" />
+            <element signature="e#33911#33939#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GuiRcFile/Tab.ui">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="50" column="22" lean-forward="true" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ShowDIalog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/WorkTab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="e#27#119#0" expanded="true" />
+            <element signature="e#198#396#0" />
+            <element signature="e#429#751#0" />
+            <element signature="e#1867#2577#0" />
+            <element signature="e#1141#2217#0" />
+            <element signature="e#2384#2967#0" />
           </folding>
         </state>
       </provider>
