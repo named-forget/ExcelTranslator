@@ -6,6 +6,39 @@ import openpyxl
 import re
 import xml.etree.cElementTree as XETree
 
+class Widget(QWidget):
+    def __init__(self, *args, **kwargs):
+        QWidget.__init__(self, *args, **kwargs)
+        hlayout = QHBoxLayout()
+        self.rbox = QSpinBox(self)
+        self.cbox = QSpinBox(self)
+        hlayout.addWidget(self.rbox)
+        hlayout.addWidget(self.cbox)
+        vlayout = QVBoxLayout(self)
+        vlayout.addLayout(hlayout)
+
+        nrows = 5
+        ncols = 5
+        self.rbox.setMaximum(nrows-1)
+        self.cbox.setMaximum(ncols-1)
+
+        self.table = QTableWidget(nrows, ncols, self)
+        vlayout.addWidget(self.table)
+        for r in range(nrows):
+            for c in range(nrows):
+                it = QTableWidgetItem("{}-{}".format(r, c))
+                self.table.setItem(r, c, it)
+
+        self.rbox.valueChanged.connect(self.selectItem)
+        self.cbox.valueChanged.connect(self.selectItem)
+        self.selectItem()
+
+    def selectItem(self):
+        self.table.clearSelection()
+        x = self.rbox.value()
+        y = self.cbox.value()
+        self.table.setRangeSelected(QTableWidgetSelectionRange(x, y, x, y), True)
+
 
 class WorkTab(QTabWidget):
     signal_changed = pyqtSignal(int, bool)
@@ -138,7 +171,9 @@ class Tab(QWidget):
         self.horizontalSplitter.addWidget(self.destWidget)
         self.horizontalSplitter.setStyleSheet("height:100%")
 
-        self.gridLayout .addWidget(self.horizontalSplitter)
+        self.gridLayout .addWidget(self.horizontalSplitter, 0, 0)
+        # table = Widget()
+        # self.gridLayout.addWidget(table, 0, 1)
         self.setLayout(self.gridLayout)
 
         #self.vbox.setDirection(0)
@@ -151,10 +186,30 @@ class Tab(QWidget):
         self.dbox.addWidget(self.destSheet)
         self.destWidget.setLayout(self.dbox)
 
+        self.sourceSheet.itemClicked.connect(self.focusLeftToRight)
+        self.destSheet.itemClicked.connect(self.focusRihtToLeft)
+
+        self.sourceSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(255, 0, 0);"
+                                       "background-color:rgba(255,0,0, 130)};"
+                                       "font-color:rgb(0,0,0)}")
+        self.destSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(0, 0, 255);"
+                                     "background-color:rgba(0,0,255, 130);"
+                                     "font-color:rgb(0,0,0)}")
         # self.sourceWidget.setStyleSheet("background-color: rgb(85, 170, 255);")
         # self.destWidget.setStyleSheet("background-color: rgb(255, 135, 137);")
 
-
+    def focusRihtToLeft(self, item):
+        key = intToletter(item.column()) + "," + str(item.row() + 1)
+        if self.map.keys().__contains__(key):
+            sItem = self.map[key]
+            if sItem != "" and sItem != "NA":
+                item = self.sourceSheet.item(int(sItem.split(",")[1]) -1, letterToint(sItem.split(",")[0]))
+                self.sourceSheet.scrollToItem(item, QAbstractItemView.PositionAtCenter)
+                self.sourceSheet.setRangeSelected(
+                    QTableWidgetSelectionRange(item.row(), item.column(), item.row(), item.column()), True)
+    def focusLeftToRight(self, item):
+        print(item.row(),item.column())
+        self.destSheet.setRangeSelected(QTableWidgetSelectionRange(item.row(), item.column(), item.row(), item.column()), True)
 
     def fillLeft(self, filepath, sheetIndex):
         self.filepath = filepath
@@ -228,7 +283,7 @@ class Tab(QWidget):
         #如果差找不到，首行设置为NA
         if tempcell is None:
             for col in range(len(dList)):
-                self.map[col + str(destBeginRow)] = "NA"
+                self.map[parseChar(col + str(destBeginRow))] = "NA"
                 item = self.destSheet.item(destBeginRow - 1, letterToint(dList[col]))
                 #item.dataType = datatype[col]
                 item.setText("NA")
@@ -255,7 +310,7 @@ class Tab(QWidget):
         for row in range(beginrow, endrow + 1):
             for col in range(0, len(sList)):
                 sourceItem = self.sourceSheet.item(row, letterToint(sList[col]))
-                self.map[dList[col] + str(destBeginRow + row - beginrow)] = sList[col] + str(row + 1)
+                self.map[parseChar(dList[col] + str(destBeginRow + row - beginrow))] = sList[col] + "," + str(row + 1)
                 item = self.destSheet.item(destBeginRow + row - beginrow - 1, letterToint(dList[col]))
                 #item.dataType = datatype[col]
                 item.setFormatValue(sourceItem.text())
@@ -314,7 +369,6 @@ class Sheet(QTableWidget):
 
         self.horizontalScrollBar().setStyleSheet("height:25px;background-color: rgb(222, 222, 222);")
         self.verticalScrollBar().setStyleSheet("width:25px;background-color: rgb(222, 222, 222);")
-
 
     def fillSheetByExcelSheetIndex(self, filepath, sheetIndex):
         try:
@@ -381,10 +435,13 @@ class TableItem(QTableWidgetItem):
     essentialColor = QColor(255, 230, 153)
     def __int__(self):
         super().__init__()
-
+        self.__init()
     def __init__(self, value):
         super().__init__()
+        self.__init()
         self.setText(value)
+    def __init(self):
+        self.setForeground(QColor(0, 0, 0))
     # def __init__(self, dataType, value):
     #     super().__init__()
     #     self.setFormatValue(value)
