@@ -116,13 +116,14 @@ class Tab(QWidget):
     destSheet = ""
     filepath = ""
     destFilepath = ""
+    essentialColor = QColor(255, 230, 153)
     map = dict()
+    isChanged = None
     def __init__(self):
         super().__init__()
         self.initUI()
         
     def initUI(self):
-        self.sourceWidget = QWidget(self)
         self.setStyleSheet("background:white;")
         self.sourceWidget = QWidget()
         self.destWidget = QWidget()
