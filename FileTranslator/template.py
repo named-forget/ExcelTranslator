@@ -124,6 +124,7 @@ def findStr(sheet, key, startRow):
             if cell.value is not None and cell.value != "":
                 if key in str(cell.value).replace(' ', ''):
                     return cell
+
 def keyValueToDestExcel(value, dCols, dNode):
     sheetD = destExcel['Sheet1']
     datatype = 'F'

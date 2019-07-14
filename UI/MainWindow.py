@@ -9,9 +9,9 @@ import shutil
 
 from FileTranslator import template as fileTranslator
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication, QDialog, \
-        QMessageBox, QFileDialog, QDesktopWidget, QWidget, QInputDialog, QVBoxLayout
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from UI import WorkTab
 
 class MainWindow(QMainWindow):
@@ -39,17 +39,10 @@ class MainWindow(QMainWindow):
         self.screen_width = screen.width()
         self.screen_height = screen.height()
         # 设置中心窗口部件为QTextEdit
-        self.centralwidget = QtWidgets.QWidget()
-        self.centralwidget.setObjectName("centralwidget")
-        self.setCentralWidget(self.centralwidget)
+        self.verticalSplitter = QSplitter(Qt.Vertical)
+        self.setCentralWidget(self.verticalSplitter)
 
-        self.scroll = QtWidgets.QScrollArea(self)
         #self.scroll.setGeometry(QtCore.QRect(100,100, 2000, 1000))
-
-        self.vbox1 = QVBoxLayout()
-        self.vbox1.addWidget(self.scroll)
-
-        self.centralwidget.setLayout(self.vbox1)
 
 
         #标签管理
@@ -58,10 +51,6 @@ class MainWindow(QMainWindow):
         self.workTab.setGeometry(QtCore.QRect(0, 0, self.screen_width - 40, self.screen_height - 170))
         self.workTab.setParent(self)
 
-        self.vbox2 = QVBoxLayout()
-        self.vbox2.addWidget(self.workTab)
-        self.scroll.setLayout(self.vbox2)
-        self.scroll.setWidget(self.workTab)
 
         #添加新标签
         self.tabarray[0] = WorkTab.Tab()
@@ -69,9 +58,20 @@ class MainWindow(QMainWindow):
         #self.tabarray[0].fillLeft(r"C:\Users\HHH\Desktop\逾期资产列表.xlsx", 0)
         self.tabarray[0].setObjectName("NewTab")
 
+
+        # self.scorllTextEdit = QScrollArea()
+
         self.textEdit = QTextEdit()
-        self.textEdit.setText('')
-        self.textEdit.setEnabled(False)
+        self.textEdit.setText('执行记录：')
+        self.textEdit.setStyleSheet("background:white;height:20%")
+        self.textEdit.setReadOnly(True)
+
+        # self.vboxScorllTextEdit = QVBoxLayout()
+        # self.vboxScorllTextEdit.addWidget(self.textEdit)
+        # self.scorllTextEdit.setLayout(self.vboxScorllTextEdit)
+
+        self.verticalSplitter.addWidget(self.workTab)
+        self.verticalSplitter.addWidget(self.textEdit)
         # 定义一系列的Action
         # 新建
         newAction = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_create.ico'), '新建任务')
@@ -89,7 +89,7 @@ class MainWindow(QMainWindow):
         #运行
         self.button_run = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_run.ico'), '运行')
         self.button_run.setText("运行")
-        self.button_run.setShortcut('Ctrl+R')
+        self.button_run.setShortcut('F5')
         self.button_run.setToolTip('对选择的文件进行转换')
         self.button_run.clicked.connect(self.run)
 
@@ -99,11 +99,21 @@ class MainWindow(QMainWindow):
         self.button_multiRun.setShortcut('Ctrl+M')
         self.button_multiRun.setStatusTip('批量运行')
         self.button_multiRun.clicked.connect(self.multiRun)
+
+        self.checkBox_directOutput = QCheckBox(text="转换结果直接输出")
+
         # 保存
         saveAction = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_save.ico'), '保存')
         saveAction.setShortcut('Ctrl+S')
         saveAction.setStatusTip('保存')
         saveAction.clicked.connect(self.save)
+
+        #保存全部
+        saveAllAction =  QtWidgets.QPushButton()
+        saveAllAction.setStatusTip('保存全部')
+        saveAllAction.setText("保存全部")
+        saveAllAction.clicked.connect(self.saveAll)
+
 
         # 撤销
         undoAction = QAction(QIcon('Resource/icon/Icon_undo.ico'), '撤销')
@@ -159,7 +169,7 @@ class MainWindow(QMainWindow):
         self.comboBox_outputfolder.currentIndexChanged.connect(lambda  :self.EventCombox_Output(self.comboBox_outputfolder, self.str_OutputFolder))
 
         # 输出至：
-        self.label_xmlFIle = QtWidgets.QLabel(text="文件转换模式：")
+        self.label_xmlFIle = QtWidgets.QLabel(text="文件转换方案：")
         # self.label_xmlFIle.setGeometry(QtCore.QRect(50, 140, 121, 41))
         self.label_xmlFIle.setTextFormat(QtCore.Qt.AutoText)
         self.label_xmlFIle.setAlignment(QtCore.Qt.AlignRight)
@@ -169,15 +179,15 @@ class MainWindow(QMainWindow):
         # self.comboBox_xmlFIle.setGeometry(QtCore.QRect(0, 160, 87, 22))
         self.comboBox_xmlFIle.setEditable(False)
         self.comboBox_xmlFIle.setObjectName("comboBox_xmlFIle")
-        self.comboBox_xmlFIle.addItem("新增模式...", "New")
+        self.comboBox_xmlFIle.addItem("新增方案...", "New")
         self.comboBox_xmlFIle.setMaxVisibleItems(10)
 
         self.initConboBox(self.str_xmlFIle, self.comboBox_xmlFIle)
         self.comboBox_xmlFIle.setCurrentIndex(1)
         self.comboBox_xmlFIle.currentIndexChanged.connect(lambda: self.EventCombox_Output(self.comboBox_xmlFIle, self.str_xmlFIle))
 
-        self.action_renameXml =  QAction(QIcon('Resource/icon/Icon_edit.ico'), '修改当前模式名称')
-        self.action_renameXml.setStatusTip('修改当前模式名称')
+        self.action_renameXml =  QAction(QIcon('Resource/icon/Icon_edit.ico'), '修改当前方案名称')
+        self.action_renameXml.setStatusTip('修改当前方案名称')
         self.action_renameXml.triggered.connect(self.renameMode)
 
         self.button_ViewXml = QtWidgets.QPushButton(text="查看",)
@@ -241,10 +251,12 @@ class MainWindow(QMainWindow):
         tb1 = self.addToolBar('File')
         tb1.addWidget(newAction)
         tb1.addWidget(self.button_run)
-        #tb1.addWidget(saveAction)
+        tb1.addWidget(saveAction)
+        tb1.addWidget(saveAllAction)
 
         tb2 = self.addToolBar('Edit')
         tb2.addWidget(self.button_multiRun)
+        tb2.addWidget(self.checkBox_directOutput)
         # tb2.addAction(undoAction)
         # tb2.addAction(redoAction)
         # tb2.addAction(cutAction)
@@ -268,6 +280,14 @@ class MainWindow(QMainWindow):
         tb_templatefile.addWidget((self.comboBox_templatefile))
         tb_templatefile.addWidget(self.button_ViewTemplateFile)
         # 控件样式调整
+
+        # self.setStyleSheet("background-color: rgb(222, 222, 222);")
+        # tb1.setStyleSheet("background:white;")
+        # tb2.setStyleSheet("background:white;")
+        # tb_Config.setStyleSheet("background:white;")
+        # tb_Output.setStyleSheet("background:white;")
+        # tb_templatefile.setStyleSheet("background:white;")
+        self.verticalSplitter.setStyleSheet("background-color: rgb(222, 222, 222);")
         self.label_OutputFolder.setStyleSheet('text-align: center;'
                                               'margin-top:11px;'
                                               'margin-bottom:5px')
@@ -278,7 +298,7 @@ class MainWindow(QMainWindow):
                                               'margin-top:11px;'
                                               'margin-bottom:5px;')
         # self.self.openAction_OutputFolder.setContentsMargins(15,0,0,0)
-
+        self.checkBox_directOutput.setStyleSheet("margin-left:15px;padding:5px")
         self.openAction_OutputFolder.setStyleSheet("margin-left:15px;padding:5px")
         self.button_ViewTemplateFile.setStyleSheet("margin-left:15px;padding:8px")
         self.button_ViewXml.setStyleSheet("margin-left:15px;padding:8px")
@@ -290,9 +310,24 @@ class MainWindow(QMainWindow):
 
         self.statusBar()
 
+        #恢复控件状态
+        setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
+        index = setting.value(self.str_OutputFolder)
+        if index is not None:
+            self.comboBox_outputfolder.setCurrentIndex(int(index))
+        index = setting.value(self.str_xmlFIle)
+        if index is not None:
+            self.comboBox_xmlFIle.setCurrentIndex(int(index))
+        index = setting.value(self.str_templatefile)
+        if index is not None:
+            self.comboBox_templatefile.setCurrentIndex(int(index))
+        index = setting.value("isChekDirecOutput")
+        if index is not None:
+            self.checkBox_directOutput.setCheckState(int(index))
+
         self.setObjectName("self")
         self.setGeometry(0, 0, 1280, 760)
-        self.setWindowTitle('Text Editor')
+        self.setWindowTitle("Excel转换")
         self.setWindowIcon(QIcon('Resource/icon/Icon_windowIcon.ico'))
         #self.center()
         self.show()
@@ -307,20 +342,30 @@ class MainWindow(QMainWindow):
     # 定义Action对应的触发事件，在触发事件中调用self.statusBar()显示提示信息
     # 重写closeEvent
     def closeEvent(self, event):
-        event.accept()
-        # reply = QMessageBox.question(self, 'Confirm', \
-        #         'Are you sure to exit', \
-        #         QMessageBox.Yes | QMessageBox.No, \
-        #         QMessageBox.No)
-        #
-        # if reply == QMessageBox.Yes:
-        #     self.statusBar().showMessage('Quiting...')
-        #     event.accept()
-        # else:
-        #     event.ignore()
-        #     self.save()
-        #     event.accept()
+        setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
+        setting.setValue(self.str_OutputFolder, self.comboBox_outputfolder.currentIndex())
+        setting.setValue(self.str_xmlFIle, self.comboBox_xmlFIle.currentIndex())
+        setting.setValue(self.str_templatefile, self.comboBox_templatefile.currentIndex())
+        setting.setValue("isChekDirecOutput", self.checkBox_directOutput.checkState())
+        str = ""
+        saved = True
+        for i in range(self.workTab.count()):
+            if self.workTab.widget(i).isChanged:
+                str += "\n" + self.workTab.tabText(i)
+                saved = False
+        if not saved:
+            reply = QMessageBox.question(self, '确认', \
+                    '以下任务结果还未保存，确认退出？' + str, \
+                    QMessageBox.Yes | QMessageBox.No, \
+                    QMessageBox.No)
 
+            if reply == QMessageBox.Yes:
+                self.statusBar().showMessage('退出...')
+                event.accept()
+            else:
+                event.ignore()
+        else:
+            event.accept()
 
     # open
     def new(self):
@@ -336,17 +381,24 @@ class MainWindow(QMainWindow):
         outputFolder = self.comboBox_outputfolder.currentText()
         xmlfilepath = self.comboBox_xmlFIle.currentData()
         templatefile = self.comboBox_templatefile.currentData()
-        inputFile = self.button_run.statusTip()
+        currentTab = self.workTab.currentWidget()
+        #inputFile = self.button_run.statusTip()
+        inputFile = currentTab.objectName()
         outputFile = os.path.join(outputFolder, os.path.basename(inputFile))
         if not os.path.isfile(inputFile):
             QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
             return
-        self.textEdit.append("开始转换文件：{0} 模式：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
+        self.textEdit.append("开始转换文件：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
                                                                          self.comboBox_xmlFIle.currentText(),
                                                                          self.comboBox_templatefile.currentText(),
                                                                          outputFolder) )
-        fileTranslator.chooseExcel(inputFile, outputFile, templatefile, xmlfilepath)
+        currentTab.beginTranslate(inputFile, xmlfilepath, templatefile)
+        self.workTab.setTabStatus(self.workTab.currentIndex(), True)
+
         self.textEdit.append("转换完成")
+        self.textEdit.moveCursor(QTextCursor.End)
+        if self.checkBox_directOutput.checkState() == 2:
+            self.save(self.workTab.currentIndex())
 
     def multiRun(self):
         foder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
@@ -360,7 +412,7 @@ class MainWindow(QMainWindow):
                                          QMessageBox.No)
 
             if reply == QMessageBox.Yes:
-                self.textEdit.append("开始批量转换：{0} 模式：{1} 模板文件：{2} 输出至：{3}".format(foder_Exolorer,
+                self.textEdit.append("开始批量转换：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(foder_Exolorer,
                                                                                  self.comboBox_xmlFIle.currentText(),
                                                                                  self.comboBox_templatefile.currentText(),
                                                                                  outputFolder))
@@ -373,8 +425,14 @@ class MainWindow(QMainWindow):
                                 self.textEdit.append("开始转换：" + filename)
                                 self.textEdit.repaint()
                                 self.addTab(inputFile)
-                                #fileTranslator.chooseExcel(inputFile, outputFile, templatefile, xmlfilepath)
+                                tab = self.workTab.findChild(WorkTab.Tab, inputFile)
+                                tab.beginTranslate(inputFile, xmlfilepath, templatefile)
+                                self.workTab.setTabStatus(self.workTab.indexOf(tab), True)
                                 self.textEdit.append("转换完成")
+                                self.textEdit.moveCursor(QTextCursor.End)
+                                #fileTranslator.chooseExcel(inputFile, outputFile, templatefile, xmlfilepath)
+                                if self.checkBox_directOutput.checkState() == 2:
+                                    self.save(self.workTab.indexOf(tab))
                                 self.textEdit.repaint()
                             except ValueError as e:
                                 self.textEdit.append(e)
@@ -401,6 +459,7 @@ class MainWindow(QMainWindow):
         self.workTab.repaint()
             # fileTranslator.main(foder_Exolorer, outputFolder, templatefile, xmlfilepath)
 
+
     def open(self):
         dir = self.comboBox_outputfolder.currentText()
         if os.path.isdir(dir):
@@ -410,13 +469,51 @@ class MainWindow(QMainWindow):
 
     # save
     def save(self):
-        self.statusBar().showMessage('Add extension to file name')
-        fname = QFileDialog.getSaveFileName(self, 'Save File')
-        if (fname[0]):
-            data = self.textEdit.toPlainText()
-            f = open(fname[0], 'w')
-            f.write(data)
-            f.close()
+        self.save(self.workTab.currentIndex())
+
+    def saveAll(self):
+        for i in range(self.workTab.count()):
+            result = self.save(i)
+            if result is not None and result:
+                continue
+            else:
+                break
+
+    def save(self, index):
+        currentTab = self.workTab.widget(index)
+        filepath = currentTab.destFilepath
+        if currentTab.isChanged is not None and currentTab.isChanged :
+            if filepath == "":
+                if self.checkBox_directOutput.checkState() == 2:
+                    outputdir = self.comboBox_outputfolder.currentText()
+                    if not os.path.isdir(outputdir):
+                        reply = QMessageBox.warning(self, "警告", "请选择正确的输出路径", QMessageBox.Ok)
+                        if reply == QMessageBox.Ok:
+                            return None
+                    else:
+                        filepath = os.path.join(outputdir, os.path.basename(currentTab.objectName()))
+                else:
+                    fname = QFileDialog.getSaveFileName(self, '保存文件', currentTab.objectName(), filter="*.xlsx",)
+                    if (fname[0]):
+                        filepath = fname[0]
+                    else:
+                        return None
+
+            templateFile = self.comboBox_templatefile.currentData()
+            if os.path.isfile(templateFile):
+                open(filepath, "wb").write(open(templateFile, "rb").read())
+                currentTab.save(filepath, 0)
+                self.workTab.setTabStatus(index, False)
+                self.textEdit.append("已保存至： " + filepath)
+                self.textEdit.repaint()
+                self.textEdit.moveCursor(QTextCursor.End)
+                return  True
+            else:
+                QMessageBox.warning(self, "警告", "请选择正确的模板文件", QMessageBox.Ok)
+
+
+
+
 
     # copy
     def copy(self):
@@ -475,7 +572,7 @@ class MainWindow(QMainWindow):
                         element.text = folder_Exolorer
                     elif flag == self.str_xmlFIle:
                         element = XETree.Element("File")
-                        element.set("Name", "模式" + str(len(items) + 1))
+                        element.set("Name", "方案" + str(len(items) + 1))
                         element.text = self.xmlFolderPath + "/" + os.path.basename(folder_Exolorer)
                     else:
                         element = XETree.Element("File")
@@ -489,7 +586,7 @@ class MainWindow(QMainWindow):
                         if not os.path.exists(self.xmlFolderPath):
                             os.mkdir(self.xmlFolderPath)
                         shutil.copy(folder_Exolorer, self.xmlFolderPath + "/" + os.path.basename(folder_Exolorer))
-                        combobox.addItem("模式" + str(len(items) + 1), os.path.join(self.xmlFolderPath,
+                        combobox.addItem("方案" + str(len(items) + 1), os.path.join(self.xmlFolderPath,
                                                                                   os.path.basename(folder_Exolorer)))
                         combobox.setCurrentIndex(len(items) + 1)
                     elif flag == self.str_templatefile:
@@ -552,7 +649,7 @@ class MainWindow(QMainWindow):
     def renameMode(self):
         currentText = self.comboBox_xmlFIle.currentText()
         currentIndex = self.comboBox_xmlFIle.currentIndex()
-        text, ok = QInputDialog.getText(self, '重命名转换模式', '输入新名称：', text=currentText)
+        text, ok = QInputDialog.getText(self, '重命名转换方案', '输入新名称：', text=currentText)
         if ok:
             tree = XETree.parse(self.configFilePath)
             root = tree.getroot()

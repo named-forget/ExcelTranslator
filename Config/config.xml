@@ -2,7 +2,17 @@
 <Root>
 	<OutputFolder>
 	<Folder>H:/PythonProject/ExcelTranslator/UI</Folder>
+	<Folder>H:/PythonProject/ExcelTranslator/GuiRcFile</Folder>
+	<Folder>H:/PythonProject/ExcelTranslator/Config</Folder>
+	<Folder>C:/Users/HHH/Desktop/结果</Folder>
 </OutputFolder>
-<xmlFIle />
-	<templateFile />
+<xmlFIle>
+	<File Name="模式1">H:\PythonProject\ExcelTranslator/Resource/xml/222.xml</File>
+	<File Name="模式2">H:\PythonProject\ExcelTranslator/Resource/xml/workspace.xml</File>
+</xmlFIle>
+<templateFile>
+	<File Name="橙易2016年第一期持证抵押贷款证券化信托2017年01月受托机构月度报告（第11期）">H:\PythonProject\ExcelTranslator/Resource/templateFile/橙易2016年第一期持证抵押贷款证券化信托2017年01月受托机构月度报告（第11期）.xlsx</File>
+	<File Name="橙易2016年第一期持证抵押贷款证券化信托2018年05月受托机构月度报告（第27期）">H:\PythonProject\ExcelTranslator/Resource/templateFile/橙易2016年第一期持证抵押贷款证券化信托2018年05月受托机构月度报告（第27期）.xlsx</File>
+	<File Name="受托报告导入模板-新">H:\PythonProject\ExcelTranslator/Resource/templateFile/受托报告导入模板-新.xlsx</File>
+</templateFile>
 </Root>
