@@ -4,3 +4,8 @@
 *.ini
 
 texteditor.py
+UI/__init__.py
+UI/openfile.py
+UI/Tab.py
+UI/test.py
+UI/untitled.py
