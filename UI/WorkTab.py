@@ -586,7 +586,7 @@ class Sheet(QTableWidget):
                 self.setHorizontalHeaderItem(i, item)
         for i in range(0, row_count):
             if self.verticalHeaderItem(i) is None:
-                item = TableItem(value=str(i))
+                item = TableItem(value=str(i + 1))
                 self.setVerticalHeaderItem(i, item)
 
         #开始初始化表格
