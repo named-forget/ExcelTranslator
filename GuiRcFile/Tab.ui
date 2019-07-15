@@ -85,7 +85,7 @@
       <widget class="QTableWidget" name="tableWidget">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>0</x>
          <y>130</y>
          <width>481</width>
          <height>192</height>
@@ -95,6 +95,9 @@
         <string notr="true">QTableWidget::item{border:3px solid rgb(255, 0, 0);background-color:rgba(255,0,0, 70);foreground-color:rgb(0,0,0);font: 9pt &quot;Minion Pro&quot;;
 }
 </string>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ContiguousSelection</enum>
        </property>
        <row>
         <property name="text">

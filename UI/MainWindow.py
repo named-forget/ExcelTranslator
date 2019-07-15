@@ -116,37 +116,37 @@ class MainWindow(QMainWindow):
 
 
         # 撤销
-        undoAction = QAction(QIcon('Resource/icon/Icon_undo.ico'), '撤销')
+        undoAction = QAction(QIcon('Resource/icon/Icon_undo.ico'), '撤销', self)
         undoAction.setShortcut('Ctrl+Z')
         undoAction.setStatusTip('撤销')
         undoAction.triggered.connect(self.textEdit.undo)
 
         # 重做
-        redoAction = QAction(QIcon('Resource/icon/Icon_redo.ico'), '恢复')
+        redoAction = QAction(QIcon('Resource/icon/Icon_redo.ico'), '恢复', self)
         redoAction.setShortcut('Ctrl+Y')
         redoAction.setStatusTip('恢复')
         redoAction.triggered.connect(self.textEdit.redo)
 
         # 拷贝
-        copyAction = QAction(QIcon('Resource/icon/Icon_copy.ico'), '复制')
+        copyAction = QAction(QIcon('Resource/icon/Icon_copy.ico'), '复制', self)
         copyAction.setShortcut('Ctrl+C')
         copyAction.setStatusTip('复制')
-        copyAction.triggered.connect(self.copy)
+        copyAction.triggered.connect(self.workTab.copy)
 
         # 粘贴
-        pasteAction = QAction(QIcon('Resource/icon/Icon_paste.ico'), '粘贴')
+        pasteAction = QAction(QIcon('Resource/icon/Icon_paste.ico'), '粘贴', self)
         pasteAction.setShortcut('Ctrl+V')
         pasteAction.setStatusTip('粘贴')
-        pasteAction.triggered.connect(self.paste)
+        pasteAction.triggered.connect(self.workTab.paste)
 
         # 剪切
-        cutAction = QAction(QIcon('Resource/icon/Icon_cut.ico'), '剪切')
+        cutAction = QAction(QIcon('Resource/icon/Icon_cut.ico'), '剪切', self)
         cutAction.setShortcut('Ctrl+X')
         cutAction.setStatusTip('剪切')
         cutAction.triggered.connect(self.cut)
 
         # 关于
-        aboutAction = QAction(QIcon('Resource/icon/Icon_about.ico'), '关于')
+        aboutAction = QAction(QIcon('Resource/icon/Icon_about.ico'), '关于', self)
         aboutAction.setStatusTip('关于')
         aboutAction.triggered.connect(self.about)
 
@@ -226,23 +226,17 @@ class MainWindow(QMainWindow):
         # 首先取得Qself自带的menuBar：menubar = self.menuBar()
         # 然后在menuBar里添加Menu：fileMenu = menubar.addMenu('&File')
         # 最后在Menu里添加Action：fileMenu.addAction(newAction)
-        # menubar = self.menuBar()
+        menubar = self.menuBar()
 
-        # fileMenu = menubar.addMenu('&File')
-        # fileMenu.addAction(newAction)
-        # #fileMenu.addAction(openAction)
-        # fileMenu.addAction(saveAction)
-        # fileMenu.addAction(exitAction)
-        #
-        # editMenu = menubar.addMenu('&Edit')
-        # editMenu.addAction(undoAction)
-        # editMenu.addAction(redoAction)
-        # editMenu.addAction(cutAction)
-        # editMenu.addAction(copyAction)
-        # editMenu.addAction(pasteAction)
-        #
-        # helpMenu = menubar.addMenu('&Help')
-        # helpMenu.addAction(aboutAction)
+        editMenu = menubar.addMenu('&Edit')
+        editMenu.addAction(undoAction)
+        editMenu.addAction(redoAction)
+        editMenu.addAction(cutAction)
+        editMenu.addAction(copyAction)
+        editMenu.addAction(pasteAction)
+
+        helpMenu = menubar.addMenu('&Help')
+        helpMenu.addAction(aboutAction)
 
         # 添加工具栏
         # 对于工具栏，同样注意ToolBar和Action之间的关系
@@ -303,7 +297,7 @@ class MainWindow(QMainWindow):
         self.button_ViewTemplateFile.setStyleSheet("margin-left:15px;padding:8px")
         self.button_ViewXml.setStyleSheet("margin-left:15px;padding:8px")
 
-        self.comboBox_outputfolder.setStyleSheet("width:300px;padding:5px")
+        self.comboBox_outputfolder.setStyleSheet("width:200px;padding:5px")
         self.comboBox_templatefile.setStyleSheet("width:200px;padding:5px")
         self.comboBox_xmlFIle.setStyleSheet("width:100px;padding:5px")
 

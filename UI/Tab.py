@@ -33,10 +33,11 @@ class Ui_MainWindow(object):
         self.widget.setGeometry(QtCore.QRect(9, 9, 401, 501))
         self.widget.setObjectName("widget")
         self.tableWidget = QtWidgets.QTableWidget(self.widget)
-        self.tableWidget.setGeometry(QtCore.QRect(70, 130, 481, 192))
+        self.tableWidget.setGeometry(QtCore.QRect(0, 130, 481, 192))
         self.tableWidget.setStyleSheet("QTableWidget::item{border:3px solid rgb(255, 0, 0);background-color:rgba(255,0,0, 70);foreground-color:rgb(0,0,0);font: 9pt \"Minion Pro\";\n"
 "}\n"
 "")
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setRowCount(2)
@@ -51,7 +52,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         brush = QtGui.QBrush(QtGui.QColor(81, 199, 75))
         brush.setStyle(QtCore.Qt.Dense4Pattern)
-        item.setForeground(QtGui.QColor(81, 199, 75))
+        item.setForeground(brush)
         self.tableWidget.setItem(0, 0, item)
         item = QtWidgets.QTableWidgetItem()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
