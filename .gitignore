@@ -9,3 +9,6 @@ UI/__pycache__/MainWindow.cpython-37.pyc
 *.xml
 *.xml
 *.ini
+*.xml
+*.ini
+*.pyc
