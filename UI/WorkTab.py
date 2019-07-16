@@ -1,4 +1,5 @@
 #每个tab包含两个view用于显示源文件与目标文件
+import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -9,42 +10,7 @@ import win32clipboard
 import win32con
 import numpy as np
 
-class Widget(QWidget):
-    def __init__(self, *args, **kwargs):
-        QWidget.__init__(self, *args, **kwargs)
-        hlayout = QHBoxLayout()
-        self.rbox = QSpinBox(self)
-        self.cbox = QSpinBox(self)
-        hlayout.addWidget(self.rbox)
-        hlayout.addWidget(self.cbox)
-        vlayout = QVBoxLayout(self)
-        vlayout.addLayout(hlayout)
-
-        nrows = 5
-        ncols = 5
-        self.rbox.setMaximum(nrows-1)
-        self.cbox.setMaximum(ncols-1)
-
-        self.table = QTableWidget(nrows, ncols, self)
-        vlayout.addWidget(self.table)
-        for r in range(nrows):
-            for c in range(nrows):
-                it = QTableWidgetItem("{}-{}".format(r, c))
-                self.table.setItem(r, c, it)
-
-        self.rbox.valueChanged.connect(self.selectItem)
-        self.cbox.valueChanged.connect(self.selectItem)
-        self.selectItem()
-
-    def selectItem(self):
-        self.table.clearSelection()
-        x = self.rbox.value()
-        y = self.cbox.value()
-        self.table.setRangeSelected(QTableWidgetSelectionRange(x, y, x, y), True)
-
-
 class WorkTab(QTabWidget):
-    signal_changed = pyqtSignal(int, bool)
 
     def __init__(self):
         super().__init__()
@@ -81,8 +47,6 @@ class WorkTab(QTabWidget):
         self.action_CloseRight.triggered.connect(self.__removeRightTab)
         self.action_CloseAllButThis.triggered.connect(self.__removeAllButThis)
 
-        #连接信号
-        self.signal_changed.connect(self.setTabIconByStatus)
 
     def __showMenu(self):
         self.contextMenu.exec_(QCursor.pos())
@@ -133,35 +97,47 @@ class WorkTab(QTabWidget):
         self.__removeAllButThis()
         self.removeTab(self.currentIndex())
 
-    def setTabIconByStatus(self, index, status: bool):
+    def setTabIconByStatus(self, widget, status: bool):
         if not status:
-            self.setTabIcon(index, QIcon("Resource/icon/Icon_tag.ico"))
+            self.setTabIcon(self.indexOf(widget), QIcon("Resource/icon/Icon_tag.ico"))
         else:
-            self.setTabIcon(index, QIcon("Resource/icon/Icon_UnSave.png"))
-    def setTabStatus(self, index:int, status):
-        self.widget(index).isChanged = status
-        self.signal_changed.emit(index, status)
+            self.setTabIcon(self.indexOf(widget), QIcon("Resource/icon/Icon_UnSave.png"))
 
     def changeEvent(self, event: QEvent) -> None:
         return
+
+    def addTab(self, widget: QWidget, icon: QIcon,  title: str) -> int:
+        super().addTab(widget,icon, title)
+        widget.signal_changed.connect(self.setTabIconByStatus)
 
 
 
 
 class Tab(QWidget):
-    sourceWidget = ""
-    destWidget = ""
-    sourceSheet = ""
-    destSheet = ""
     filepath = ""
     destFilepath = ""
     essentialColor = QColor(255, 230, 153)
-
     isChanged = None
+    logGenerated = pyqtSignal(str)
+    signal_changed = pyqtSignal(QWidget, bool)
+
+
     def __init__(self):
         super().__init__()
         self.initUI()
-        
+
+    def initProperty(self, taskName, outputfolder, xmlName, xmlFIlePath, templateFileName, templateFilePath, isDirectOutput):
+        self.taskName = taskName
+        self.outputfolder = outputfolder
+        self.xmlName = xmlName
+        self.xmlFIlePath = xmlFIlePath
+        self.templateFileName = templateFileName
+        self.templateFilePath = templateFilePath
+        self.isDirectOutput = isDirectOutput
+        self.titleBar.setText("任务名: {0} 方案：{1} 模板文件： {2}   输出至：{3}".format(self.taskName, self.xmlName,
+                              self.templateFileName,
+                              self.outputfolder))
+
     def initUI(self):
         # 记录哪些单元格被标记了颜色
         self.souce_markItem = []
@@ -175,16 +151,19 @@ class Tab(QWidget):
         self.__map = dict()
 
         self.gridLayout = QGridLayout()
+        self.setLayout(self.gridLayout)
 
+        self.titleBar = QLabel()
+
+        self.gridLayout.addWidget(self.titleBar, 0, 0)
         self.horizontalSplitter = QSplitter(Qt.Horizontal, self)
         self.horizontalSplitter.addWidget(self.sourceWidget)
         self.horizontalSplitter.addWidget(self.destWidget)
         self.horizontalSplitter.setStyleSheet("height:100%")
 
-        self.gridLayout .addWidget(self.horizontalSplitter, 0, 0)
+        self.gridLayout .addWidget(self.horizontalSplitter, 1, 0)
         # table = Widget()
         # self.gridLayout.addWidget(table, 0, 1)
-        self.setLayout(self.gridLayout)
 
         #self.vbox.setDirection(0)
 
@@ -196,6 +175,25 @@ class Tab(QWidget):
         self.dbox.addWidget(self.destSheet)
         self.destWidget.setLayout(self.dbox)
 
+        #添加右键粘贴菜单
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.__showMenu)
+        self.contextMenu = QMenu(self)
+        self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
+                                       "selection-background-color: rgb(85, 170, 255);")
+
+        self.action_PasteNotFormat = QAction("粘贴（保留原格式）")
+        self.action_PasteAndTranspositionNotFormat = QAction("转置粘贴（保留原格式）")
+        self.action_PasteAndTranspositionAndFormat = QAction("转置粘贴（匹配目标格式）")
+
+        self.contextMenu.addAction(self.action_PasteNotFormat)
+        self.contextMenu.addAction(self.action_PasteAndTranspositionNotFormat)
+        self.contextMenu.addAction(self.action_PasteAndTranspositionAndFormat)
+
+        self.action_PasteNotFormat.triggered.connect(lambda: self.paste(False, False))
+        self.action_PasteAndTranspositionNotFormat.triggered.connect(lambda: self.paste(False, True))
+        self.action_PasteAndTranspositionAndFormat.triggered.connect(lambda: self.paste(True, True))
+
         self.sourceSheet.mouseReleased.connect(self.focusLeftToRight)
         self.destSheet.mouseReleased.connect(self.focusRihtToLeft)
 
@@ -203,47 +201,90 @@ class Tab(QWidget):
                                        "background-color:rgba(255,0,0,130)};")
         self.destSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(0,0,255);"
                                      "background-color:rgba(0,0,255,130)};")
+        self.titleBar.setStyleSheet("margin-top:3px;margin-bottom:3px;max-height:30px")
+        self.titleBar.setText("新任务")
         # self.sourceWidget.setStyleSheet("background-color: rgb(85, 170, 255);")
         # self.destWidget.setStyleSheet("background-color: rgb(255, 135, 137);")
+    def run(self):
+        outputFolder = self.outputfolder
+        xmlfilepath = self.xmlFIlePath
+        templatefile = self.templateFilePath
+        inputFile = self.filepath
+        outputFile = os.path.join(outputFolder, os.path.basename(inputFile))
+        if not os.path.isfile(self.filepath):
+            QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
+            return
+        self.logGenerated.emit("开始转换文件：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
+                                                                           self.xmlName,
+                                                                           self.templateFileName,
+                                                                           outputFolder))
+
+        self.beginTranslate(inputFile, xmlfilepath, templatefile)
+        self.logGenerated.emit("转换完成")
+        self.signal_changed.emit(self, True)
+        if self.isDirectOutput:
+            self.save()
+
 
     def copy(self):
         widget = self.focusWidget()
         if type(widget) == Sheet:
-            selectd = widget.selectedIndexes()
+            indexes = widget.selectedIndexes()
             #复制到剪切板
-            row = selectd[0].row()
-            clip_str = ""
-            for index in selectd:
-                #判断是否换行
-                if index.row() == row:
-                    clip_str += "\t"
-                else:
-                    clip_str += "\r\n"
-                    row = index.row()
-                #添加单元格文本
-                item = widget.itemFromIndex(index)
-                if item is not None:
-                    clip_str += item.text()
-                else:
-                    clip_str +=""
+            #确定选择的行列
+            rowset = set()
+            for index in indexes:
+                rowset.add(index.row())
+            rowset = list(rowset)
+            #排序
+            for i in range(len(rowset) - 1):
+                for j in range(len(rowset) - i -1):
+                    if rowset[j] > rowset[j + 1]:
+                        temp = rowset[j + 1]
+                        rowset[j + 1] = rowset[j]
+                        rowset[j] = temp
 
-            #去掉一开始多加的\t
-            clip_str = clip_str[1:]
+
+            colset = set()
+            for index in indexes:
+                colset.add(index.column())
+            colset = list(colset)
+
+            for i in range(len(colset) - 1):
+                for j in range(len(colset) - i -1):
+                    if colset[j] > colset[j + 1]:
+                        temp = colset[j + 1]
+                        colset[j + 1] = colset[j]
+                        colset[j] = temp
+
+            #拼接字符
+            clip_str = ""
+            for i in range(len(rowset)):
+                if i != 0:
+                    clip_str += "\r\n"
+                for j in range(len(colset)):
+                    if j != 0:
+                        clip_str += "\t"
+                    # 添加单元格文本
+                    item = widget.item(rowset[i], colset[j])
+                    if item is not None:
+                        clip_str += item.text()
+                    else:
+                        clip_str += ""
+
+            # #去掉一开始多加的\t
+            # clip_str = clip_str[1:]
              #对于原表格，额外追加复制的单元格
-            row = selectd[0].row()
             clip_str += "/s/s/s"
 
             clip_coordinate = ""
-            for index in selectd:
-                #判断是否换行
-                if index.row() == row:
-                    clip_coordinate += "\t"
-                else:
+            for i in range(len(rowset)):
+                if i != 0:
                     clip_coordinate += "\r\n"
-                    row = index.row()
-                #添加单元格文本
-                clip_coordinate += "{0},{1}".format(index.row(), index.column())
-            clip_coordinate = clip_coordinate[1:]
+                for j in range(len(colset)):
+                    if j != 0:
+                        clip_coordinate += "\t"
+                    clip_coordinate += "{0},{1}".format(rowset[i], colset[j])
 
             clip_str += clip_coordinate
             #发送到剪切板
@@ -260,6 +301,8 @@ class Tab(QWidget):
             win32clipboard.OpenClipboard()
             text = win32clipboard.GetClipboardData(win32con.CF_UNICODETEXT)
             win32clipboard.CloseClipboard()
+
+
             pattern = text.split("/s/s/s")
             rows = pattern[0].split("\r\n")
             cell = []
@@ -271,11 +314,12 @@ class Tab(QWidget):
             startrow = widget.selectedIndexes()[0].row()
             startcol = widget.selectedIndexes()[0].column()
             #是否转置
-            if not transposition:
-                if self.sourceSheet == widget:
-                    widget.pasteData(startrow, startcol, cell, False)
-                else:
-                    widget.pasteData(startrow, startcol, cell, format)
+            if transposition:
+                cell = np.array(cell).T
+            if self.sourceSheet == widget:
+                widget.pasteData(startrow, startcol, cell, False)
+            else:
+                widget.pasteData(startrow, startcol, cell, format)
 
             #修改源和目标的map
             if self.destSheet == self.focusWidget() and len(pattern) > 1:
@@ -284,16 +328,21 @@ class Tab(QWidget):
                 # 解析数据
                 for i in range(len(rows_item)):
                     items.append(rows_item[i].split("\t"))
-                if not transposition:
-                    self.addMapData(startrow, startcol, items)
+                if transposition:
+                    items = zip(*items)
+
+                self.addMapData(startrow, startcol, items)
         return
+    def __showMenu(self):
+        self.contextMenu.exec_(QCursor.pos())
 
     def addMapData(self, startrow, startcol, data):
-        for i in range(len(data)):
-            row = data[i]
+        i = 0
+        for row in data:
             for j in range(len(row)):
                 key = "{0},{1}".format(startrow + i, startcol + j)
-                self.addMapValue(key, data[i][j])
+                self.addMapValue(key, row[j])
+            i += 1
         self.refreshSourceSheet()
 
     def addMapValue(self, key, value):
@@ -468,7 +517,7 @@ class Tab(QWidget):
         for cordinnate in self.souce_markItem:
             self.sourceSheet.item(int(cordinnate.split(",")[0]), int(cordinnate.split(",")[1])).setBackground(QColor(255, 255, 255))
         for cordinnate in self.dest_markItem:
-            self.destSheet.item(int(cordinnate.split(",")[0]), int(cordinnate.split(",")[1])).setBackground(QColor(255, 255, 255))
+            self.destSheet.item(int(cordinnate.split(",")[0]), int(cordinnate.split(",")[1])).checkData(QColor(255, 255, 255))
         for (k, v) in self.__map.items():
             k_x = int(k.split(",")[0])
             k_y = int(k.split(",")[1])
@@ -482,16 +531,41 @@ class Tab(QWidget):
             if kItem is None:
                 kItem = TableItem("")
                 self.destSheet.setItem(k_x, k_y, kItem)
-
             vItem.setBackground(QColor(85, 170, 255))
-            kItem.setBackground(self.essentialColor)
+            kItem.checkData(self.essentialColor)
             self.souce_markItem.append(v)
             self.dest_markItem.append(k)
 
 
+    def save(self):
+        filepath = self.destFilepath
+        if filepath == "":
+            if self.isDirectOutput:
+                outputdir = self.outputfolder
+                if not os.path.isdir(outputdir):
+                    reply = QMessageBox.warning(self, "警告", "请选择正确的输出路径", QMessageBox.Ok)
+                    if reply == QMessageBox.Ok:
+                        return None
+                else:
+                    filepath = os.path.join(outputdir, os.path.basename(self.filepath))
+            else:
+                fname = QFileDialog.getSaveFileName(self, '保存文件', self.filepath, filter="*.xlsx",)
+                if (fname[0]):
+                    filepath = fname[0]
+                else:
+                    return None
+
+        templateFile = self.templateFilePath
+        if os.path.isfile(templateFile):
+            open(filepath, "wb").write(open(templateFile, "rb").read())
+            self.__save(filepath, 0)
+            self.logGenerated.emit("已保存至： " + filepath)
+            self.setTabStatus(False)
+        else:
+            QMessageBox.warning(self, "警告", "请选择正确的模板文件", QMessageBox.Ok)
 
 
-    def save(self, filepath: str, sheetIndex: str):
+    def __save(self, filepath, sheetIndex):
         if self.isChanged is not None:
             self.destFilepath = filepath
             workbok = openpyxl.load_workbook(filepath)
@@ -510,11 +584,31 @@ class Tab(QWidget):
                             sheet[intToletter(col) + str(row + 1)].value = value
                         except Exception as e:
                             print(intToletter(col) + str(row))
+                            print(e)
             workbok.save(filepath)
 
+    def keyPressEvent(self, event: QKeyEvent):
+        super().keyPressEvent(event)
+        if event.key() == Qt.Key_Delete:
+            widget = self.focusWidget()
+            if type(widget) == Sheet:
+                indexes = widget.selectedIndexes()
+                for index in indexes:
+                    item = widget.itemFromIndex(index)
+                    if item is not None:
+                        item.setText("")
+                        item.setBackground(QColor(255, 255, 255))
+                        coordinnate = "{0},{1}".format(item.row(), item.column())
+                    if widget == self.destSheet:
+                         if coordinnate in self.__map:
+                             self.__map.pop(coordinnate)
+                    if widget == self.sourceSheet:
+                         if coordinnate in self.__map.values():
+                             self.__map.pop(list(self.__map.keys())[list(self.__map.values()).index(coordinnate)])
 
-
-
+    def setTabStatus(self, status):
+        self.isChanged = status
+        self.signal_changed.emit(self, status)
 
 
 class Sheet(QTableWidget):
@@ -532,7 +626,6 @@ class Sheet(QTableWidget):
         for i in range(0, 30):
             item = TableItem(value=str(i+1))
             self.setVerticalHeaderItem(i, item)
-
         self.horizontalScrollBar().setStyleSheet("height:25px;background-color: rgb(222, 222, 222);")
         self.verticalScrollBar().setStyleSheet("width:25px;background-color: rgb(222, 222, 222);")
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -618,20 +711,29 @@ class Sheet(QTableWidget):
         self.__hasload = True
 
     def pasteData(self, startrow, startcol, data, format=True):
-        for i in range(len(data)):
-            row = data[i]
+        i = 0
+        for row in data:
             for j in range(len(row)):
                 item = self.item(startrow + i, startcol + j)
                 if item is None:
                     item = TableItem("")
                     self.setItem(startrow + i, startcol + j, item)
                 if format:
-                    item.setFormatValue(data[i][j])
+                    item.setFormatValue(row[j])
                 else:
-                    item.setText(data[i][j])
+                    item.setText(row[j])
+            i += 1
 
     def hasLoad(self):
         return self.__hasload
+
+    def setColumnCount(self, columns: int) -> None:
+        current_column = self.columnCount()
+        super().setColumnCount(columns)
+        if columns > current_column:
+            for i in range(current_column, columns):
+                self.setColumnWidth(i, 110)
+
 
 
 
@@ -657,12 +759,8 @@ class TableItem(QTableWidgetItem):
         value = str(value)
         try:
             value = self.updateValue(value)
-            if not self.checkData(value):
-                self.setBackground(self.errorColor)
-            else:
-                self.setBackground(self.essentialColor)
             super().setText(value)
-
+            self.checkData(self.essentialColor)
         except Exception as e:
             print(e)
 
@@ -690,20 +788,22 @@ class TableItem(QTableWidgetItem):
             else:
                 floatFormat = '[^\d|\d.\d]'
                 value = re.sub(floatFormat, '', value)
-                if value == '':
+                lenth = len(value.split('.')) - 2
+                value = value.replace('.', '', lenth)
+                if value == '' or value == '.':
                     value = "0"
             return value
         except Exception as e:
             print(e)
             print("ErrorValue: " + value + "Type: " + self.ataType)
 
-    def checkData(self,value):  # 值校验，是否符合对应类型
-        
-        value = str(value)
+    def checkData(self, normalColor):  # 值校验，是否符合对应类型
+        value = str(self.text())
         date = '^\d{4}\D\d{1,2}\D\d{1,2}\D?$'
         num = '^[-]?\d*[.]?\d*$'
         persentige = '^[-]?\d*[.]?\d*[%]$'
         if value is None or (value == '' and self.dataType != "S"):
+            self.setBackground(self.errorColor)
             return False
         flag = 0
         if self.dataType == 'D':
@@ -711,13 +811,18 @@ class TableItem(QTableWidgetItem):
         elif self.dataType == 'P':
             flag = re.search(persentige, value)
         elif self.dataType == 'S':
+            self.setBackground(normalColor)
             return True
         else:
             flag = re.search(num, value)
         if str(flag) == 'None':
+            self.setBackground(self.errorColor)
             return False
         else:
+            self.setBackground(normalColor)
             return True
+        return flag
+
 
     def getDataType(self):
         return self.dataType
