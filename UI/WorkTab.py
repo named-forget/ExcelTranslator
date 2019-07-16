@@ -495,14 +495,10 @@ class Tab(QWidget):
             if kItem is None:
                 kItem = TableItem("")
                 self.destSheet.setItem(k_x, k_y, kItem)
-            if k == "17,39":
-                k
             vItem.setBackground(QColor(85, 170, 255))
             kItem.checkData(self.essentialColor)
             self.souce_markItem.append(v)
             self.dest_markItem.append(k)
-
-
 
 
     def save(self, filepath: str, sheetIndex: str):
@@ -524,11 +520,27 @@ class Tab(QWidget):
                             sheet[intToletter(col) + str(row + 1)].value = value
                         except Exception as e:
                             print(intToletter(col) + str(row))
+                            print(e)
             workbok.save(filepath)
 
-
-
-
+    def keyPressEvent(self, event: QKeyEvent):
+        super().keyPressEvent(event)
+        if event.key() == Qt.Key_Delete:
+            widget = self.focusWidget()
+            if type(widget) == Sheet:
+                indexes = widget.selectedIndexes()
+                for index in indexes:
+                    item = widget.itemFromIndex(index)
+                    if item is not None:
+                        item.setText("")
+                        item.setBackground(QColor(255, 255, 255))
+                        coordinnate = "{0},{1}".format(item.row(), item.column())
+                    if widget == self.destSheet:
+                         if coordinnate in self.__map:
+                             self.__map.pop(coordinnate)
+                    if widget == self.sourceSheet:
+                         if coordinnate in self.__map.values():
+                             self.__map.pop(list(self.__map.keys())[list(self.__map.values()).index(coordinnate)])
 
 
 class Sheet(QTableWidget):
@@ -647,6 +659,7 @@ class Sheet(QTableWidget):
 
     def hasLoad(self):
         return self.__hasload
+
 
 
 
