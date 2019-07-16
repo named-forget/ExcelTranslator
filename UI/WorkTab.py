@@ -701,7 +701,9 @@ class TableItem(QTableWidgetItem):
             else:
                 floatFormat = '[^\d|\d.\d]'
                 value = re.sub(floatFormat, '', value)
-                if value == '':
+                lenth = len(value.split('.')) - 2
+                value = value.replace('.', '', lenth)
+                if value == '' or value == '.':
                     value = "0"
             return value
         except Exception as e:
