@@ -1,4 +1,5 @@
 #每个tab包含两个view用于显示源文件与目标文件
+import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -10,7 +11,6 @@ import win32con
 import numpy as np
 
 class WorkTab(QTabWidget):
-    signal_changed = pyqtSignal(int, bool)
 
     def __init__(self):
         super().__init__()
@@ -47,8 +47,6 @@ class WorkTab(QTabWidget):
         self.action_CloseRight.triggered.connect(self.__removeRightTab)
         self.action_CloseAllButThis.triggered.connect(self.__removeAllButThis)
 
-        #连接信号
-        self.signal_changed.connect(self.setTabIconByStatus)
 
     def __showMenu(self):
         self.contextMenu.exec_(QCursor.pos())
@@ -99,34 +97,47 @@ class WorkTab(QTabWidget):
         self.__removeAllButThis()
         self.removeTab(self.currentIndex())
 
-    def setTabIconByStatus(self, index, status: bool):
+    def setTabIconByStatus(self, widget, status: bool):
         if not status:
-            self.setTabIcon(index, QIcon("Resource/icon/Icon_tag.ico"))
+            self.setTabIcon(self.indexOf(widget), QIcon("Resource/icon/Icon_tag.ico"))
         else:
-            self.setTabIcon(index, QIcon("Resource/icon/Icon_UnSave.png"))
-    def setTabStatus(self, index:int, status):
-        self.widget(index).isChanged = status
-        self.signal_changed.emit(index, status)
+            self.setTabIcon(self.indexOf(widget), QIcon("Resource/icon/Icon_UnSave.png"))
 
     def changeEvent(self, event: QEvent) -> None:
         return
+
+    def addTab(self, widget: QWidget, icon: QIcon,  title: str) -> int:
+        super().addTab(widget,icon, title)
+        widget.signal_changed.connect(self.setTabIconByStatus)
 
 
 
 
 class Tab(QWidget):
-    sourceWidget = ""
-    destWidget = ""
-    sourceSheet = ""
-    destSheet = ""
     filepath = ""
     destFilepath = ""
     essentialColor = QColor(255, 230, 153)
     isChanged = None
+    logGenerated = pyqtSignal(str)
+    signal_changed = pyqtSignal(QWidget, bool)
+
+
     def __init__(self):
         super().__init__()
         self.initUI()
-        
+
+    def initProperty(self, taskName, outputfolder, xmlName, xmlFIlePath, templateFileName, templateFilePath, isDirectOutput):
+        self.taskName = taskName
+        self.outputfolder = outputfolder
+        self.xmlName = xmlName
+        self.xmlFIlePath = xmlFIlePath
+        self.templateFileName = templateFileName
+        self.templateFilePath = templateFilePath
+        self.isDirectOutput = isDirectOutput
+        self.titleBar.setText("任务名: {0} 方案：{1} 模板文件： {2}   输出至：{3}".format(self.taskName, self.xmlName,
+                              self.templateFileName,
+                              self.outputfolder))
+
     def initUI(self):
         # 记录哪些单元格被标记了颜色
         self.souce_markItem = []
@@ -140,16 +151,19 @@ class Tab(QWidget):
         self.__map = dict()
 
         self.gridLayout = QGridLayout()
+        self.setLayout(self.gridLayout)
 
+        self.titleBar = QLabel()
+
+        self.gridLayout.addWidget(self.titleBar, 0, 0)
         self.horizontalSplitter = QSplitter(Qt.Horizontal, self)
         self.horizontalSplitter.addWidget(self.sourceWidget)
         self.horizontalSplitter.addWidget(self.destWidget)
         self.horizontalSplitter.setStyleSheet("height:100%")
 
-        self.gridLayout .addWidget(self.horizontalSplitter, 0, 0)
+        self.gridLayout .addWidget(self.horizontalSplitter, 1, 0)
         # table = Widget()
         # self.gridLayout.addWidget(table, 0, 1)
-        self.setLayout(self.gridLayout)
 
         #self.vbox.setDirection(0)
 
@@ -187,8 +201,30 @@ class Tab(QWidget):
                                        "background-color:rgba(255,0,0,130)};")
         self.destSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(0,0,255);"
                                      "background-color:rgba(0,0,255,130)};")
+        self.titleBar.setStyleSheet("margin-top:3px;margin-bottom:3px;max-height:30px")
+        self.titleBar.setText("新任务")
         # self.sourceWidget.setStyleSheet("background-color: rgb(85, 170, 255);")
         # self.destWidget.setStyleSheet("background-color: rgb(255, 135, 137);")
+    def run(self):
+        outputFolder = self.outputfolder
+        xmlfilepath = self.xmlFIlePath
+        templatefile = self.templateFilePath
+        inputFile = self.filepath
+        outputFile = os.path.join(outputFolder, os.path.basename(inputFile))
+        if not os.path.isfile(self.filepath):
+            QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
+            return
+        self.logGenerated.emit("开始转换文件：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
+                                                                           self.xmlName,
+                                                                           self.templateFileName,
+                                                                           outputFolder))
+
+        self.beginTranslate(inputFile, xmlfilepath, templatefile)
+        self.logGenerated.emit("转换完成")
+        self.signal_changed.emit(self, True)
+        if self.isDirectOutput:
+            self.save()
+
 
     def copy(self):
         widget = self.focusWidget()
@@ -501,7 +537,35 @@ class Tab(QWidget):
             self.dest_markItem.append(k)
 
 
-    def save(self, filepath: str, sheetIndex: str):
+    def save(self):
+        filepath = self.destFilepath
+        if filepath == "":
+            if self.isDirectOutput:
+                outputdir = self.outputfolder
+                if not os.path.isdir(outputdir):
+                    reply = QMessageBox.warning(self, "警告", "请选择正确的输出路径", QMessageBox.Ok)
+                    if reply == QMessageBox.Ok:
+                        return None
+                else:
+                    filepath = os.path.join(outputdir, os.path.basename(self.filepath))
+            else:
+                fname = QFileDialog.getSaveFileName(self, '保存文件', self.filepath, filter="*.xlsx",)
+                if (fname[0]):
+                    filepath = fname[0]
+                else:
+                    return None
+
+        templateFile = self.templateFilePath
+        if os.path.isfile(templateFile):
+            open(filepath, "wb").write(open(templateFile, "rb").read())
+            self.__save(filepath, 0)
+            self.logGenerated.emit("已保存至： " + filepath)
+            self.setTabStatus(False)
+        else:
+            QMessageBox.warning(self, "警告", "请选择正确的模板文件", QMessageBox.Ok)
+
+
+    def __save(self, filepath, sheetIndex):
         if self.isChanged is not None:
             self.destFilepath = filepath
             workbok = openpyxl.load_workbook(filepath)
@@ -542,6 +606,10 @@ class Tab(QWidget):
                          if coordinnate in self.__map.values():
                              self.__map.pop(list(self.__map.keys())[list(self.__map.values()).index(coordinnate)])
 
+    def setTabStatus(self, status):
+        self.isChanged = status
+        self.signal_changed.emit(self, status)
+
 
 class Sheet(QTableWidget):
     rowsMark = [int]
@@ -558,7 +626,6 @@ class Sheet(QTableWidget):
         for i in range(0, 30):
             item = TableItem(value=str(i+1))
             self.setVerticalHeaderItem(i, item)
-
         self.horizontalScrollBar().setStyleSheet("height:25px;background-color: rgb(222, 222, 222);")
         self.verticalScrollBar().setStyleSheet("width:25px;background-color: rgb(222, 222, 222);")
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -659,6 +726,13 @@ class Sheet(QTableWidget):
 
     def hasLoad(self):
         return self.__hasload
+
+    def setColumnCount(self, columns: int) -> None:
+        current_column = self.columnCount()
+        super().setColumnCount(columns)
+        if columns > current_column:
+            for i in range(current_column, columns):
+                self.setColumnWidth(i, 110)
 
 
 

@@ -372,27 +372,14 @@ class MainWindow(QMainWindow):
                 self.addTab(f.name)
 
     def run(self):
-        outputFolder = self.comboBox_outputfolder.currentText()
-        xmlfilepath = self.comboBox_xmlFIle.currentData()
-        templatefile = self.comboBox_templatefile.currentData()
         currentTab = self.workTab.currentWidget()
         #inputFile = self.button_run.statusTip()
         inputFile = currentTab.objectName()
-        outputFile = os.path.join(outputFolder, os.path.basename(inputFile))
         if not os.path.isfile(inputFile):
             QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
             return
-        self.textEdit.append("开始转换文件：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
-                                                                         self.comboBox_xmlFIle.currentText(),
-                                                                         self.comboBox_templatefile.currentText(),
-                                                                         outputFolder) )
-        currentTab.beginTranslate(inputFile, xmlfilepath, templatefile)
-        self.workTab.setTabStatus(self.workTab.currentIndex(), True)
+        currentTab.run()
 
-        self.textEdit.append("转换完成")
-        self.textEdit.moveCursor(QTextCursor.End)
-        if self.checkBox_directOutput.checkState() == 2:
-            self.save(self.workTab.currentIndex())
 
     def multiRun(self):
         foder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
@@ -416,15 +403,10 @@ class MainWindow(QMainWindow):
                             inputFile = os.path.join(parent, filename)
                             outputFile = os.path.join(outputFolder, filename)
                             try:
-                                self.textEdit.append("开始转换：" + filename)
-                                self.textEdit.repaint()
                                 self.addTab(inputFile)
                                 tab = self.workTab.findChild(WorkTab.Tab, inputFile)
-                                tab.beginTranslate(inputFile, xmlfilepath, templatefile)
+                                tab.run()
                                 self.workTab.setTabStatus(self.workTab.indexOf(tab), True)
-                                self.textEdit.append("转换完成")
-                                self.textEdit.moveCursor(QTextCursor.End)
-                                #fileTranslator.chooseExcel(inputFile, outputFile, templatefile, xmlfilepath)
                                 if self.checkBox_directOutput.checkState() == 2:
                                     self.save(self.workTab.indexOf(tab))
                                 self.textEdit.repaint()
@@ -433,8 +415,14 @@ class MainWindow(QMainWindow):
 
             else:
                 return
+
     def addTab(self, filepath):
         tab = self.workTab.findChild(WorkTab.Tab, filepath)
+        outputFolder = self.comboBox_outputfolder.currentText()
+        xmlfilepath = self.comboBox_xmlFIle.currentData()
+        templatefile = self.comboBox_templatefile.currentData()
+        xmlfileName = self.comboBox_xmlFIle.currentText()
+        templatefileName = self.comboBox_templatefile.currentText()
         if tab is not None:
             self.workTab.setCurrentWidget(tab)
         elif self.workTab.currentWidget()is not None and self.workTab.currentWidget().objectName() == "NewTab":
@@ -443,16 +431,25 @@ class MainWindow(QMainWindow):
             tab.fillLeft(filepath, 0)
             tab.setObjectName(filepath)
             self.workTab.setTabToolTip(self.workTab.indexOf(tab), filepath)
+            tab.logGenerated.connect(self.appenText)
+            tab.initProperty("内容填充", outputFolder, xmlfileName, xmlfilepath, templatefileName,
+                             templatefile, self.checkBox_directOutput.checkState() == 2)
         else:
             newtab = WorkTab.Tab()
+            newtab.filepath = filepath
             self.workTab.addTab(newtab, QIcon("Resource/icon/Icon_tag.ico"), os.path.basename(filepath))
             newtab.fillLeft(filepath, 0)
             newtab.setObjectName(filepath)
+            newtab.logGenerated.connect(self.appenText)
             self.workTab.setCurrentWidget(newtab)
             self.workTab.setTabToolTip(self.workTab.indexOf(newtab), filepath)
+            newtab.initProperty("内容填充", outputFolder, xmlfileName, xmlfilepath, templatefileName,
+                                templatefile, self.checkBox_directOutput.checkState() == 2)
         self.workTab.repaint()
             # fileTranslator.main(foder_Exolorer, outputFolder, templatefile, xmlfilepath)
-
+    def appenText(self, str):
+        self.textEdit.append(str)
+        self.textEdit.moveCursor(QTextCursor.End)
 
     def open(self):
         dir = self.comboBox_outputfolder.currentText()
@@ -475,35 +472,7 @@ class MainWindow(QMainWindow):
 
     def save(self, index):
         currentTab = self.workTab.widget(index)
-        filepath = currentTab.destFilepath
-        if currentTab.isChanged is not None and currentTab.isChanged :
-            if filepath == "":
-                if self.checkBox_directOutput.checkState() == 2:
-                    outputdir = self.comboBox_outputfolder.currentText()
-                    if not os.path.isdir(outputdir):
-                        reply = QMessageBox.warning(self, "警告", "请选择正确的输出路径", QMessageBox.Ok)
-                        if reply == QMessageBox.Ok:
-                            return None
-                    else:
-                        filepath = os.path.join(outputdir, os.path.basename(currentTab.objectName()))
-                else:
-                    fname = QFileDialog.getSaveFileName(self, '保存文件', currentTab.objectName(), filter="*.xlsx",)
-                    if (fname[0]):
-                        filepath = fname[0]
-                    else:
-                        return None
-
-            templateFile = self.comboBox_templatefile.currentData()
-            if os.path.isfile(templateFile):
-                open(filepath, "wb").write(open(templateFile, "rb").read())
-                currentTab.save(filepath, 0)
-                self.workTab.setTabStatus(index, False)
-                self.textEdit.append("已保存至： " + filepath)
-                self.textEdit.repaint()
-                self.textEdit.moveCursor(QTextCursor.End)
-                return  True
-            else:
-                QMessageBox.warning(self, "警告", "请选择正确的模板文件", QMessageBox.Ok)
+        currentTab.save()
 
 
 
