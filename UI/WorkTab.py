@@ -114,8 +114,6 @@ class WorkTab(QTabWidget):
 
 
 class Tab(QWidget):
-    filepath = ""
-    destFilepath = ""
     essentialColor = QColor(255, 230, 153)
     isChanged = None
     logGenerated = pyqtSignal(str)
@@ -126,7 +124,7 @@ class Tab(QWidget):
         super().__init__()
         self.initUI()
 
-    def initProperty(self, taskName, outputfolder, xmlName, xmlFIlePath, templateFileName, templateFilePath, isDirectOutput):
+    def initProperty(self, taskName, filepath, outputfolder, xmlName, xmlFIlePath, templateFileName, templateFilePath, isDirectOutput):
         self.taskName = taskName
         self.outputfolder = outputfolder
         self.xmlName = xmlName
@@ -134,6 +132,8 @@ class Tab(QWidget):
         self.templateFileName = templateFileName
         self.templateFilePath = templateFilePath
         self.isDirectOutput = isDirectOutput
+        self.filepath = filepath
+        self.destFilepath = ""
         self.titleBar.setText("任务名: {0} 方案：{1} 模板文件： {2}   输出至：{3}".format(self.taskName, self.xmlName,
                               self.templateFileName,
                               self.outputfolder))
@@ -382,9 +382,8 @@ class Tab(QWidget):
         return
 
 
-    def fillLeft(self, filepath, sheetIndex):
-        self.filepath = filepath
-        self.sourceSheet.fillSheetByExcelSheetIndex(filepath, sheetIndex)
+    def fillLeft(self, sheetIndex):
+        self.sourceSheet.fillSheetByExcelSheetIndex(self.filepath, sheetIndex)
 
     def fillRight(self, filepath, sheetIndex):
         self.destSheet.fillSheetByExcelSheetIndex(filepath, sheetIndex)
