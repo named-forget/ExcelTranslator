@@ -13,6 +13,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from UI import WorkTab
+from UI.Dialog import Dialog
 
 class MainWindow(QMainWindow):
     str_WindowName = "ExcelTranslator"
@@ -25,11 +26,15 @@ class MainWindow(QMainWindow):
     templateFoldetPath = os.getcwd() + "/Resource/templateFile"
     configFilePath = os.path.join(configFileDirectory, configFileName)
     tabarray = [WorkTab.Tab]
+
     #屏幕尺寸
     screen_width = 0
     screen_height = 0
     def __init__(self):
         super().__init__()
+        self.window_width = 1280
+        self.window_height = 760
+        self.dialog = Dialog(self)
         self.initConfig()
         self.initUI()
     # 初始化窗口界面
@@ -106,7 +111,7 @@ class MainWindow(QMainWindow):
         saveAction = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_save.ico'), '保存')
         saveAction.setShortcut('Ctrl+S')
         saveAction.setStatusTip('保存')
-        saveAction.clicked.connect(self.save)
+        saveAction.clicked.connect(lambda :self.save(self.workTab.currentIndex()))
 
         #保存全部
         saveAllAction =  QtWidgets.QPushButton()
@@ -196,7 +201,7 @@ class MainWindow(QMainWindow):
 
 
         #模板
-        self.label_templatefile = QtWidgets.QLabel(text="模板文件：")
+        self.label_templatefile = QtWidgets.QLabel(text="目标模板文件：")
         # self.label_templatefile.setGeometry(QtCore.QRect(50, 140, 121, 41))
         self.label_templatefile.setTextFormat(QtCore.Qt.AutoText)
         self.label_templatefile.setAlignment(QtCore.Qt.AlignRight)
@@ -206,7 +211,7 @@ class MainWindow(QMainWindow):
         # self.comboBox_templatefile.setGeometry(QtCore.QRect(0, 160, 87, 22))
         self.comboBox_templatefile.setEditable(False)
         self.comboBox_templatefile.setObjectName("comboBox_templatefile")
-        self.comboBox_templatefile.addItem("新增模板文件...", "New")
+        self.comboBox_templatefile.addItem("新增目标模板文件...", "New")
         self.comboBox_templatefile.setMaxVisibleItems(10)
 
         self.initConboBox(self.str_templatefile, self.comboBox_templatefile)
@@ -219,7 +224,7 @@ class MainWindow(QMainWindow):
         self.action_renametemplate.triggered.connect(self.renameTemplate)
 
         self.button_ViewTemplateFile = QtWidgets.QPushButton(text="查看")
-        self.button_ViewTemplateFile.setText("查看模板文件")
+        self.button_ViewTemplateFile.setText("查看目标模板文件")
         self.button_ViewTemplateFile.clicked.connect(self.viewTemplateFile)
         # 添加菜单
         # 对于菜单栏，注意menuBar，menu和action三者之间的关系
@@ -304,6 +309,12 @@ class MainWindow(QMainWindow):
 
         self.statusBar()
 
+
+        #新建任务对话框
+        self.dialog.hide()
+        self.dialog.raise_()
+        self.dialog.submitted.connect(self.addTab)
+
         #恢复控件状态
         setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
         index = setting.value(self.str_OutputFolder)
@@ -327,11 +338,19 @@ class MainWindow(QMainWindow):
         self.show()
         self.showMaximized()
 
+        #self.dialog.setGeometry((self.maximumSize().width() - 500)/2,(self.maximumSize().height()-800)/2, 500, 800 )
+
+
     # 主窗口居中显示
     def center(self):
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
+    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
+        super().resizeEvent(event)
+        self.window_width = event.size().width()
+        self.window_height = event.size().height()
+
 
     # 定义Action对应的触发事件，在触发事件中调用self.statusBar()显示提示信息
     # 重写closeEvent
@@ -363,13 +382,10 @@ class MainWindow(QMainWindow):
 
     # open
     def new(self):
-        file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter=("*.xlsx"))
-        if file_Exolorer[0]:
-            f = open(file_Exolorer[0], 'r')
-            with f:
-                self.button_run.setStatusTip(f.name)
-                self.textEdit.append("已选择文件：" + f.name)
-                self.addTab(f.name)
+        self.dialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
+        self.dialog.setFixedSize(500, 500)
+
+        self.dialog.show()
 
     def run(self):
         currentTab = self.workTab.currentWidget()
@@ -382,41 +398,38 @@ class MainWindow(QMainWindow):
 
 
     def multiRun(self):
-        foder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
-        if foder_Exolorer != "":
-            outputFolder = self.comboBox_outputfolder.currentText()
-            xmlfilepath = self.comboBox_xmlFIle.currentData()
-            templatefile = self.comboBox_templatefile.currentData()
-            reply = QMessageBox.question(self, '确认', \
-                                         '将会转换' + foder_Exolorer + "下的所有文件，是否继续", \
-                                         QMessageBox.Yes | QMessageBox.No, \
-                                         QMessageBox.No)
+        return
+        # foder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
+        # if foder_Exolorer != "":
+        #     outputFolder = self.comboBox_outputfolder.currentText()
+        #     xmlfilepath = self.comboBox_xmlFIle.currentData()
+        #     templatefile = self.comboBox_templatefile.currentData()
+        #     reply = QMessageBox.question(self, '确认', \
+        #                                  '将会转换' + foder_Exolorer + "下的所有文件，是否继续", \
+        #                                  QMessageBox.Yes | QMessageBox.No, \
+        #                                  QMessageBox.No)
+        #
+        #     if reply == QMessageBox.Yes:
+        #         self.textEdit.append("开始批量转换：{0} 方案：{1} 目标模板文件：{2} 输出至：{3}".format(foder_Exolorer,
+        #                                                                          self.comboBox_xmlFIle.currentText(),
+        #                                                                          self.comboBox_templatefile.currentText(),
+        #                                                                          outputFolder))
+        #         for parent, dirnames, filenames in os.walk(foder_Exolorer, followlinks=True):
+        #             for filename in filenames:
+        #                 if filename[-5:] == ".xlsx":
+        #                     inputFile = os.path.join(parent, filename)
+        #                     outputFile = os.path.join(outputFolder, filename)
+        #                     try:
+        #                         self.addTab(inputFile)
+        #                         tab = self.workTab.findChild(WorkTab.Tab, inputFile)
+        #                         tab.run()
+        #                     except ValueError as e:
+        #                         self.textEdit.append(e)
+        #
+        #     else:
+        #         return
 
-            if reply == QMessageBox.Yes:
-                self.textEdit.append("开始批量转换：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(foder_Exolorer,
-                                                                                 self.comboBox_xmlFIle.currentText(),
-                                                                                 self.comboBox_templatefile.currentText(),
-                                                                                 outputFolder))
-                for parent, dirnames, filenames in os.walk(foder_Exolorer, followlinks=True):
-                    for filename in filenames:
-                        if filename[-5:] == ".xlsx":
-                            inputFile = os.path.join(parent, filename)
-                            outputFile = os.path.join(outputFolder, filename)
-                            try:
-                                self.addTab(inputFile)
-                                tab = self.workTab.findChild(WorkTab.Tab, inputFile)
-                                tab.run()
-                                self.workTab.setTabStatus(self.workTab.indexOf(tab), True)
-                                if self.checkBox_directOutput.checkState() == 2:
-                                    self.save(self.workTab.indexOf(tab))
-                                self.textEdit.repaint()
-                            except ValueError as e:
-                                self.textEdit.append(e)
-
-            else:
-                return
-
-    def addTab(self, filepath):
+    def addTab(self, filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName, templatefile):
         tab = self.workTab.findChild(WorkTab.Tab, filepath)
         outputFolder = self.comboBox_outputfolder.currentText()
         xmlfilepath = self.comboBox_xmlFIle.currentData()
@@ -428,23 +441,22 @@ class MainWindow(QMainWindow):
         elif self.workTab.currentWidget()is not None and self.workTab.currentWidget().objectName() == "NewTab":
             tab = self.workTab.currentWidget()
             self.workTab.setTabText(self.workTab.indexOf(tab), os.path.basename(filepath))
-            tab.fillLeft(filepath, 0)
+            tab.initProperty("内容填充", filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName,
+                             templatefile, self.checkBox_directOutput.checkState() == 2)
+            tab.fillLeft(0)
             tab.setObjectName(filepath)
             self.workTab.setTabToolTip(self.workTab.indexOf(tab), filepath)
             tab.logGenerated.connect(self.appenText)
-            tab.initProperty("内容填充", outputFolder, xmlfileName, xmlfilepath, templatefileName,
-                             templatefile, self.checkBox_directOutput.checkState() == 2)
         else:
             newtab = WorkTab.Tab()
-            newtab.filepath = filepath
             self.workTab.addTab(newtab, QIcon("Resource/icon/Icon_tag.ico"), os.path.basename(filepath))
-            newtab.fillLeft(filepath, 0)
+            newtab.initProperty("内容填充", filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName,
+                                templatefile, self.checkBox_directOutput.checkState() == 2)
+            newtab.fillLeft(0)
             newtab.setObjectName(filepath)
             newtab.logGenerated.connect(self.appenText)
             self.workTab.setCurrentWidget(newtab)
             self.workTab.setTabToolTip(self.workTab.indexOf(newtab), filepath)
-            newtab.initProperty("内容填充", outputFolder, xmlfileName, xmlfilepath, templatefileName,
-                                templatefile, self.checkBox_directOutput.checkState() == 2)
         self.workTab.repaint()
             # fileTranslator.main(foder_Exolorer, outputFolder, templatefile, xmlfilepath)
     def appenText(self, str):
@@ -457,10 +469,6 @@ class MainWindow(QMainWindow):
             os.startfile(dir)
         else:
             QMessageBox.warning(self, '警告', '选择的不是一个目录', QMessageBox.Yes)
-
-    # save
-    def save(self):
-        self.save(self.workTab.currentIndex())
 
     def saveAll(self):
         for i in range(self.workTab.count()):
