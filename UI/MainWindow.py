@@ -34,7 +34,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.window_width = 1280
         self.window_height = 760
-        self.dialog = Dialog(self)
         self.initConfig()
         self.initUI()
     # 初始化窗口界面
@@ -312,10 +311,6 @@ class MainWindow(QMainWindow):
         self.statusBar()
 
 
-        #新建任务对话框
-        self.dialog.hide()
-        self.dialog.raise_()
-        self.dialog.submitted.connect(self.addTab)
 
         #恢复控件状态
         setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
@@ -384,10 +379,14 @@ class MainWindow(QMainWindow):
 
     # open
     def new(self):
-        self.dialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
-        self.dialog.setFixedSize(500, 500)
+        #新建任务对话框
+        dialog = Dialog(self)
+        dialog.raise_()
+        dialog.submitted.connect(self.addTab)
+        dialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
+        dialog.setFixedSize(500, 500)
 
-        self.dialog.show()
+        dialog.show()
 
     def run(self):
         currentTab = self.workTab.currentWidget()

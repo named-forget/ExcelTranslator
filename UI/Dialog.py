@@ -29,7 +29,7 @@ class Dialog(QDialog):
     def __initUI(self):
         self.setObjectName("Main")
         stylesheet = open("UI/Dialog.qss", "r").read()
-
+        self.setWindowTitle("内容填充")
         self.setStyleSheet(stylesheet)
 
         self.verticalLayout = QVBoxLayout()
@@ -228,8 +228,9 @@ class Dialog(QDialog):
         templatefile = self.comboBox_templatefile.currentData()
         xmlfileName = self.comboBox_xmlFIle.currentText()
         templatefileName = self.comboBox_templatefile.currentText()
-        self.hide()
         self.submitted.emit(filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName, templatefile)
+        self.hide()
+
 
 
 
