@@ -10,3 +10,10 @@ UI/Tab.py
 UI/test.py
 UI/untitled.py
 .idea/workspace.xml
+.idea/ExcelTranslator.iml
+.idea/misc.xml
+.idea/workspace.xml
+GuiRcFile/213.qrc
+GuiRcFile/Dialog.ui
+GuiRcFile/DialogDesigner.ui
+test.py

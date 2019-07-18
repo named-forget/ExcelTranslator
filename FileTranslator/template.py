@@ -156,10 +156,10 @@ def extractForTable(cfgItem, MapPath):
                     fill = PatternFill(fill_type='solid', start_color='FF0000', end_color='FF0000')
                     destSheet[dCols].fill = fill
                     destSheet[dCols].value = sheet[sCols].value
-                    addNodeForMapXml(MapPath, sCols, dCols, '', '255,255,255', '255,0,0')
+                    addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 114, 116')
                 else:
                     destSheet[dCols].value = tempvalue
-                    addNodeForMapXml(MapPath, sCols, dCols, '', '255,255,255', '255,255,255')
+                    addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 230, 153')
     else:
         for col in range(0, len(sList)):
             for row in range(beginrow, endrow + 1):
@@ -172,10 +172,10 @@ def extractForTable(cfgItem, MapPath):
                     fill = PatternFill(fill_type='solid', start_color='FF0000', end_color='FF0000')
                     destSheet[dCols].fill = fill
                     destSheet[dCols].value = sheet[sCols].value
-                    addNodeForMapXml(MapPath, sCols, dCols, '', '255,255,255', '255,0,0')
+                    addNodeForMapXml(MapPath, sCols, dCols, '', '255, 230, 153', '255, 114, 116')
                 else:
                     destSheet[dCols].value = tempvalue
-                    addNodeForMapXml(MapPath, sCols, dCols, '', '255,255,255', '255,255,255')
+                    addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 230, 153')
 #查找匹配的cell单元格
 def findStr(sheet, key, startRow, startCol):
     for col in range(startCol, sheet.max_column):
@@ -203,10 +203,10 @@ def keyValueToDestExcel(tempcell, dCols, dNode, isFind, MapPath):
         value = '0.00'
         if tempcell is not None:
             sCols = tempcell.column + str(tempcell.row)
-            addNodeForMapXml(MapPath, sCols, dCols, '', '255,255,255', '255,0,0')
+            addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 114, 116')
     else:
         sCols = tempcell.column + str(tempcell.row)
-        addNodeForMapXml(MapPath, sCols, dCols, '', '255,255,255', '255,255,255')
+        addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 230, 153')
     sheetD[dCols] = value
 
 #根据key查找cell单元格
@@ -272,12 +272,18 @@ def indent(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 #新建mamppingxml， multiply 用于判断是单个文件还是文件夹
-def createXml(xmlPath, multiply):
+def createXml(xmlPath, inputfile, outputfile, multiply):
     if multiply.lower() == 'false':
         if not os.path.exists(xmlPath):
             # open(configFilePath, "wb").write(bytes("", encoding="utf-8"))
             root = XETree.Element('result')  # 创建节点
             root.set("multiply", "false")
+            root.set("inputFile", inputfile)
+            root.set("outputFile", outputfile)
+            root.set("inputSheetIndex", "0")
+            root.set("outputSheetIndex", "0")
+            root.set("inputSheetName", "Sheet1")
+            root.set("outputSheetName", r"Sheet1")
             tree = XETree.ElementTree(root)  # 创建文档
             Mapping1 = XETree.Element('Mapping') #创建子节点
             Mapping1.set("description", r'源文件，目标文件对应情况')
@@ -309,21 +315,23 @@ def main(configFilePath, dateId):
         os.mkdir(dir_path)
 
     if os.path.isfile(input):    #判断是文件还是文件夹
-        createXml(mappingPath, 'false')
-        filename = input.split('\\')[-1]
+        filename = os.path.basename(input)
         suffix = filename.split('.')[-1]
         if suffix == 'xlsx':
             outputFile = os.path.join(output, filename)
+            createXml(mappingPath, input, outputFile, 'false')
             chooseExcel(input, outputFile, templateFilePath, cfgRoot, mappingPath)
     elif os.path.isdir(input):
         for parent, dirnames, filenames in os.walk(input, followlinks=True):
             config = 1
-            createXml(mappingPath, 'true')
+            createXml(mappingPath, '', '', 'true')
             for filename in filenames:
                 suffix = filename.split('.')[-1]
                 if suffix == 'xlsx':
+                    inputFile = os.path.join(parent, filename)
+                    outputFile = os.path.join(output, filename)
                     mulPath = dir_path + dateId + '_' + str(config) + '.xml'
-                    createXml(mulPath, 'false')
+                    createXml(mulPath, inputFile, outputFile, 'false')
                     config += 1
                     tree = XETree.parse(mappingPath)
                     root = tree.getroot()
@@ -333,8 +341,6 @@ def main(configFilePath, dateId):
                     root.append(MapPath)
                     indent(root)
                     tree.write(mappingPath, encoding='utf-8', xml_declaration=True)
-                    inputFile = os.path.join(parent, filename)
-                    outputFile = os.path.join(output, filename)
                     chooseExcel(inputFile, outputFile, templateFilePath, cfgRoot, mulPath)
 
 

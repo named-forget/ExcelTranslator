@@ -13,8 +13,8 @@ import os
 import xml.etree.ElementTree as XETree
 import shutil
 
-class Dialog(QDialog):
-    submitted = pyqtSignal(str, str, str, str, str, str)
+class FillData(QDialog):
+    submitted = pyqtSignal(str, str, dict)
     def __init__(self, parent):
         super().__init__(parent)
         self.str_templatefile = "templateFile"
@@ -29,7 +29,8 @@ class Dialog(QDialog):
     def __initUI(self):
         self.setObjectName("Main")
         stylesheet = open("UI/Dialog.qss", "r").read()
-
+        self.setWindowTitle("内容填充")
+        self.setWindowModality(Qt.ApplicationModal)
         self.setStyleSheet(stylesheet)
 
         self.verticalLayout = QVBoxLayout()
@@ -226,10 +227,16 @@ class Dialog(QDialog):
         outputFolder = self.comboBox_outputfolder.currentText()
         xmlfilepath = self.comboBox_xmlFIle.currentData()
         templatefile = self.comboBox_templatefile.currentData()
-        xmlfileName = self.comboBox_xmlFIle.currentText()
-        templatefileName = self.comboBox_templatefile.currentText()
+        parameters = dict()
+        parameters["inputFile"] = filepath
+        parameters["XmlFile"] = xmlfilepath
+        parameters["outputFile"] = outputFolder
+        parameters["templateFile"] = templatefile
         self.hide()
-        self.submitted.emit(filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName, templatefile)
+        self.submitted.emit("FillData", "内容填充",parameters)
+        self.close()
+
+
 
 
 

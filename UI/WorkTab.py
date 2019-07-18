@@ -9,6 +9,7 @@ import xml.etree.cElementTree as XETree
 import win32clipboard
 import win32con
 import numpy as np
+from Action.Action import Action
 
 class WorkTab(QTabWidget):
 
@@ -120,23 +121,60 @@ class Tab(QWidget):
     signal_changed = pyqtSignal(QWidget, bool)
 
 
-    def __init__(self):
+    def __init__(self, actionCode, acitonName ,parameters):
         super().__init__()
+        self.actionCode = actionCode
+        self.actionName = acitonName
+        self.parameters = parameters
         self.initUI()
 
-    def initProperty(self, taskName, filepath, outputfolder, xmlName, xmlFIlePath, templateFileName, templateFilePath, isDirectOutput):
-        self.taskName = taskName
-        self.outputfolder = outputfolder
-        self.xmlName = xmlName
-        self.xmlFIlePath = xmlFIlePath
-        self.templateFileName = templateFileName
-        self.templateFilePath = templateFilePath
-        self.isDirectOutput = isDirectOutput
-        self.filepath = filepath
-        self.destFilepath = ""
-        self.titleBar.setText("任务名: {0} 方案：{1} 模板文件： {2}   输出至：{3}".format(self.taskName, self.xmlName,
-                              self.templateFileName,
-                              self.outputfolder))
+    def initProperty(self, index):
+        xmlfilePath = self.resultxml_comboBox.itemData(index)
+        root = XETree.parse(xmlfilePath).getroot()
+        mapping = root.find("./Mapping")
+        self.filepath = root.attrib["inputFile"]
+        self.destFilepath = root.attrib["outputFile"]
+        srcSheetIndex = root.attrib["inputSheetIndex"]
+
+        #加载输入文件
+        if srcSheetIndex != "":
+            self.fillLeft(int(srcSheetIndex))
+        else:
+            self.sourceSheet.fillSheetByExcelSheetName(self.filepath, root.attrib["inputSheetName"])
+        destSheetIndex = root.attrib["outputSheetIndex"]
+
+        #加载输出文件
+        if destSheetIndex != "":
+            self.destSheet.fillSheetByExcelSheetIndex(self.destFilepath, int(destSheetIndex))
+        else:
+            self.destSheet.fillSheetByExcelSheetName(self.destFilepath, root.attrib["outputSheetName"])
+        #如果不包含映射，直接退出
+        if mapping.find("./map") is None:
+            return
+        #加载颜色
+        for item in mapping.iter(tag="map"):
+            destCell = item.attrib["destCell"]
+            sourceCells = item.attrib["sourcecell"]
+            sourceColor = getColor(item.attrib["sourcecolor"])
+            destColor = getColor(item.attrib["destcolor"])
+            sourceCellCoordinnate = []
+            destCoordinnate = parseChar(destCell)
+            for cell in sourceCells.split(";"):
+                cellCoorrdinnate = parseChar(cell)
+                row = int(cellCoorrdinnate.split(",")[0])
+                col = int(cellCoorrdinnate.split(",")[1])
+                self.sourceSheet.item(row, col).setBackground(sourceColor)
+                sourceCellCoordinnate.append(cellCoorrdinnate)
+            self.destSheet.item(int(destCoordinnate.split(",")[0]), int(destCoordinnate.split(",")[1])).setBackground(destColor)
+            self.__map[destCoordinnate] = ";".join(sourceCellCoordinnate)
+
+        self.titleBar.setText("任务名: {0} \n源文件： {1}   \n结果文件：{2}".format(self.actionName, os.path.basename(self.filepath),
+                              os.path.basename(self.destFilepath)))
+        #如果Action是内容填充，额外追加单元格格式
+        if self.actionCode == "FillData":
+            varable_xmlpath = self.parameters["XmlFile"]
+            self.beginTranslate(varable_xmlpath)
+
 
     def initUI(self):
         # 记录哪些单元格被标记了颜色
@@ -154,14 +192,18 @@ class Tab(QWidget):
         self.setLayout(self.gridLayout)
 
         self.titleBar = QLabel()
+        self.gridLayout.addWidget(self.titleBar, 1, 0)
 
-        self.gridLayout.addWidget(self.titleBar, 0, 0)
+        self.resultxml_comboBox = QComboBox()
+        self.gridLayout.addWidget(self.resultxml_comboBox, 0, 0)
+        self.resultxml_comboBox.currentIndexChanged.connect(self.initProperty)
+
         self.horizontalSplitter = QSplitter(Qt.Horizontal, self)
         self.horizontalSplitter.addWidget(self.sourceWidget)
         self.horizontalSplitter.addWidget(self.destWidget)
         self.horizontalSplitter.setStyleSheet("height:100%")
 
-        self.gridLayout .addWidget(self.horizontalSplitter, 1, 0)
+        self.gridLayout .addWidget(self.horizontalSplitter, 2, 0)
         # table = Widget()
         # self.gridLayout.addWidget(table, 0, 1)
 
@@ -182,7 +224,7 @@ class Tab(QWidget):
         self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
                                        "selection-background-color: rgb(85, 170, 255);")
 
-        self.action_PasteNotFormat = QAction("粘贴（保留原格式）")
+        self.action_PasteNotFormat = QAction("粘贴（匹配目标格式）")
         self.action_PasteAndTranspositionNotFormat = QAction("转置粘贴（保留原格式）")
         self.action_PasteAndTranspositionAndFormat = QAction("转置粘贴（匹配目标格式）")
 
@@ -206,25 +248,27 @@ class Tab(QWidget):
         # self.sourceWidget.setStyleSheet("background-color: rgb(85, 170, 255);")
         # self.destWidget.setStyleSheet("background-color: rgb(255, 135, 137);")
     def run(self):
-        outputFolder = self.outputfolder
-        xmlfilepath = self.xmlFIlePath
-        templatefile = self.templateFilePath
-        inputFile = self.filepath
-        outputFile = os.path.join(outputFolder, os.path.basename(inputFile))
-        if not os.path.isfile(self.filepath):
-            QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
-            return
-        self.logGenerated.emit("开始转换文件：{0} 方案：{1} 模板文件：{2} 输出至：{3}".format(os.path.basename(inputFile),
-                                                                           self.xmlName,
-                                                                           self.templateFileName,
-                                                                           outputFolder))
+        action = Action(self.actionCode, self.parameters)
+        log_str = ""
+        for (k, v) in self.parameters.items():
+            log_str = log_str + "\n" + k + ":  " + v
+        self.logGenerated.emit("开始执行任务：{0}".format(self.actionName) + log_str)
+        #self.signal_changed.emit(self, True)
+        result = action.runAciton()
+        self.logGenerated.emit("执行完成")
 
-        self.beginTranslate(inputFile, xmlfilepath, templatefile)
-        self.logGenerated.emit("转换完成")
-        self.signal_changed.emit(self, True)
-        if self.isDirectOutput:
-            self.save()
+        root = XETree.parse(result).getroot()
+        if root.attrib["multiply"] == "True":
+            for item in root.iter(tag = "filename"):
+                self.fillComboBox(item.attrib["path"])
+        else:
+            self.fillComboBox(result)
+        self.resultxml_comboBox.setCurrentIndex(0)
 
+
+    def fillComboBox(self, xmlFilePaht):
+        root = XETree.parse(xmlFilePaht).getroot()
+        self.resultxml_comboBox.addItem(os.path.basename(root.attrib["inputFile"])[0:-5], xmlFilePaht)
 
     def copy(self):
         widget = self.focusWidget()
@@ -358,13 +402,14 @@ class Tab(QWidget):
             if key in self.__map:
                 sItem = self.__map[key]
                 if sItem != "" and sItem != "NA":
-                    item = self.sourceSheet.item(int(sItem.split(",")[0]), int(sItem.split(",")[1]))
-                    if item is None:
-                        item = TableItem("")
-                        self.sourceSheet.setItem(int(sItem.split(",")[0]), int(sItem.split(",")[1]), item)
-                    self.sourceSheet.scrollToItem(item, QAbstractItemView.PositionAtCenter)
-                    self.sourceSheet.setRangeSelected(
-                        QTableWidgetSelectionRange(item.row(), item.column(), item.row(), item.column()), True)
+                    for coordinnate in sItem.split(";"):
+                        item = self.sourceSheet.item(int(coordinnate.split(",")[0]), int(coordinnate.split(",")[1]))
+                        if item is None:
+                            item = TableItem("")
+                            self.sourceSheet.setItem(int(sItem.split(",")[0]), int(sItem.split(",")[1]), item)
+                        self.sourceSheet.scrollToItem(item, QAbstractItemView.PositionAtCenter)
+                        self.sourceSheet.setRangeSelected(
+                            QTableWidgetSelectionRange(item.row(), item.column(), item.row(), item.column()), True)
     def focusLeftToRight(self):
         self.destSheet.clearSelection()
         indexes = self.sourceSheet.selectedIndexes()
@@ -388,9 +433,8 @@ class Tab(QWidget):
     def fillRight(self, filepath, sheetIndex):
         self.destSheet.fillSheetByExcelSheetIndex(filepath, sheetIndex)
 
-    def beginTranslate(self, filePath, xmlFilePath, templateFilePath):
-        if not self.destSheet.hasLoad():
-            self.fillRight(templateFilePath, 0)
+    #加载单元格格式
+    def beginTranslate(self, xmlFilePath):
         try:
             cfgItems = XETree.parse(xmlFilePath).getroot()
             for i in range(len(cfgItems)):
@@ -406,101 +450,25 @@ class Tab(QWidget):
 
 
     def __extractForKeyValue(self, cfgItem):
-        sNode = cfgItem.find('source')
         dNode = cfgItem.find('dest')
         dCols = dNode.attrib['cols']
-        anchors = sNode.attrib['anchor'].strip().split(';')
-        length = len(anchors)
-        beginCol = 0
-        beginRow = 0
-        sCols = sNode.attrib['cols']
-        isFind = 0;
         datatype = dNode.attrib['datatype']
-        tempcell = None
-        for i in range(length):
-            tempcell = self.__findStr(self.sourceSheet, anchors[i], beginRow, beginCol)
-            if tempcell is not None:
-                beginRow = tempcell.row()
-                beginCol = tempcell.column() + 1
-                if i == length - 1:
-                    isFind = 1
-        if isFind == 1:
-            sourceItem = self.sourceSheet.item(tempcell.row(), letterToint(sCols))
-            self.addMapValue(parseChar(dCols), str(sourceItem.row()) + "," + str(sourceItem.column()))
-            item = self.destSheet.item(int(re.sub(r"\D", "", dCols)) - 1, letterToint(re.sub(r"[^A-Z]", "", dCols)))
-            item.dataType = datatype
-            item.setFormatValue(sourceItem.text())
-            #item.setBackground(self.essentialColor)
-        if isFind ==0:
-            item = self.destSheet.item(int(re.sub(r"\D", "", dCols)) - 1, letterToint(re.sub(r"[^A-Z]", "", dCols)))
-            item.dataType = datatype
-            item.setFormatValue("")
-            item.setBackground(self.essentialColor)
+        item = self.destSheet.item(int(re.sub(r"\D", "", dCols)) - 1, letterToint(re.sub(r"[^A-Z]", "", dCols)))
+        item.dataType = datatype
+
 
     def __extractForTable(self, cfgItem):
-        endrow = 0
-        beginrow = 0
         error_str = ""
-        tempcell = self.__findStr(self.sourceSheet, cfgItem[0].attrib["anchor"], 0, 0)
-        if tempcell is None:
-            return
-        self.sourceSheet.rowsMark.append(tempcell.row() - 1)
         destBeginRow = int(cfgItem[1].attrib["beginrow"])
-        sList = cfgItem[0].attrib["cols"].split(',')
         dList = cfgItem[1].attrib["cols"].split(',')
         datatype = cfgItem[1].attrib["datatype"].split(',')
-        if len(sList) != len(dList):
-            error_str ="{0} :原列数{1}与目标列数{2}不一致".format( cfgItem.attrib["desc"], len(sList), len(dList))
-        elif len(sList) != len(datatype):
-            error_str ="{0} :原列数{1}与目标类型数{2}不一致".format( cfgItem.attrib["desc"], len(sList), len(datatype))
-        elif len(dList) != len(datatype):
-            error_str ="{0} :目标列数{1}与目标类型数{2}不一致".format( cfgItem.attrib["desc"], len(dList), len(datatype))
-        if error_str != "":
-            QMessageBox.warning(self, "错误", error_str, QMessageBox.Ok)
-            return
         for col in range(len(dList)):
             for row in range(int(cfgItem[1].attrib["limited"])):
                 item = self.destSheet.item(destBeginRow + row -1, letterToint(dList[col]))
-                if item is not None:
-                    #item.setBackground(self.essentialColor)
-                    item.dataType = datatype[col]
-        #如果差找不到，首行设置为NA
-        if tempcell is None:
-            for col in range(len(dList)):
-                item = self.destSheet.item(destBeginRow - 1, letterToint(dList[col]))
-                #item.dataType = datatype[col]
-                item.setText("NA")
-            return
-        # 判断在源文件中的起始行
-        beginrow = tempcell.row() + int(cfgItem[0].attrib["skiprows"]) + 1
-
-        # 判断结束行
-        # 如果范围已经确定，直接确定结束行
-        if cfgItem[0].attrib["range"] != "":
-            endrow = beginrow + int(cfgItem[0].attrib["range"]) - 1
-        # 范围不确定，根据下一行字符确定结束行
-        elif cfgItem[0].attrib["anchorend"] != "":
-            endcell = self.__findStr(self.sourceSheet, cfgItem[0].attrib["anchorend"], beginrow, 0)
-            if endcell is not None:
-                endrow = endcell.row()
-            else:
-                return
-        else:
-            # 找不到字符，则直到最后一个不为空行的为止
-            limited = 1
-            while self.sourceSheet.item(beginrow + limited, 0).text() != "" and self.sourceSheet.item(beginrow + limited, 0).text() is not None:
-                limited += 1
-            endrow = beginrow + limited - 1
-
-        #print(cfgItem[0].attrib["anchor"])
-        # 粘贴数据
-        for row in range(beginrow, endrow + 1):
-            for col in range(0, len(sList)):
-                sourceItem = self.sourceSheet.item(row, letterToint(sList[col]))
-                self.addMapValue(parseChar(dList[col] + str(destBeginRow + row - beginrow)), str(sourceItem.row()) + "," + str(sourceItem.column()))
-                item = self.destSheet.item(destBeginRow + row - beginrow - 1, letterToint(dList[col]))
-                #item.dataType = datatype[col]
-                item.setFormatValue(sourceItem.text())
+                if item is None:
+                    item = TableItem("")
+                    self.destSheet.setItem(destBeginRow + row - 1, letterToint(dList[col]), item)
+                item.dataType = datatype[col]
 
     def __findStr(self, sheet, key, startRow, startCol):
         for col in range(startCol, sheet.columnCount()):
@@ -539,52 +507,11 @@ class Tab(QWidget):
     def save(self):
         filepath = self.destFilepath
         if filepath == "":
-            if self.isDirectOutput:
-                outputdir = self.outputfolder
-                if not os.path.isdir(outputdir):
-                    reply = QMessageBox.warning(self, "警告", "请选择正确的输出路径", QMessageBox.Ok)
-                    if reply == QMessageBox.Ok:
-                        return None
-                else:
-                    filepath = os.path.join(outputdir, os.path.basename(self.filepath))
-            else:
-                fname = QFileDialog.getSaveFileName(self, '保存文件', self.filepath, filter="*.xlsx",)
-                if (fname[0]):
-                    filepath = fname[0]
-                else:
-                    return None
+            return
+        self.destSheet.save()
+        self.logGenerated.emit("已保存至： " + filepath)
+        self.setTabStatus(False)
 
-        templateFile = self.templateFilePath
-        if os.path.isfile(templateFile):
-            open(filepath, "wb").write(open(templateFile, "rb").read())
-            self.__save(filepath, 0)
-            self.logGenerated.emit("已保存至： " + filepath)
-            self.setTabStatus(False)
-        else:
-            QMessageBox.warning(self, "警告", "请选择正确的模板文件", QMessageBox.Ok)
-
-
-    def __save(self, filepath, sheetIndex):
-        if self.isChanged is not None:
-            self.destFilepath = filepath
-            workbok = openpyxl.load_workbook(filepath)
-            sheetNames = workbok.sheetnames
-            sheet = workbok[sheetNames[sheetIndex]]
-            for col in range(0, self.destSheet.columnCount()):
-                for row in range(0, self.destSheet.rowCount()):
-                    cell = self.destSheet.item(row, col)
-                    if cell is None:
-                        continue
-                    if cell.text() is not None and cell.text() != "":
-                        try:
-                            value = cell.text()
-                            if cell.dataType == "F":
-                                value = float(value)
-                            sheet[intToletter(col) + str(row + 1)].value = value
-                        except Exception as e:
-                            print(intToletter(col) + str(row))
-                            print(e)
-            workbok.save(filepath)
 
     def keyPressEvent(self, event: QKeyEvent):
         super().keyPressEvent(event)
@@ -616,6 +543,9 @@ class Sheet(QTableWidget):
     def __init__(self):
         super().__init__()
         self.__hasload = False
+        self.filePath = ""
+        self.sheetIndex = None
+        self.sheetName = None
         self.rowsMark.append(0)
         self.setColumnCount(10)
         self.setRowCount(30)
@@ -634,10 +564,13 @@ class Sheet(QTableWidget):
         event.accept()
     
     def fillSheetByExcelSheetIndex(self, filepath, sheetIndex):
+
         try:
             workbok = openpyxl.load_workbook(filepath)
             sheetNames = workbok.sheetnames
             self.__fileSheetByWorkBook(workbok[sheetNames[sheetIndex]])
+            self.filePath = filepath
+            self.sheetName = sheetNames[sheetIndex]
         except Exception as e:
             QMessageBox.critical(self, "错误", "解析文件发生错误: " + str(e), QMessageBox.Ok)
 
@@ -645,6 +578,9 @@ class Sheet(QTableWidget):
         try:
             workbok = openpyxl.load_workbook(filepath)
             self.__fileSheetByWorkBook(workbok[sheetName])
+            self.filePath = filepath
+            self.sheetName = sheetName
+
         except Exception as e:
             QMessageBox.critical(self, "错误", "解析文件发生错误：" + str(e), QMessageBox.Ok)
 
@@ -733,7 +669,24 @@ class Sheet(QTableWidget):
             for i in range(current_column, columns):
                 self.setColumnWidth(i, 110)
 
-
+    def save(self):
+        workbok = openpyxl.load_workbook(self.filePath)
+        sheet = workbok[self.sheetName]
+        for col in range(0, self.columnCount()):
+            for row in range(0, self.rowCount()):
+                cell = self.item(row, col)
+                if cell is None:
+                    continue
+                if cell.text() is not None and cell.text() != "":
+                    try:
+                        value = cell.text()
+                        if cell.dataType == "F":
+                            value = float(value)
+                        sheet[intToletter(col) + str(row + 1)].value = value
+                    except Exception as e:
+                        print(intToletter(col) + str(row))
+                        print(e)
+        workbok.save(self.filePath)
 
 
 class TableItem(QTableWidgetItem):
@@ -810,7 +763,6 @@ class TableItem(QTableWidgetItem):
         elif self.dataType == 'P':
             flag = re.search(persentige, value)
         elif self.dataType == 'S':
-            self.setBackground(normalColor)
             return True
         else:
             flag = re.search(num, value)
@@ -871,3 +823,9 @@ def HexToRgb(tmp):
     rgb["g"] = 255 - int(opt[1], 16)
     rgb["b"] = 255 - int(opt[2], 16)
     return rgb
+#rgb字符串转Qcolor对象
+def getColor(colorString):
+    r = int(colorString.split(",")[0])
+    g = int(colorString.split(",")[1])
+    b = int(colorString.split(",")[2])
+    return QColor(r, g, b)

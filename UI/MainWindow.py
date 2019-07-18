@@ -6,6 +6,7 @@
 import os
 import xml.etree.ElementTree as XETree
 import shutil
+from Action.Action import Action
 
 from FileTranslator import template as fileTranslator
 from PyQt5 import QtCore, QtWidgets, QtGui
@@ -13,7 +14,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from UI import WorkTab
-from UI.Dialog import Dialog
+from UI.FillData import FillData
 
 class MainWindow(QMainWindow):
     str_WindowName = "ExcelTranslator"
@@ -34,7 +35,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.window_width = 1280
         self.window_height = 760
-        self.dialog = Dialog(self)
         self.initConfig()
         self.initUI()
     # 初始化窗口界面
@@ -55,13 +55,6 @@ class MainWindow(QMainWindow):
         self.workTab.setObjectName("workTab")
         self.workTab.setGeometry(QtCore.QRect(0, 0, self.screen_width - 40, self.screen_height - 170))
         self.workTab.setParent(self)
-
-
-        #添加新标签
-        self.tabarray[0] = WorkTab.Tab()
-        self.workTab.addTab(self.tabarray[0],QIcon("Resource/icon/Icon_tag.ico"), "New")
-        #self.tabarray[0].fillLeft(r"C:\Users\HHH\Desktop\逾期资产列表.xlsx", 0)
-        self.tabarray[0].setObjectName("NewTab")
 
 
         # self.scorllTextEdit = QScrollArea()
@@ -310,10 +303,6 @@ class MainWindow(QMainWindow):
         self.statusBar()
 
 
-        #新建任务对话框
-        self.dialog.hide()
-        self.dialog.raise_()
-        self.dialog.submitted.connect(self.addTab)
 
         #恢复控件状态
         setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
@@ -338,7 +327,8 @@ class MainWindow(QMainWindow):
         self.show()
         self.showMaximized()
 
-        #self.dialog.setGeometry((self.maximumSize().width() - 500)/2,(self.maximumSize().height()-800)/2, 500, 800 )
+
+        #fillDataDialog.setGeometry((self.maximumSize().width() - 500)/2,(self.maximumSize().height()-800)/2, 500, 800 )
 
 
     # 主窗口居中显示
@@ -346,6 +336,7 @@ class MainWindow(QMainWindow):
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
+
     def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
         super().resizeEvent(event)
         self.window_width = event.size().width()
@@ -382,10 +373,14 @@ class MainWindow(QMainWindow):
 
     # open
     def new(self):
-        self.dialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
-        self.dialog.setFixedSize(500, 500)
+        #新建任务对话框
+        fillDataDialog = FillData(self)
+        fillDataDialog.raise_()
+        fillDataDialog.submitted.connect(self.newAction)
 
-        self.dialog.show()
+        fillDataDialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
+        fillDataDialog.setFixedSize(500, 500)
+        fillDataDialog.show()
 
     def run(self):
         currentTab = self.workTab.currentWidget()
@@ -428,37 +423,12 @@ class MainWindow(QMainWindow):
         #
         #     else:
         #         return
+    def newAction(self, actionCode, actionName, kwargs):
+        newtab = WorkTab.Tab(actionCode, actionName, kwargs)
+        self.workTab.addTab(newtab, QIcon("Resource/icon/Icon_tag.ico"), "actionName")
+        newtab.logGenerated.connect(self.appenText)
+        newtab.run()
 
-    def addTab(self, filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName, templatefile):
-        tab = self.workTab.findChild(WorkTab.Tab, filepath)
-        outputFolder = self.comboBox_outputfolder.currentText()
-        xmlfilepath = self.comboBox_xmlFIle.currentData()
-        templatefile = self.comboBox_templatefile.currentData()
-        xmlfileName = self.comboBox_xmlFIle.currentText()
-        templatefileName = self.comboBox_templatefile.currentText()
-        if tab is not None:
-            self.workTab.setCurrentWidget(tab)
-        elif self.workTab.currentWidget()is not None and self.workTab.currentWidget().objectName() == "NewTab":
-            tab = self.workTab.currentWidget()
-            self.workTab.setTabText(self.workTab.indexOf(tab), os.path.basename(filepath))
-            tab.initProperty("内容填充", filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName,
-                             templatefile, self.checkBox_directOutput.checkState() == 2)
-            tab.fillLeft(0)
-            tab.setObjectName(filepath)
-            self.workTab.setTabToolTip(self.workTab.indexOf(tab), filepath)
-            tab.logGenerated.connect(self.appenText)
-        else:
-            newtab = WorkTab.Tab()
-            self.workTab.addTab(newtab, QIcon("Resource/icon/Icon_tag.ico"), os.path.basename(filepath))
-            newtab.initProperty("内容填充", filepath, outputFolder, xmlfileName, xmlfilepath, templatefileName,
-                                templatefile, self.checkBox_directOutput.checkState() == 2)
-            newtab.fillLeft(0)
-            newtab.setObjectName(filepath)
-            newtab.logGenerated.connect(self.appenText)
-            self.workTab.setCurrentWidget(newtab)
-            self.workTab.setTabToolTip(self.workTab.indexOf(newtab), filepath)
-        self.workTab.repaint()
-            # fileTranslator.main(foder_Exolorer, outputFolder, templatefile, xmlfilepath)
     def appenText(self, str):
         self.textEdit.append(str)
         self.textEdit.moveCursor(QTextCursor.End)
@@ -483,18 +453,6 @@ class MainWindow(QMainWindow):
         currentTab.save()
 
 
-
-
-
-    # copy
-    def copy(self):
-        cursor = self.textEdit.textCursor()
-        textSelected = cursor.selectedText()
-        self.copiedText = textSelected
-
-    # paste
-    def paste(self):
-        self.textEdit.append(self.copiedText)
 
     # cut
     def cut(self):
