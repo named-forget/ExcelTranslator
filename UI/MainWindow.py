@@ -39,6 +39,8 @@ class MainWindow(QMainWindow):
         self.initUI()
     # 初始化窗口界面
     def initUI(self):
+        #设置样式
+        self.setStyleSheet(open("UI/MainWindow.qss", 'r').read())
         #获取屏幕尺寸
         screen = QDesktopWidget().screenGeometry()
         self.screen_width = screen.width()
@@ -291,9 +293,9 @@ class MainWindow(QMainWindow):
                                               'margin-bottom:5px;')
         # self.self.openAction_OutputFolder.setContentsMargins(15,0,0,0)
         self.checkBox_directOutput.setStyleSheet("margin-left:15px;padding:5px")
-        self.openAction_OutputFolder.setStyleSheet("margin-left:15px;padding:5px")
-        self.button_ViewTemplateFile.setStyleSheet("margin-left:15px;padding:8px")
-        self.button_ViewXml.setStyleSheet("margin-left:15px;padding:8px")
+        # self.openAction_OutputFolder.setStyleSheet("margin-left:15px;padding:5px")
+        # self.button_ViewTemplateFile.setStyleSheet("margin-left:15px;padding:8px")
+        # self.button_ViewXml.setStyleSheet("margin-left:15px;padding:8px")
 
         self.comboBox_outputfolder.setStyleSheet("width:200px;padding:5px")
         self.comboBox_templatefile.setStyleSheet("width:200px;padding:5px")
@@ -374,6 +376,7 @@ class MainWindow(QMainWindow):
     # open
     def new(self):
         #新建任务对话框
+
         fillDataDialog = FillData(self)
         fillDataDialog.raise_()
         fillDataDialog.submitted.connect(self.newAction)
@@ -381,6 +384,7 @@ class MainWindow(QMainWindow):
         fillDataDialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
         fillDataDialog.setFixedSize(500, 500)
         fillDataDialog.show()
+
 
     def run(self):
         currentTab = self.workTab.currentWidget()
