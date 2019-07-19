@@ -1,5 +1,5 @@
 <Actions>
-    <Action AcitonName = "内容填充" ActionCode = "FillData">
+    <Action Id = "1" AcitonName = "内容填充" ActionCode = "FillData">
         <Variable VariableName = "PythonFile" ParameterName = "" Value = "template.py" IsParameter = "False"/>
         <Variable VariableName = "XmlFile" ParameterName = "XmlFile" Value = "FileTranslator/template.py" IsParameter = "False"/>
         <Variable VariableName = "MethodName" ParameterName = "" Value = "main" IsParameter = "False"/>

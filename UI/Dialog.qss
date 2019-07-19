@@ -51,12 +51,19 @@ QVBoxLayount{
     image: url(Resource/icon/Icon_drop_down.ico);
 }
 
-#body QComboBox QAbstractItemView {
-    min-height:30px;
-    border: 1px solid #F3F5FA;
+/*#body QComboBox QAbstractItemView {*/
+/*    min-height:30px;*/
+/*    border: 1px inset #F3F5FA;*/
+/*    background-color:white;*/
+/*}*/
+#body QComboBox QAbstractItemView::item{
+    height:30px;
     background-color:white;
-    selection-color:black;
-    selection-background-color: #F3F5FA;
+    border:1px solid #E6E6E6;
+}
+#body QComboBox QAbstractItemView::item:selected{
+    color:black;
+    background-color: #F3F5FA;
 }
 
 #body QLineEdit{
@@ -71,5 +78,6 @@ QVBoxLayount{
     margin-right: 205px;
     margin-bottom: 40px
 }
+
 
 

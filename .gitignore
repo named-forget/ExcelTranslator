@@ -1,6 +1,5 @@
 *.xlsx
 *.pyc
-*.xml
 *.ini
 
 texteditor.py

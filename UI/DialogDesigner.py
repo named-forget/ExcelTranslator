@@ -12,12 +12,6 @@ class Ui_Main(object):
     def setupUi(self, Main):
         Main.setObjectName("Main")
         Main.resize(801, 707)
-        Main.setStyleSheet("#Main QWidget{background-color: rgb(255, 255, 235);\n"
-"border:3px solid rgb(0, 0, 232)}\n"
-"QVBoxLayount{background-color: rgb(255, 255, 235);}\n"
-"#Main{background-color: rgb(255, 255, 255);}\n"
-"#title {max-height:40px;min-height:40px}\n"
-"#bottom {max-height:100px;min-height:40px;margin-bottom:15px}")
         self.layoutWidget = QtWidgets.QWidget(Main)
         self.layoutWidget.setGeometry(QtCore.QRect(-10, 0, 811, 711))
         self.layoutWidget.setObjectName("layoutWidget")

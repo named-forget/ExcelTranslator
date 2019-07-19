@@ -12,6 +12,7 @@ from PyQt5.QtGui import *
 import os
 import xml.etree.ElementTree as XETree
 import shutil
+from UI.StyleComboBox import StyledComboBox
 
 class FillData(QDialog):
     submitted = pyqtSignal(str, str, dict)
@@ -64,7 +65,7 @@ class FillData(QDialog):
         self.label_OutputFolder.setAlignment(Qt.AlignCenter)
         self.label_OutputFolder.setObjectName("label_OutputFolder")
 
-        self.comboBox_outputfolder = QComboBox()
+        self.comboBox_outputfolder = StyledComboBox()
         self.comboBox_outputfolder.setEditable(False)
         self.comboBox_outputfolder.setObjectName("comboBox_outputfolder")
         self.comboBox_outputfolder.addItem("新增输出目录...", "New")
@@ -79,7 +80,7 @@ class FillData(QDialog):
         self.label_xmlFIle.setAlignment(Qt.AlignCenter)
         self.label_xmlFIle.setObjectName("label_xmlFIle")
 
-        self.comboBox_xmlFIle = QComboBox()
+        self.comboBox_xmlFIle = StyledComboBox()
         self.comboBox_xmlFIle.setEditable(False)
         self.comboBox_xmlFIle.setObjectName("comboBox_xmlFIle")
         self.comboBox_xmlFIle.addItem("新增方案...", "New")
@@ -88,13 +89,12 @@ class FillData(QDialog):
         self.initComboBox(self.str_xmlFIle, self.comboBox_xmlFIle)
         self.comboBox_xmlFIle.setCurrentIndex(1)
         self.comboBox_xmlFIle.currentIndexChanged.connect(lambda: self.EventCombox_Output(self.comboBox_xmlFIle, self.str_xmlFIle))
-
         #模板
         self.label_templatefile = QLabel(text="目标文件：")
         self.label_templatefile.setAlignment(Qt.AlignCenter)
         self.label_templatefile.setObjectName("label_templatefile")
 
-        self.comboBox_templatefile = QComboBox()
+        self.comboBox_templatefile = StyledComboBox()
         self.comboBox_templatefile.setEditable(False)
         self.comboBox_templatefile.setObjectName("comboBox_templatefile")
         self.comboBox_templatefile.addItem("新增目标模板文件...", "New")
@@ -136,10 +136,12 @@ class FillData(QDialog):
 
 
     def initComboBox(self, section, combobox):
+
         isExistsSection = False
         tree = XETree.parse(self.configFilePath)
         node = tree.getroot().find(section)
         items = node.getchildren()
+        model = combobox.model()
         for i in range(0, len(items)):
             if section == self.str_xmlFIle:
                 combobox.addItem(items[i].attrib["Name"], items[i].text)
@@ -150,6 +152,7 @@ class FillData(QDialog):
 
     def EventCombox_Output(self, combobox, flag):
         folder_Exolorer = ""
+        print(combobox.currentText(), combobox.currentData())
         if combobox.currentData() == "New":
             if flag != self.str_OutputFolder:
                 if flag == self.str_templatefile:

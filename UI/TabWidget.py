@@ -186,6 +186,8 @@ class Tab(QWidget):
         self.destWidget = QWidget()
         self.sourceSheet = Sheet()
         self.destSheet = Sheet()
+        self.sourceSheet.init()
+        self.destSheet.init()
         self.__map = dict()
 
         self.gridLayout = QGridLayout()
@@ -224,14 +226,20 @@ class Tab(QWidget):
         self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
                                        "selection-background-color: rgb(85, 170, 255);")
 
-        self.action_PasteNotFormat = QAction("粘贴（匹配目标格式）")
+        self.action_Copy = QAction("复制")
+        self.action_PasteAndFormat = QAction("粘贴（匹配目标格式）")
+        self.action_PasteNotFormat = QAction("粘贴（保留原格式）")
         self.action_PasteAndTranspositionNotFormat = QAction("转置粘贴（保留原格式）")
         self.action_PasteAndTranspositionAndFormat = QAction("转置粘贴（匹配目标格式）")
 
+        self.contextMenu.addAction(self.action_Copy)
+        self.contextMenu.addAction(self.action_PasteAndFormat)
         self.contextMenu.addAction(self.action_PasteNotFormat)
         self.contextMenu.addAction(self.action_PasteAndTranspositionNotFormat)
         self.contextMenu.addAction(self.action_PasteAndTranspositionAndFormat)
 
+        self.action_Copy.triggered.connect(lambda :self.copy())
+        self.action_PasteAndFormat.triggered.connect(lambda: self.paste(True, False))
         self.action_PasteNotFormat.triggered.connect(lambda: self.paste(False, False))
         self.action_PasteAndTranspositionNotFormat.triggered.connect(lambda: self.paste(False, True))
         self.action_PasteAndTranspositionAndFormat.triggered.connect(lambda: self.paste(True, True))
@@ -331,11 +339,16 @@ class Tab(QWidget):
                     clip_coordinate += "{0},{1}".format(rowset[i], colset[j])
 
             clip_str += clip_coordinate
+
             #发送到剪切板
-            win32clipboard.OpenClipboard()
-            win32clipboard.EmptyClipboard()
-            win32clipboard.SetClipboardData(win32con.CF_UNICODETEXT, clip_str)
-            win32clipboard.CloseClipboard()
+            try:
+                win32clipboard.OpenClipboard()
+                win32clipboard.EmptyClipboard()
+                win32clipboard.SetClipboardData(win32con.CF_UNICODETEXT, clip_str)
+                win32clipboard.CloseClipboard()
+            except Exception as e:
+                QMessageBox.critical(self, "错误", e, QMessageBox.Ok)
+
         return
             
     def paste(self, format = True, transposition = False):
@@ -515,6 +528,7 @@ class Tab(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         super().keyPressEvent(event)
+        #删除
         if event.key() == Qt.Key_Delete:
             widget = self.focusWidget()
             if type(widget) == Sheet:
@@ -531,7 +545,14 @@ class Tab(QWidget):
                     if widget == self.sourceSheet:
                          if coordinnate in self.__map.values():
                              self.__map.pop(list(self.__map.keys())[list(self.__map.values()).index(coordinnate)])
-
+            return
+        #复制
+        if event.key() == Qt.Key_C and event.modifiers() == Qt.ControlModifier:
+            self.copy()
+            return
+        if event.key() == Qt.Key_V and event.modifiers() == Qt.ControlModifier:
+            self.paste()
+            return
     def setTabStatus(self, status):
         self.isChanged = status
         self.signal_changed.emit(self, status)
@@ -547,6 +568,10 @@ class Sheet(QTableWidget):
         self.sheetIndex = None
         self.sheetName = None
         self.rowsMark.append(0)
+        self.horizontalScrollBar().setStyleSheet("height:25px;background-color: rgb(222, 222, 222);")
+        self.verticalScrollBar().setStyleSheet("width:25px;background-color: rgb(222, 222, 222);")
+        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+    def init(self):
         self.setColumnCount(10)
         self.setRowCount(30)
         for i in range(0, 10):
@@ -555,9 +580,7 @@ class Sheet(QTableWidget):
         for i in range(0, 30):
             item = TableItem(value=str(i+1))
             self.setVerticalHeaderItem(i, item)
-        self.horizontalScrollBar().setStyleSheet("height:25px;background-color: rgb(222, 222, 222);")
-        self.verticalScrollBar().setStyleSheet("width:25px;background-color: rgb(222, 222, 222);")
-        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         super().mouseReleaseEvent(event)
         self.mouseReleased.emit()
@@ -598,6 +621,19 @@ class Sheet(QTableWidget):
             for i in range(current_columnCount, column + 1):
                 self.setHorizontalHeaderItem(i, TableItem(intToletter(i)))
         super().setItem(row, column, item)
+
+    def setCellWidget(self, row: int, column: int, widget: QWidget) -> None:
+        current_rowCount = self.rowCount()
+        current_columnCount = self.columnCount()
+        if row > current_rowCount  - 1:
+            self.setRowCount(row + 1)
+            for i in range(current_rowCount, row + 1):
+                self.setVerticalHeaderItem(i, TableItem(str(i+1)))
+        if column > current_columnCount  - 1:
+            self.setColumnCount(column + 1)
+            for i in range(current_columnCount, column + 1):
+                self.setHorizontalHeaderItem(i, TableItem(intToletter(i)))
+        super().setCellWidget(row, column, widget)
 
 
 
@@ -829,3 +865,20 @@ def getColor(colorString):
     g = int(colorString.split(",")[1])
     b = int(colorString.split(",")[2])
     return QColor(r, g, b)
+
+def indent(elem, level=0):
+        i = "\n" + level * "\t"
+        if len(elem):
+            if not elem.text or not elem.text.strip():
+                elem.text = i + "\t"
+            if not elem.tail or not elem.tail.strip():
+                elem.tail = i
+            for elem in elem:
+                indent(elem, level + 1)
+            if not elem.tail or not elem.tail.strip():
+                elem.tail = i
+        else:
+            if level and (not elem.tail or not elem.tail.strip()):
+                elem.tail = i
+
+

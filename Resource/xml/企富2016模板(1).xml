@@ -1,0 +1,20 @@
+﻿    <!-- IsTable 为 True时 -->
+	<!-- anchor 为定位单元格的关键字 -->
+	<!-- skiprows 为anchor 到表数据第一行的间隔，如果anchor定位的就是首行，那么skiprows = -1 -->
+	<!-- range 为表格长度，可以为空 -->
+	<!-- anchorend 当range为空时生效，用于定位数据最后一行的下一行的关键字，如数据到52行为止，则anchorend填写定位53行的关键字 -->
+	<!-- 当range anchorend都为空时，从首行一直到下一个空行为止为数据区域 -->
+	<!-- cols 表示需要获取数据的列，逗号分隔 -->
+	<!-- 合并的单元格填第一列即可 -->
+	<!-- IsTable 为false时， -->
+	<mapping input="C:\Users\HHH\Documents\HHH\橙易2016年第一期持证抵押贷款资产支持证券 - 副本" 
+             output = "C:\Users\HHH\Documents\HHH\result" 
+             template="C:\Users\HHH\Documents\HHH\受托报告导入模板-新.xlsx" writelog="0">
+			 
+		<item desc="资产池情况" istable="false" keyword = "前合计(收入)">
+            <source  anchor="收入账;利息;合计"  cols="D" > </source>
+			<dest cols = "L30" datatype ="F"></dest>
+        </item>
+	
+    </mapping>
+	

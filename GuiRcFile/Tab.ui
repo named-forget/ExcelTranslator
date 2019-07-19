@@ -132,6 +132,12 @@
           </color>
          </brush>
         </property>
+        <property name="checkState">
+         <enum>Unchecked</enum>
+        </property>
+        <property name="flags">
+         <set>NoItemFlags</set>
+        </property>
        </item>
        <item row="0" column="1">
         <property name="text">
@@ -155,6 +161,9 @@
        <item row="1" column="1">
         <property name="text">
          <string>321</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled|ItemIsTristate</set>
         </property>
        </item>
       </widget>

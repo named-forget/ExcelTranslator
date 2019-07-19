@@ -1,41 +1,41 @@
-QPushButton{
+#MainWindow{
     background-color: white;
-    border:1px solid #484EED;
-    border-radius: 3px;
-    max-height: 25px;
-    font: bold 14px;
-    padding-top: -1px;
-    padding-bottom: -1px;
-    padding-left: 1px;
-    padding-right: 1px;
-    margin-left: 5px;
 }
-QPushButton:pressed {
-    background-color: rgb(224, 0, 0);
-    border-style: inset;
+#MainWindow>QWidget{background-color: rgb(255, 255, 255);}
+
+#MainWindow WorkTab{
+    height: 800px;
+
 }
-QPushButton::menu-indicator {
-    image: url(myindicator.png);
-    subcontrol-position: right center;
-    subcontrol-origin: padding;
-    left: -2px;
+#MainWindow QPushButton{
+    background-color: #5867a6;
+    min-width: 90px;
+    min-height: 30px;
+    max-width: 90px;
+    max-height: 30px;
+
+    color: #FFFFFF;
+    border:3px solid #F3F5FA;
+    border-radius:2px
 }
-QComboBox{
-border:0px;
-background-color:transparent;
-color:#333333;
+#Setting{
+    background-color: #FFFFFF;
+    border:1px solid #E6E6E6;
+    max-width:320px;
+    min-width:320px;
+    max-height:30px
 }
-QComboBox::down-arrow{
-image:none;
+#Setting::drop-down{
+    width:25px;
+    image: url(Resource/icon/Icon_drop_down.ico);
 }
-QComboBox::drop-down{
-width:0px;
-border:0px;
+
+#Setting QAbstractItemView::item{
+    height:30px;
+    background-color:white;
+    border:1px solid #E6E6E6;
 }
-QComboBox QAbstractItemView {
-color:#333333;
-border: 1px solid #DDDDDD;
-background-color:white;
-selection-color:white;
-selection-background-color: rgb(0, 102, 96);
+#Setting QAbstractItemView::item:selected{
+    color:black;
+    background-color: #F3F5FA;
 }
