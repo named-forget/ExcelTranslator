@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
     xmlFolderPath = os.getcwd() + "/Resource/xml"
     templateFoldetPath = os.getcwd() + "/Resource/templateFile"
     configFilePath = os.path.join(configFileDirectory, configFileName)
-    Settings = ["配置管理", "模板管理", "方案管理", "任务管理"]
+    Settings = ["配置管理", "方案管理", "模板管理", "任务管理"]
     #屏幕尺寸
     screen_width = 0
     screen_height = 0
@@ -240,7 +240,7 @@ class MainWindow(QMainWindow):
     def new(self):
         #新建任务对话框
 
-        fillDataDialog = FillData(self)
+        fillDataDialog = FillData(self, 0)
         fillDataDialog.raise_()
         fillDataDialog.submitted.connect(self.newAction)
 
@@ -249,7 +249,13 @@ class MainWindow(QMainWindow):
         fillDataDialog.show()
 
     def multiRun(self):
-        return
+        fillDataDialog = FillData(self, 1)
+        fillDataDialog.raise_()
+        fillDataDialog.submitted.connect(self.newAction)
+
+        fillDataDialog.setGeometry((self.window_width - 500) / 2, (self.window_height - 500) / 2, 500, 500)
+        fillDataDialog.setFixedSize(500, 500)
+        fillDataDialog.show()
 
     def run(self):
         currentTab = self.currentWidget()

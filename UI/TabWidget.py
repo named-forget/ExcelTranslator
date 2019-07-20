@@ -10,6 +10,7 @@ import win32clipboard
 import win32con
 import numpy as np
 from Action.Action import Action
+import sip
 
 class WorkTab(QTabWidget):
 
@@ -128,7 +129,97 @@ class Tab(QWidget):
         self.parameters = parameters
         self.initUI()
 
+    def initUI(self):
+        # 记录哪些单元格被标记了颜色
+        self.souce_markItem = []
+        self.dest_markItem = []
+
+        self.setStyleSheet("background:white;")
+        self.sourceWidget = QWidget()
+        self.destWidget = QWidget()
+        self.__map = dict()
+
+        self.gridLayout = QGridLayout()
+        self.setLayout(self.gridLayout)
+
+        self.titleBar = QLabel()
+        self.gridLayout.addWidget(self.titleBar, 1, 0)
+
+        self.resultxml_comboBox = QComboBox()
+        self.gridLayout.addWidget(self.resultxml_comboBox, 0, 0)
+        self.resultxml_comboBox.currentIndexChanged.connect(self.initProperty)
+
+        self.horizontalSplitter = QSplitter(Qt.Horizontal, self)
+        self.horizontalSplitter.addWidget(self.sourceWidget)
+        self.horizontalSplitter.addWidget(self.destWidget)
+        self.horizontalSplitter.setStyleSheet("height:100%")
+
+        self.gridLayout .addWidget(self.horizontalSplitter, 2, 0)
+        # table = Widget()
+        # self.gridLayout.addWidget(table, 0, 1)
+
+        #self.vbox.setDirection(0)
+
+        self.sbox = QVBoxLayout()
+        self.sourceWidget.setLayout(self.sbox)
+
+        self.dbox = QVBoxLayout()
+        self.destWidget.setLayout(self.dbox)
+
+        #添加右键粘贴菜单
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.__showMenu)
+        self.contextMenu = QMenu(self)
+        self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
+                                       "selection-background-color: rgb(85, 170, 255);")
+
+        self.action_Copy = QAction("复制")
+        self.action_PasteAndFormat = QAction("粘贴（匹配目标格式）")
+        self.action_PasteNotFormat = QAction("粘贴（保留原格式）")
+        self.action_PasteAndTranspositionNotFormat = QAction("转置粘贴（保留原格式）")
+        self.action_PasteAndTranspositionAndFormat = QAction("转置粘贴（匹配目标格式）")
+
+        self.contextMenu.addAction(self.action_Copy)
+        self.contextMenu.addAction(self.action_PasteAndFormat)
+        self.contextMenu.addAction(self.action_PasteNotFormat)
+        self.contextMenu.addAction(self.action_PasteAndTranspositionNotFormat)
+        self.contextMenu.addAction(self.action_PasteAndTranspositionAndFormat)
+
+        self.action_Copy.triggered.connect(lambda :self.copy())
+        self.action_PasteAndFormat.triggered.connect(lambda: self.paste(True, False))
+        self.action_PasteNotFormat.triggered.connect(lambda: self.paste(False, False))
+        self.action_PasteAndTranspositionNotFormat.triggered.connect(lambda: self.paste(False, True))
+        self.action_PasteAndTranspositionAndFormat.triggered.connect(lambda: self.paste(True, True))
+
+        self.titleBar.setStyleSheet("margin-top:3px;margin-bottom:3px;max-height:30px")
+        self.titleBar.setText("新任务")
+
+        self.initSheet()
+        # self.sourceWidget.setStyleSheet("background-color: rgb(85, 170, 255);")
+        # self.destWidget.setStyleSheet("background-color: rgb(255, 135, 137);")
+
+    def initSheet(self):
+        self.sourceSheet = Sheet()
+        self.destSheet = Sheet()
+        self.sourceSheet.init()
+        self.destSheet.init()
+        self.dbox.addWidget(self.destSheet)
+        self.sbox.addWidget(self.sourceSheet)
+        self.sourceSheet.mouseReleased.connect(self.focusLeftToRight)
+        self.destSheet.mouseReleased.connect(self.focusRihtToLeft)
+
+        self.sourceSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(255,0,0);"
+                                       "background-color:rgba(255,0,0,130)};")
+        self.destSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(0,0,255);"
+                                     "background-color:rgba(0,0,255,130)};")
+
     def initProperty(self, index):
+        sip.delete(self.sourceSheet)
+        sip.delete(self.destSheet)
+        self.souce_markItem.clear()
+        self.dest_markItem.clear()
+        self.__map.clear()
+        self.initSheet()
         xmlfilePath = self.resultxml_comboBox.itemData(index)
         root = XETree.parse(xmlfilePath).getroot()
         mapping = root.find("./Mapping")
@@ -175,86 +266,6 @@ class Tab(QWidget):
             varable_xmlpath = self.parameters["XmlFile"]
             self.beginTranslate(varable_xmlpath)
 
-
-    def initUI(self):
-        # 记录哪些单元格被标记了颜色
-        self.souce_markItem = []
-        self.dest_markItem = []
-
-        self.setStyleSheet("background:white;")
-        self.sourceWidget = QWidget()
-        self.destWidget = QWidget()
-        self.sourceSheet = Sheet()
-        self.destSheet = Sheet()
-        self.sourceSheet.init()
-        self.destSheet.init()
-        self.__map = dict()
-
-        self.gridLayout = QGridLayout()
-        self.setLayout(self.gridLayout)
-
-        self.titleBar = QLabel()
-        self.gridLayout.addWidget(self.titleBar, 1, 0)
-
-        self.resultxml_comboBox = QComboBox()
-        self.gridLayout.addWidget(self.resultxml_comboBox, 0, 0)
-        self.resultxml_comboBox.currentIndexChanged.connect(self.initProperty)
-
-        self.horizontalSplitter = QSplitter(Qt.Horizontal, self)
-        self.horizontalSplitter.addWidget(self.sourceWidget)
-        self.horizontalSplitter.addWidget(self.destWidget)
-        self.horizontalSplitter.setStyleSheet("height:100%")
-
-        self.gridLayout .addWidget(self.horizontalSplitter, 2, 0)
-        # table = Widget()
-        # self.gridLayout.addWidget(table, 0, 1)
-
-        #self.vbox.setDirection(0)
-
-        self.sbox = QVBoxLayout()
-        self.sbox.addWidget(self.sourceSheet)
-        self.sourceWidget.setLayout(self.sbox)
-
-        self.dbox = QVBoxLayout()
-        self.dbox.addWidget(self.destSheet)
-        self.destWidget.setLayout(self.dbox)
-
-        #添加右键粘贴菜单
-        self.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.__showMenu)
-        self.contextMenu = QMenu(self)
-        self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
-                                       "selection-background-color: rgb(85, 170, 255);")
-
-        self.action_Copy = QAction("复制")
-        self.action_PasteAndFormat = QAction("粘贴（匹配目标格式）")
-        self.action_PasteNotFormat = QAction("粘贴（保留原格式）")
-        self.action_PasteAndTranspositionNotFormat = QAction("转置粘贴（保留原格式）")
-        self.action_PasteAndTranspositionAndFormat = QAction("转置粘贴（匹配目标格式）")
-
-        self.contextMenu.addAction(self.action_Copy)
-        self.contextMenu.addAction(self.action_PasteAndFormat)
-        self.contextMenu.addAction(self.action_PasteNotFormat)
-        self.contextMenu.addAction(self.action_PasteAndTranspositionNotFormat)
-        self.contextMenu.addAction(self.action_PasteAndTranspositionAndFormat)
-
-        self.action_Copy.triggered.connect(lambda :self.copy())
-        self.action_PasteAndFormat.triggered.connect(lambda: self.paste(True, False))
-        self.action_PasteNotFormat.triggered.connect(lambda: self.paste(False, False))
-        self.action_PasteAndTranspositionNotFormat.triggered.connect(lambda: self.paste(False, True))
-        self.action_PasteAndTranspositionAndFormat.triggered.connect(lambda: self.paste(True, True))
-
-        self.sourceSheet.mouseReleased.connect(self.focusLeftToRight)
-        self.destSheet.mouseReleased.connect(self.focusRihtToLeft)
-
-        self.sourceSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(255,0,0);"
-                                       "background-color:rgba(255,0,0,130)};")
-        self.destSheet.setStyleSheet("QTableWidget::item::selected{border:3px solid rgb(0,0,255);"
-                                     "background-color:rgba(0,0,255,130)};")
-        self.titleBar.setStyleSheet("margin-top:3px;margin-bottom:3px;max-height:30px")
-        self.titleBar.setText("新任务")
-        # self.sourceWidget.setStyleSheet("background-color: rgb(85, 170, 255);")
-        # self.destWidget.setStyleSheet("background-color: rgb(255, 135, 137);")
     def run(self):
         action = Action(self.actionCode, self.parameters)
         log_str = ""
@@ -263,10 +274,11 @@ class Tab(QWidget):
         self.logGenerated.emit("开始执行任务：{0}".format(self.actionName) + log_str)
         #self.signal_changed.emit(self, True)
         result = action.runAciton()
+        #result = "FileTranslator/MappingXml/20190720_182549.xml"
         self.logGenerated.emit("执行完成")
 
         root = XETree.parse(result).getroot()
-        if root.attrib["multiply"] == "True":
+        if root.attrib["multiply"] == "true":
             for item in root.iter(tag = "filename"):
                 self.fillComboBox(item.attrib["path"])
         else:
@@ -880,5 +892,13 @@ def indent(elem, level=0):
         else:
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i
+
+def killWidget(widget):
+    for item in widget.children():
+        if len(item.children()) != 0:
+            killWidget(item)
+        else:
+            sip.delete(item)
+    sip.delete(widget)
 
 

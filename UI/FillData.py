@@ -16,8 +16,10 @@ from UI.StyleComboBox import StyledComboBox
 
 class FillData(QDialog):
     submitted = pyqtSignal(str, str, dict)
-    def __init__(self, parent):
+    #mode = 0，运行单个，=1 运行多个
+    def __init__(self, parent, mode):
         super().__init__(parent)
+        self.mode = mode
         self.str_templatefile = "templateFile"
         self.str_xmlFIle = "xmlFIle"
         self.str_OutputFolder = "OutputFolder"
@@ -164,7 +166,7 @@ class FillData(QDialog):
                     with f:
                         folder_Exolorer = f.name
             elif flag == "OutputFolder":
-                folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择输出文件夹", "")
+                folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
 
             if folder_Exolorer != "":
                 isExistsItem = False
@@ -214,13 +216,17 @@ class FillData(QDialog):
                                          os.path.join(self.templateFoldetPath,
                                                       os.path.basename(folder_Exolorer)))
                         combobox.setCurrentIndex(len(items) + 1)
-                    self.indent(node)
+                    #indent(node)
                     tree.write(self.configFilePath, encoding='utf-8', xml_declaration=True)
             else:
                 combobox.setCurrentIndex(1)
         # print(combobox.currentText())
 
     def open(self) -> None:
+        if self.mode == 1:
+            folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择输出文件夹", "")
+            self.lineEdit_selectFile.setText(folder_Exolorer)
+            return
         file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter=("*.xlsx"))
         if file_Exolorer[0]:
             self.lineEdit_selectFile.setText(file_Exolorer[0])

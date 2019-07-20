@@ -278,7 +278,6 @@ class ActionEdit(QDialog):
                 ele_Variable.set("IsParameter", isPara)
                 node.append(ele_Variable)
             else:
-                ele_Variable = XETree.Element("Variable")
                 ele_Variable.set("VariableName", VarName)
                 ele_Variable.set("ParameterName", parName)
                 ele_Variable.set("Value", value)

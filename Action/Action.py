@@ -7,24 +7,28 @@ class Action:
     configfilepath = "./Config/Actions.xml"
 
     def __init__(self, actionCode, kwargs):
+        self.actionCode = actionCode
         tree = XE.parse(self.configfilepath)
         root = tree.getroot()
-        self.actionConfig = root.find("Action[@ActionCode = '{0}']".format(actionCode))
-        for variable in self.actionConfig.iter(tag="Variable"):
+        actionConfig = root.find("Action[@ActionCode = '{0}']".format(actionCode))
+        for variable in actionConfig.iter(tag="Variable"):
             parameterName = variable.attrib["ParameterName"]
             if parameterName in kwargs:
                 variable.set("Value", kwargs[parameterName])
         self.createAction()
-        #tree.write(self.configfilepath, encoding='utf-8', xml_declaration=True)
+        tree.write(self.configfilepath, encoding='utf-8', xml_declaration=True)
 
     def createAction(self):
-        self.xmlFilePath = self.actionConfig.find("*[@VariableName = '{0}']".format("XmlFile")).attrib["Value"]
-        self.pyFile = self.actionConfig.find("*[@VariableName = '{0}']".format("PythonFile")).attrib["Value"]
-        self.methodName = self.actionConfig.find("*[@VariableName = '{0}']".format("MethodName")).attrib["Value"]
+        tree = XE.parse(self.configfilepath)
+        root = tree.getroot()
+        actionConfig = root.find("Action[@ActionCode = '{0}']".format(self,actionCode))
+        self.xmlFilePath = actionConfig.find("*[@VariableName = '{0}']".format("XmlFile")).attrib["Value"]
+        self.pyFile = actionConfig.find("*[@VariableName = '{0}']".format("PythonFile")).attrib["Value"]
+        self.methodName = actionConfig.find("*[@VariableName = '{0}']".format("MethodName")).attrib["Value"]
 
         tree = XE.parse(self.xmlFilePath)
         root = tree.getroot()
-        for variable in self.actionConfig.findall("*[@IsParameter = 'True']"):
+        for variable in actionConfig.findall("*[@IsParameter = 'True']"):
             root.set(variable.attrib["VariableName"], variable.attrib["Value"])
         tree.write(self.xmlFilePath, encoding='utf-8', xml_declaration=True)
 

@@ -89,6 +89,13 @@ class SettingManager(QDialog):
 
         self.initTableData()
         self.bodyLayout.addWidget(self.mainTable)
+    def openFile(self):
+        row = self.mainTable.selectedIndexes()[0].row()
+        file = self.mainTable.item(row, 1).toolTip()
+        if not os.path.lexists(file):
+            QMessageBox.critical(self, "错误", "文件不存在", QMessageBox.Ok)
+            return
+        os.startfile(file)
 
     def initTableData(self):
         tree = XETree.parse(self.configFilePath)
@@ -103,7 +110,7 @@ class SettingManager(QDialog):
             item = QPushButton()
             item.setText("查看")
             self.mainTable.setCellWidget(i, 2, item)
-            item.clicked.connect(lambda : os.startfile(items[i].text))
+            item.clicked.connect(lambda : self.openFile())
             self.count = i
 
         # 新增按钮
