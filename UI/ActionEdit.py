@@ -9,7 +9,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import os
+import shutil
 import xml.etree.ElementTree as XETree
 import sip
 from UI.TabWidget import *
@@ -100,24 +100,43 @@ class ActionEdit(QDialog):
     def initTableData(self):
         tree = XETree.parse(self.configFilePath)
         node = tree.getroot().find("Action[@ActionCode='{0}']".format(self.acitonCode))
+        #如果不存在该节点，即新增
+
         if node is None:
+            self.addPythonFileRow("", "")
+            self.addXmlFileRow("", "", "False")
             self.button_add = QPushButton()
             self.button_add.setText("新增")
             self.button_add.setObjectName("btn_add")
             self.button_add.clicked.connect(self.add)
             self.mainTable.setCellWidget(self.mainTable.rowCount(), 0, self.button_add)
             return
+        item = node.find("Variable[@VariableName='PythonFile']")
+        if item is not None:
+            self.addPythonFileRow(item.attrib["ParameterName"], item.attrib["Value"])
+        else:
+            self.addPythonFileRow("", "")
+        item = node.find("Variable[@VariableName='XmlFile']")
+        if item is not None:
+            self.addXmlFileRow(item.attrib["ParameterName"], item.attrib["Value"], item.attrib["IsParameter"])
+        else:
+            self.addXmlFileRow("", "", "False")
+
         items = node.findall("Variable")
         for i in range(0, len(items)):
-            item = TableItem(items[i].attrib["VariableName"])
+            count = self.mainTable.rowCount()
+            varName = items[i].attrib["VariableName"]
+            if varName == "XmlFile" or varName == "PythonFile":
+                continue
+            item = TableItem(varName)
             item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
             #item.setToolTip(items[i].text)
-            self.mainTable.setItem(i, 1, item)
+            self.mainTable.setItem(count, 1, item)
             item = TableItem(items[i].attrib["ParameterName"])
             item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
-            self.mainTable.setItem(i, 2, item)
+            self.mainTable.setItem(count, 2, item)
             item = TableItem(items[i].attrib["Value"])
-            self.mainTable.setItem(i, 3, item)
+            self.mainTable.setItem(count, 3, item)
 
             isParameter = items[i].attrib["IsParameter"]
             item = TableItem("")
@@ -125,11 +144,11 @@ class ActionEdit(QDialog):
                 item.setCheckState(Qt.Checked)
             else:
                 item.setCheckState(Qt.Unchecked)
-            self.mainTable.setItem(i, 4, item)
+            self.mainTable.setItem(count, 4, item)
             item = QPushButton()
             item.setText("编辑")
-            self.mainTable.setCellWidget(i, 0, item)
-            item.clicked.connect(lambda : self.seteditable(i))
+            self.mainTable.setCellWidget(count, 0, item)
+            item.clicked.connect(self.seteditable)
 
         # 新增按钮
         self.button_add = QPushButton()
@@ -137,6 +156,84 @@ class ActionEdit(QDialog):
         self.button_add.setObjectName("btn_add")
         self.button_add.clicked.connect(self.add)
         self.mainTable.setCellWidget(self.mainTable.rowCount(), 0, self.button_add)
+
+    def addPythonFileRow(self, paraName, value):
+        item = TableItem("PythonFile")
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsDragEnabled | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+        # item.setToolTip(items[i].text)
+        self.mainTable.setItem(0, 1, item)
+        item = TableItem(paraName)
+        self.mainTable.setItem(0, 2, item)
+        item = TableItem(value)
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsDragEnabled | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+        self.mainTable.setItem(0, 3, item)
+
+        isParameter = "False"
+        item = TableItem("")
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsDragEnabled | Qt.ItemIsEnabled)
+        if isParameter == "True":
+            item.setCheckState(Qt.Checked)
+        else:
+            item.setCheckState(Qt.Unchecked)
+        self.mainTable.setItem(0, 4, item)
+        item = QPushButton()
+        item.setText("选择文件")
+        self.mainTable.setCellWidget(0, 0, item)
+        item.clicked.connect(self.openPyFile)
+
+    def addXmlFileRow(self,paraName, value,isParameter):
+        item = TableItem("XmlFile")
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsDragEnabled | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+        # item.setToolTip(items[i].text)
+        self.mainTable.setItem(1, 1, item)
+        item = TableItem(paraName)
+        self.mainTable.setItem(1, 2, item)
+        item = TableItem(value)
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsDragEnabled | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+        self.mainTable.setItem(1, 3, item)
+
+        item = TableItem("")
+        if isParameter == "True":
+            item.setCheckState(Qt.Checked)
+        else:
+            item.setCheckState(Qt.Unchecked)
+        self.mainTable.setItem(1, 4, item)
+        item = QPushButton()
+        item.setText("选择文件")
+        self.mainTable.setCellWidget(1, 0, item)
+        item.clicked.connect(self.openXmlFile)
+
+
+    def openPyFile(self) -> None:
+        root = XETree.parse(self.configFilePath)
+        file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter="*.py")
+        filepath = ""
+        if file_Exolorer[0]:
+            filepath = file_Exolorer[0]
+            fileName = os.path.basename(filepath)
+            destPath = "FileTranslator" + "/" + fileName
+            if root.find("Variable[@Value='{0}']".format(destPath)) is not None:
+                QMessageBox.warning(self, "警告", "已添加同名文件", QMessageBox.Ok)
+                return
+            byte = open(filepath, "rb").read()
+            open(destPath, "wb").write(byte)
+            self.mainTable.item(0, 3).setText(fileName)
+
+    def openXmlFile(self) -> None:
+        root = XETree.parse(self.configFilePath)
+        file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter="*.xml")
+        filepath = ""
+        if file_Exolorer[0]:
+            filepath = file_Exolorer[0]
+            fileName = os.path.basename(filepath)
+            destPath = "FileTranslator" + "/" + fileName
+            if root.find("Variable[@Value='{0}']".format(destPath)) is not None:
+                QMessageBox.warning(self, "警告", "已添加同名文件", QMessageBox.Ok)
+                return
+            byte = open(filepath, "rb").read()
+            open(destPath, "wb").write(byte)
+            item = self.mainTable.item(1, 3)
+            item.setText(destPath)
 
     def add(self):
         count = self.mainTable.rowCount() -1
@@ -153,7 +250,7 @@ class ActionEdit(QDialog):
 
         self.mainTable.setCellWidget(count + 1, 0, self.button_add)
 
-    def seteditable(self, row):
+    def seteditable(self):
         row = self.mainTable.selectedIndexes()[0].row()
         self.mainTable.item(row, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled|Qt.ItemIsEditable)
         self.mainTable.item(row, 1).setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled|Qt.ItemIsEditable)
@@ -164,6 +261,7 @@ class ActionEdit(QDialog):
         if node is None:
             node = XETree.Element("Action")
             node.set("ActionCode", self.acitonCode)
+            tree.getroot().append(node)
         for row in range(self.mainTable.rowCount() -1):
             VarName = self.mainTable.item(row, 1).text()
             parName = self.mainTable.item(row, 2).text()
