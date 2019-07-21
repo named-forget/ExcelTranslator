@@ -71,7 +71,7 @@ class ActionEdit(QDialog):
         self.mainTable = Sheet()
         self.mainTable.setSelectionMode(QAbstractItemView.SingleSelection)
         # 初始化表头
-        self.mainTable.setColumnCount(5)
+        self.mainTable.setColumnCount(6)
         Item = QTableWidgetItem()
         Item.setText("变量名")
         self.mainTable.setHorizontalHeaderItem(1, Item)
@@ -87,6 +87,10 @@ class ActionEdit(QDialog):
         Item = QTableWidgetItem()
         Item.setText("是否常量")
         self.mainTable.setHorizontalHeaderItem(4, Item)
+
+        Item = QTableWidgetItem()
+        Item.setText("删除")
+        self.mainTable.setHorizontalHeaderItem(5, Item)
         self.mainTable.verticalHeader().hide()
         self.mainTable.setColumnWidth(0, 91)
         self.mainTable.setColumnWidth(1, 200)
@@ -149,6 +153,11 @@ class ActionEdit(QDialog):
             item.setText("编辑")
             self.mainTable.setCellWidget(count, 0, item)
             item.clicked.connect(self.seteditable)
+
+            item = QPushButton()
+            item.setText("删除")
+            self.mainTable.setCellWidget(count, 5, item)
+            item.clicked.connect(self.delete)
 
         # 新增按钮
         self.button_add = QPushButton()
@@ -248,12 +257,20 @@ class ActionEdit(QDialog):
         item.setCheckState(False)
         self.mainTable.setItem(count, 4, item)
 
+        item = QPushButton()
+        item.setText("删除")
+        self.mainTable.setCellWidget(count, 5, item)
+        item.clicked.connect(self.delete)
+
         self.mainTable.setCellWidget(count + 1, 0, self.button_add)
 
     def seteditable(self):
         row = self.mainTable.selectedIndexes()[0].row()
         self.mainTable.item(row, 2).setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled|Qt.ItemIsEditable)
         self.mainTable.item(row, 1).setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled|Qt.ItemIsEditable)
+    def delete(self):
+        row = self.mainTable.selectedIndexes()[0].row()
+        self.mainTable.removeRow(row)
 
     def submit(self):
         tree = XETree.parse(self.configFilePath)
@@ -262,6 +279,9 @@ class ActionEdit(QDialog):
             node = XETree.Element("Action")
             node.set("ActionCode", self.acitonCode)
             tree.getroot().append(node)
+        for item in node.getchildren():
+            node.remove(item)
+
         for row in range(self.mainTable.rowCount() -1):
             VarName = self.mainTable.item(row, 1).text()
             parName = self.mainTable.item(row, 2).text()
@@ -269,20 +289,13 @@ class ActionEdit(QDialog):
             isPara = "True" if self.mainTable.item(row, 4).checkState() == 2 else "False"
             if VarName == "":
                 continue
-            ele_Variable = node.find("Variable[@VariableName='{0}']".format(VarName))
-            if ele_Variable is None:
-                ele_Variable = XETree.Element("Variable")
-                ele_Variable.set("VariableName", VarName)
-                ele_Variable.set("ParameterName", parName)
-                ele_Variable.set("Value", value)
-                ele_Variable.set("IsParameter", isPara)
-                node.append(ele_Variable)
-            else:
-                ele_Variable.set("VariableName", VarName)
-                ele_Variable.set("ParameterName", parName)
-                ele_Variable.set("Value", value)
-                ele_Variable.set("IsParameter", isPara)
 
+            ele_Variable = XETree.Element("Variable")
+            ele_Variable.set("VariableName", VarName)
+            ele_Variable.set("ParameterName", parName)
+            ele_Variable.set("Value", value)
+            ele_Variable.set("IsParameter", isPara)
+            node.append(ele_Variable)
         indent(node)
         tree.write(self.configFilePath, encoding='utf-8', xml_declaration=True)
 

@@ -26,8 +26,6 @@ class MainWindow(QMainWindow):
     str_OutputFolder = "OutputFolder"
     configFileDirectory = "./Config"
     configFileName = "config.xml"
-    xmlFolderPath = os.getcwd() + "/Resource/xml"
-    templateFoldetPath = os.getcwd() + "/Resource/templateFile"
     configFilePath = os.path.join(configFileDirectory, configFileName)
     Settings = ["配置管理", "方案管理", "模板管理", "任务管理"]
     #屏幕尺寸
@@ -91,7 +89,7 @@ class MainWindow(QMainWindow):
         self.button_checkValue = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_run.ico'), '数值校验')
         self.button_checkValue.setText("数值校验")
         self.button_checkValue.setToolTip('数值校验')
-        self.button_checkValue.clicked.connect(self.run)
+        self.button_checkValue.clicked.connect(self.valueCheck)
 
         #批量运行
         self.button_multiRun = QtWidgets.QPushButton(QIcon("Resource/icon/Icon_multiRun.ico"), '批量运行')
@@ -229,11 +227,12 @@ class MainWindow(QMainWindow):
         templateManager.show()
 
     def showActionManager(self):
-        templateManager = AcitonManager(self, self.str_templatefile, self.Settings[1])
-        templateManager.raise_()
-        templateManager.setGeometry((self.window_width - 900) / 2, (self.window_height - 800) / 2, 905, 800)
-        templateManager.setFixedSize(905, 800)
-        templateManager.show()
+        actionManager = AcitonManager(self, self.str_templatefile, self.Settings[1])
+        actionManager.raise_()
+        actionManager.actionShowed.connect(self.newAction)
+        actionManager.setGeometry((self.window_width - 900) / 2, (self.window_height - 800) / 2, 905, 800)
+        actionManager.setFixedSize(905, 800)
+        actionManager.show()
 
         return
     # open
@@ -257,14 +256,12 @@ class MainWindow(QMainWindow):
         fillDataDialog.setFixedSize(500, 500)
         fillDataDialog.show()
 
-    def run(self):
-        currentTab = self.currentWidget()
-        #inputFile = self.button_checkValue.statusTip()
-        inputFile = currentTab.objectName()
-        if not os.path.isfile(inputFile):
-            QMessageBox.warning(self, '警告', '请先点击新建任务', QMessageBox.Yes)
+    def valueCheck(self):
+        folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择要校验的文件夹", "")
+        if folder_Exolorer == "":
             return
-        currentTab.run()
+        para = {"sourcefolder":folder_Exolorer}
+        self.newAction("ValueCheck" ,"数值校验", para)
 
 
     def newAction(self, actionCode, actionName, kwargs):

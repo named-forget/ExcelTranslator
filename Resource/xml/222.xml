@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<mapping input="C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券 - 副本/橙易2016年第一期持证抵押贷款证券化信托2016年11月受托机构月度报告（第9期）.xlsx" output="C:/Users/HHH/Documents/HHH/result" template="C:\Users\HHH\Documents\GitHub\ExcelTranslator/Resource/templateFile/受托报告导入模板-新.xlsx" writelog="0">
+<mapping input="C:/Users/HHH/Desktop/橙易2016年第一期持证抵押贷款资产支持证券 - 副本/橙易2016年第一期持证抵押贷款证券化信托2016年3月受托机构月度报告(第1期).xlsx" output="C:/Users/HHH/Desktop/结果" template="H:\PythonProject\ExcelTranslator/Resource/templateFile\受托报告导入模板-新.xlsx" writelog="0">
 			 
 		<item desc="资产池整体表现情况" istable="true" keyword="资产池整体表现情况">
             <source anchor="资产池整体表现" anchorend="" cols="A,B,C,D,E" range="6" skiprows="1"> </source>
@@ -18,43 +18,43 @@
             <dest beginrow="35" cols="A,B,C,D" datatype="D,F,F,F" limited="431" />
         </item>	
 		<item desc="累计违约率" istable="true" keyword="累计违约率">
-            <source anchor="累计违约率和严重拖欠" anchorend="" cols="B,C" range="" skiprows="1"> </source>
-            <dest beginrow="24" cols="U,V" datatype="D,P" limited="421" />
+            <source anchor="累计违约率和严重拖欠" anchorend="" cols="C" range="" skiprows="1"> </source>
+            <dest beginrow="24" cols="V" datatype="P" limited="421" />
         </item>	
 		<item desc="入池资产户數与金额特征" istable="true" keyword="入池资产户數与金额特征">
-            <source anchor="金额特征" anchorend="" cols="B,C,D" range="5" skiprows="1"> </source>
-            <dest beginrow="24" cols="P,Q,R" datatype="F,F,F" limited="5" />
+            <source anchor="金额特征" anchorend="" cols="D" range="5" skiprows="1"> </source>
+            <dest beginrow="24" cols="R" datatype="F" limited="5" />
         </item>	
 		<item desc="入池资产期限特征" istable="true" keyword="入池资产期限特征">
-            <source anchor="期限特征" anchorend="" cols="B,C,D" range="5" skiprows="1"> </source>
-            <dest beginrow="32" cols="P,Q,R" datatype="F,F,F" limited="5" />
+            <source anchor="期限特征" anchorend="" cols="D" range="5" skiprows="1"> </source>
+            <dest beginrow="32" cols="R" datatype="F" limited="5" />
         </item>	
 		<item desc="利率特征" istable="true" keyword="利率特征">
-            <source anchor="利率特征" anchorend="" cols="B,C,D" range="3" skiprows="1"> </source>
-            <dest beginrow="40" cols="P,Q,R" datatype="P,F,P" limited="3" />
+            <source anchor="利率特征" anchorend="" cols="D" range="3" skiprows="1"> </source>
+            <dest beginrow="40" cols="R" datatype="P" limited="3" />
         </item>	
-		
-			
-			
-		
-		
-			
-			
-		
+		<item desc="资产池情况" istable="false">
+			<source anchor="收入分账户;合计" cols="E"> </source>
+			<dest cols="M33" datatype="F" />
+		</item>
+		<item desc="资产池情况" istable="false">
+			<source anchor="本金分账户;合计" cols="E"> </source>
+			<dest cols="M43" datatype="F" />
+		</item>
 		<item desc="资产池情况" istable="true">
-            <source anchor="税费支出" anchorend="" cols="D,E" range="3" skiprows="0"> </source>
-            <dest beginrow="45" cols="L,M" datatype="F,F" limited="3" />
+            <source anchor="税费支出" anchorend="" cols="E" range="3" skiprows="0"> </source>
+            <dest beginrow="45" cols="M" datatype="F" limited="3" />
         </item>	
 		<item desc="资产池情况 状态" istable="true">
-            <source anchor="收入分账户" anchorend="" cols="D,E" range="10" skiprows="-1"> </source>
-            <dest beginrow="24" cols="L,M" datatype="F,F" limited="9" />
+            <source anchor="收入分账户" anchorend="" cols="D,E" range="7" skiprows="-1"> </source>
+            <dest beginrow="24" cols="L,M" datatype="F,F" limited="6" />
         </item>	
 		<item desc="资产池情况 状态" istable="true">
-            <source anchor="本金分账户" anchorend="" cols="D,E" range="10" skiprows="-1"> </source>
+            <source anchor="本金分账户" anchorend="" cols="D,E" range="7" skiprows="-1"> </source>
             <dest beginrow="34" cols="L,M" datatype="F,F" limited="6" />
         </item>	
 		<item desc="违约处置状态" istable="true">
-            <source anchor="违约贷款处置情况" anchorend="" cols="B,C,D,E" range="1" skiprows="9"> </source>
+            <source anchor="违约贷款处置情况" anchorend="" cols="B,C,D,E" range="1" skiprows="7"> </source>
             <dest beginrow="55" cols="J,K,L,M" datatype="F,P,F,P" limited="1" />
         </item>	
 		

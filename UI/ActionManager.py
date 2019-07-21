@@ -2,14 +2,15 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+import sip
 import os
 import xml.etree.ElementTree as XETree
 from UI.ActionEdit import ActionEdit
-import sip
 from UI.TabWidget import *
+from Action.Action import Action
 
 class AcitonManager(QDialog):
-    submitted = pyqtSignal(str, str, dict)
+    actionShowed = pyqtSignal(str, str, dict)
     newId = dict()
     maxId = 0
     def __init__(self, parent, filetype, title):
@@ -18,6 +19,7 @@ class AcitonManager(QDialog):
         self.configFileDirectory = "./Config"
         self.configFileName = "Actions.xml"
         self.configFilePath = os.path.join(self.configFileDirectory, self.configFileName)
+        self.removedAction = []
         self.__initUI()
 
     def __initUI(self):
@@ -64,7 +66,7 @@ class AcitonManager(QDialog):
         self.mainTable = Sheet()
         self.mainTable.setSelectionMode(QAbstractItemView.SingleSelection)
         # 初始化表头
-        self.mainTable.setColumnCount(4)
+        self.mainTable.setColumnCount(7)
         Item = QTableWidgetItem()
         Item.setText("Id")
         self.mainTable.setHorizontalHeaderItem(0, Item)
@@ -77,12 +79,25 @@ class AcitonManager(QDialog):
         Item = QTableWidgetItem()
         Item.setText("操作")
         self.mainTable.setHorizontalHeaderItem(3, Item)
+        Item = QTableWidgetItem()
+        Item.setText("运行并显示")
+        self.mainTable.setHorizontalHeaderItem(4, Item)
+
+        Item = QTableWidgetItem()
+        Item.setText("仅运行")
+        self.mainTable.setHorizontalHeaderItem(5, Item)
+
+        Item = QTableWidgetItem()
+        Item.setText("删除")
+        self.mainTable.setHorizontalHeaderItem(6, Item)
+
         self.mainTable.verticalHeader().hide()
         self.mainTable.setColumnWidth(0, 91)
         self.mainTable.setColumnWidth(1, 200)
         self.mainTable.setColumnWidth(2, 200)
         self.mainTable.setColumnWidth(3, 91)
-
+        self.mainTable.setColumnWidth(4, 91)
+        self.mainTable.setColumnWidth(5, 91)
         self.initTableData()
         self.bodyLayout.addWidget(self.mainTable)
 
@@ -101,9 +116,26 @@ class AcitonManager(QDialog):
             item = TableItem(items[i].attrib["ActionCode"])
             self.mainTable.setItem(i, 2, item)
             item = QPushButton()
-            item.setText("查看")
+            item.setText("编辑参数")
             self.mainTable.setCellWidget(i, 3, item)
             item.clicked.connect(self.edit)
+
+            item = QPushButton()
+            item.setText("运行并查看")
+            self.mainTable.setCellWidget(i, 4, item)
+            item.clicked.connect(self.runAndShow)
+
+            item = QPushButton()
+            item.setText("仅运行")
+            self.mainTable.setCellWidget(i, 5, item)
+            item.clicked.connect(self.runOnly)
+
+            item = QPushButton()
+            item.setText("删除")
+            self.mainTable.setCellWidget(i, 6, item)
+            item.clicked.connect(self.delete)
+
+
 
         # 新增按钮
         self.button_add = QPushButton()
@@ -127,6 +159,11 @@ class AcitonManager(QDialog):
         self.mainTable.setItem(count, 0, id)
         self.mainTable.setCellWidget(count, 3, button_edit)
 
+        item = QPushButton()
+        item.setText("删除")
+        self.mainTable.setCellWidget(count, 6, item)
+        item.clicked.connect(self.delete)
+
         button_edit.clicked.connect(self.edit)
         self.mainTable.setCellWidget(count + 1, 0, self.button_add)
         self.newId[str(count)] = XETree.Element("Variable")
@@ -141,10 +178,34 @@ class AcitonManager(QDialog):
         actionEdit.setFixedSize(905, 800)
         actionEdit.show()
 
+    def runAndShow(self):
+        row = self.mainTable.selectedIndexes()[0].row()
+        actioncode = self.mainTable.item(row, 2).text()
+        actionName = self.mainTable.item(row, 1).text()
+        self.hide()
+        self.actionShowed.emit(actioncode, actionName, {})
+        self.show()
+
+    def runOnly(self):
+        row = self.mainTable.selectedIndexes()[0].row()
+        actioncode = self.mainTable.item(row, 2).text()
+        action = Action(actioncode, {})
+        action.runAciton()
+    def delete(self):
+        row = self.mainTable.selectedIndexes()[0].row()
+        actioncode = self.mainTable.item(row, 2).text()
+        self.mainTable.removeRow(row)
+        self.removedAction.append(actioncode)
+        self.newId.pop(str(row))
 
     def submit(self):
         tree = XETree.parse(self.configFilePath)
         root = tree.getroot()
+        for code in self.removedAction:
+            node = root.find("Action[@ActionCode='{0}']".format(code))
+            if node is not None:
+                root.remove(node)
+
         for (k, v) in self.newId.items():
             row = int(k)
             Id = self.mainTable.item(row, 0).text()

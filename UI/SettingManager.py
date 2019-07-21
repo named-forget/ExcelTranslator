@@ -25,6 +25,9 @@ class SettingManager(QDialog):
         self.str_OutputFolder = "OutputFolder"
         self.configFileDirectory = "./Config"
         self.configFileName = "config.xml"
+        self.xmlFolderPath = os.getcwd() + "/Resource/xml"
+        self.templateFoldetPath = os.getcwd() + "/Resource/templateFile"
+
         self.configFilePath = os.path.join(self.configFileDirectory, self.configFileName)
         self.__initUI()
 
@@ -68,11 +71,10 @@ class SettingManager(QDialog):
         self.bottom_layount.addWidget(self.button_submit)
 
     def initTable(self):
-        self.count = 0
         self.mainTable = Sheet()
         self.mainTable.setSelectionMode(QAbstractItemView.SingleSelection)
         # 初始化表头
-        self.mainTable.setColumnCount(3)
+        self.mainTable.setColumnCount(4)
         Item = QTableWidgetItem()
         Item.setText("Id")
         self.mainTable.setHorizontalHeaderItem(0, Item)
@@ -82,11 +84,16 @@ class SettingManager(QDialog):
         Item = QTableWidgetItem()
         Item.setText("操作")
         self.mainTable.setHorizontalHeaderItem(2, Item)
+
+        Item = QTableWidgetItem()
+        Item.setText("删除")
+        self.mainTable.setHorizontalHeaderItem(3, Item)
+
         self.mainTable.verticalHeader().hide()
         self.mainTable.setColumnWidth(0, 91)
-        self.mainTable.setColumnWidth(1, 695)
+        self.mainTable.setColumnWidth(1, 600)
         self.mainTable.setColumnWidth(2, 91)
-
+        self.mainTable.setColumnWidth(3, 91)
         self.initTableData()
         self.bodyLayout.addWidget(self.mainTable)
     def openFile(self):
@@ -111,7 +118,12 @@ class SettingManager(QDialog):
             item.setText("查看")
             self.mainTable.setCellWidget(i, 2, item)
             item.clicked.connect(lambda : self.openFile())
-            self.count = i
+
+            item = QPushButton()
+            item.setText("删除")
+            self.mainTable.setCellWidget(i, 3, item)
+            item.clicked.connect(self.delete)
+
 
         # 新增按钮
         self.button_add = QPushButton()
@@ -119,6 +131,10 @@ class SettingManager(QDialog):
         self.button_add.setObjectName("btn_add")
         self.button_add.clicked.connect(self.add)
         self.mainTable.setCellWidget(self.mainTable.rowCount(), 0, self.button_add)
+    def delete(self):
+        row = self.mainTable.selectedIndexes()[0].row()
+        self.mainTable.removeRow(row)
+
 
     def add(self):
         count = self.mainTable.rowCount() -1
@@ -137,6 +153,11 @@ class SettingManager(QDialog):
         self.mainTable.setItem(count, 0, id)
         self.mainTable.setCellWidget(count, 2, button_file)
 
+        item = QPushButton()
+        item.setText("删除")
+        self.mainTable.setCellWidget(count, 3, item)
+        item.clicked.connect(self.delete)
+
         button_file.clicked.connect(lambda : self.open(filter, item))
         self.mainTable.setCellWidget(count + 1, 0, self.button_add)
 
@@ -149,8 +170,15 @@ class SettingManager(QDialog):
                 if os.path.basename(filepath) == os.path.basename(file_Exolorer[0]):
                     QMessageBox.warning(self, "警告", "已添加同名文件,id 为" + str(i), QMessageBox.Ok)
                     return
+            destPath = ""
+            if filter == "*.xlsx":
+                destPath = os.path.join(self.templateFoldetPath, os.path.basename(file_Exolorer[0]))
+            elif filter == "*.xml":
+                destPath = os.path.join(self.xmlFolderPath, os.path.basename(file_Exolorer[0]))
+            byte = open(file_Exolorer[0], "rb").read()
+            open(destPath, "wb").write(byte)
             item.setText(os.path.basename(file_Exolorer[0]))
-            item.setToolTip(file_Exolorer[0])
+            item.setToolTip(destPath)
 
     def submit(self):
         tree = XETree.parse(self.configFilePath)

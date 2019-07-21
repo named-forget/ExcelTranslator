@@ -263,7 +263,9 @@ class Tab(QWidget):
                               os.path.basename(self.destFilepath)))
         #如果Action是内容填充，额外追加单元格格式
         if self.actionCode == "FillData":
-            varable_xmlpath = self.parameters["XmlFile"]
+            root = XETree.parse("Config/Actions.xml").getroot()
+            action = root.find("Action[@ActionCode='{0}']".format(self.actionCode))
+            varable_xmlpath = action.find("*[@VariableName = '{0}']".format("XmlFile")).attrib["Value"]
             self.beginTranslate(varable_xmlpath)
 
     def run(self):

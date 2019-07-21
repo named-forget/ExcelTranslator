@@ -2,13 +2,11 @@
 <Root>
 	<OutputFolder>
 	<Folder>C:/Users/HHH/Documents/HHH/result</Folder>
-</OutputFolder>
+<Folder>C:/Users/HHH/Desktop/结果</Folder></OutputFolder>
 <xmlFIle>
-	<File Name="222.xml">C:/Users/HHH/Documents/HHH/222.xml</File>
+	<File Name="222.xml">H:\PythonProject\ExcelTranslator/Resource/xml\222.xml</File>
 </xmlFIle>
 <templateFile>
-	<File Name="受托报告导入模板-新">C:\Users\HHH\Documents\GitHub\ExcelTranslator/Resource/templateFile/受托报告导入模板-新.xlsx</File>
-	<File Name="受托报告导入模板">C:\Users\HHH\Documents\GitHub\ExcelTranslator/Resource/templateFile/受托报告导入模板.xlsx</File>
-	<File Name="橙易2016年第一期持证抵押贷款证券化信托2016年5月受托机构月度报告（第3期）.xlsx">C:/Users/HHH/Documents/GitHub/ExcelTranslator/橙易2016年第一期持证抵押贷款证券化信托2016年5月受托机构月度报告（第3期）.xlsx</File>
+	<File Name="受托报告导入模板-新.xlsx">H:\PythonProject\ExcelTranslator/Resource/templateFile\受托报告导入模板-新.xlsx</File>
 </templateFile>
 </Root>

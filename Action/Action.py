@@ -15,13 +15,13 @@ class Action:
             parameterName = variable.attrib["ParameterName"]
             if parameterName in kwargs:
                 variable.set("Value", kwargs[parameterName])
-        self.createAction()
         tree.write(self.configfilepath, encoding='utf-8', xml_declaration=True)
+        self.createAction()
 
     def createAction(self):
         tree = XE.parse(self.configfilepath)
         root = tree.getroot()
-        actionConfig = root.find("Action[@ActionCode = '{0}']".format(self,actionCode))
+        actionConfig = root.find("Action[@ActionCode = '{0}']".format(self.actionCode))
         self.xmlFilePath = actionConfig.find("*[@VariableName = '{0}']".format("XmlFile")).attrib["Value"]
         self.pyFile = actionConfig.find("*[@VariableName = '{0}']".format("PythonFile")).attrib["Value"]
         self.methodName = actionConfig.find("*[@VariableName = '{0}']".format("MethodName")).attrib["Value"]

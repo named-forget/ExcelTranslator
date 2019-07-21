@@ -54,7 +54,6 @@ class FillData(QDialog):
         self.label_selectFile.setObjectName("label_selectFile")
 
         self.lineEdit_selectFile = QLineEdit()
-        self.lineEdit_selectFile.setText("文件路径")
         self.lineEdit_selectFile.setObjectName("lineEdit_selectFile")
         self.lineEdit_selectFile.setReadOnly(True)
 
@@ -74,7 +73,7 @@ class FillData(QDialog):
         self.comboBox_outputfolder.setMaxVisibleItems(10)
 
         self.initComboBox(self.str_OutputFolder, self.comboBox_outputfolder)
-        self.comboBox_outputfolder.setCurrentIndex(1)
+        self.comboBox_outputfolder.setCurrentIndex(0)
         self.comboBox_outputfolder.currentIndexChanged.connect(lambda  :self.EventCombox_Output(self.comboBox_outputfolder, self.str_OutputFolder))
 
         # 输出至：
@@ -85,11 +84,10 @@ class FillData(QDialog):
         self.comboBox_xmlFIle = StyledComboBox()
         self.comboBox_xmlFIle.setEditable(False)
         self.comboBox_xmlFIle.setObjectName("comboBox_xmlFIle")
-        self.comboBox_xmlFIle.addItem("新增方案...", "New")
         self.comboBox_xmlFIle.setMaxVisibleItems(10)
 
         self.initComboBox(self.str_xmlFIle, self.comboBox_xmlFIle)
-        self.comboBox_xmlFIle.setCurrentIndex(1)
+        self.comboBox_xmlFIle.setCurrentIndex(0)
         self.comboBox_xmlFIle.currentIndexChanged.connect(lambda: self.EventCombox_Output(self.comboBox_xmlFIle, self.str_xmlFIle))
         #模板
         self.label_templatefile = QLabel(text="目标文件：")
@@ -99,11 +97,10 @@ class FillData(QDialog):
         self.comboBox_templatefile = StyledComboBox()
         self.comboBox_templatefile.setEditable(False)
         self.comboBox_templatefile.setObjectName("comboBox_templatefile")
-        self.comboBox_templatefile.addItem("新增目标模板文件...", "New")
         self.comboBox_templatefile.setMaxVisibleItems(10)
 
         self.initComboBox(self.str_templatefile, self.comboBox_templatefile)
-        self.comboBox_templatefile.setCurrentIndex(1)
+        self.comboBox_templatefile.setCurrentIndex(0)
         self.comboBox_templatefile.currentIndexChanged.connect(
             lambda: self.EventCombox_Output(self.comboBox_templatefile, self.str_templatefile))
 
@@ -135,7 +132,17 @@ class FillData(QDialog):
         self.button_submit.clicked.connect(self.submit)
         self.bottom_layount.addWidget(self.button_submit)
 
-
+        # 恢复控件状态
+        setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
+        index = setting.value(self.str_OutputFolder)
+        if index is not None:
+            self.comboBox_outputfolder.setCurrentIndex(int(index))
+        index = setting.value(self.str_xmlFIle)
+        if index is not None:
+            self.comboBox_xmlFIle.setCurrentIndex(int(index))
+        index = setting.value(self.str_templatefile)
+        if index is not None:
+            self.comboBox_templatefile.setCurrentIndex(int(index))
 
     def initComboBox(self, section, combobox):
 
@@ -154,7 +161,6 @@ class FillData(QDialog):
 
     def EventCombox_Output(self, combobox, flag):
         folder_Exolorer = ""
-        print(combobox.currentText(), combobox.currentData())
         if combobox.currentData() == "New":
             if flag != self.str_OutputFolder:
                 if flag == self.str_templatefile:
@@ -230,6 +236,12 @@ class FillData(QDialog):
         file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter=("*.xlsx"))
         if file_Exolorer[0]:
             self.lineEdit_selectFile.setText(file_Exolorer[0])
+    def closeEvent(self, a0: QCloseEvent) -> None:
+        setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
+        setting.setValue(self.str_OutputFolder, self.comboBox_outputfolder.currentIndex())
+        setting.setValue(self.str_xmlFIle, self.comboBox_xmlFIle.currentIndex())
+        setting.setValue(self.str_templatefile, self.comboBox_templatefile.currentIndex())
+        a0.accept()
 
     def submit(self):
         filepath = self.lineEdit_selectFile.text()
