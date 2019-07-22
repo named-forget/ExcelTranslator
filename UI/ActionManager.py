@@ -59,6 +59,7 @@ class AcitonManager(QDialog):
         self.button_submit.setObjectName("submit")
         self.button_submit.setText("保存")
         self.button_submit.clicked.connect(self.submit)
+        self.button_submit.setStyleSheet("margin-left: 350px;")
         self.bottom_layount.addWidget(self.button_submit)
 
     def initTable(self):
@@ -93,12 +94,12 @@ class AcitonManager(QDialog):
 
         self.mainTable.verticalHeader().hide()
         self.mainTable.setColumnWidth(0, 91)
-        self.mainTable.setColumnWidth(1, 200)
-        self.mainTable.setColumnWidth(2, 200)
+        self.mainTable.setColumnWidth(1, 150)
+        self.mainTable.setColumnWidth(2, 150)
         self.mainTable.setColumnWidth(3, 91)
         self.mainTable.setColumnWidth(4, 91)
         self.mainTable.setColumnWidth(5, 91)
-        self.mainTable.setColumnWidth(5, 91)
+        self.mainTable.setColumnWidth(6, 91)
         self.initTableData()
         self.bodyLayout.addWidget(self.mainTable)
 
@@ -180,10 +181,10 @@ class AcitonManager(QDialog):
         actionEdit.show()
 
     def runAndShow(self):
+        self.hide()
         row = self.mainTable.selectedIndexes()[0].row()
         actioncode = self.mainTable.item(row, 2).text()
         actionName = self.mainTable.item(row, 1).text()
-        self.hide()
         self.actionShowed.emit(actioncode, actionName, {})
         self.show()
 

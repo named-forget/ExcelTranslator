@@ -214,23 +214,23 @@ class MainWindow(QMainWindow):
     def showModeManager(self):
         modeManager = SettingManager(self, self.str_xmlFIle, self.Settings[0])
         modeManager.raise_()
-        center(modeManager, 905, 800)
-        modeManager.setFixedSize(905, 800)
+        center(modeManager, 897, 800)
+        modeManager.setFixedSize(897, 800)
         modeManager.show()
 
     def showTemplateManager(self):
         templateManager = SettingManager(self, self.str_templatefile, self.Settings[1])
         templateManager.raise_()
-        center(templateManager, 905, 800)
-        templateManager.setFixedSize(905, 800)
+        center(templateManager, 897, 800)
+        templateManager.setFixedSize(897, 800)
         templateManager.show()
 
     def showActionManager(self):
         actionManager = AcitonManager(self, self.str_templatefile, self.Settings[1])
         actionManager.raise_()
         actionManager.actionShowed.connect(self.newAction)
-        center(actionManager, 905, 800)
-        actionManager.setFixedSize(905, 800)
+        center(actionManager, 779, 800)
+        actionManager.setFixedSize(779, 800)
         actionManager.show()
 
         return
