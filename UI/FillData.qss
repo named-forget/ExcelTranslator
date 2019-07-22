@@ -51,6 +51,12 @@ QVBoxLayount{
     image: url(Resource/icon/Icon_drop_down.ico);
 }
 
+#body #comboBox_xmlFile {
+    max-width:230px;
+    min-width:230px;
+
+}
+
 /*#body QComboBox QAbstractItemView {*/
 /*    min-height:30px;*/
 /*    border: 1px inset #F3F5FA;*/

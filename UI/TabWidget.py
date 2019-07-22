@@ -3,13 +3,14 @@ import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from Action.Action import Action
+from UI.StyleComboBox import *
 import openpyxl
 import re
 import xml.etree.cElementTree as XETree
 import win32clipboard
 import win32con
 import numpy as np
-from Action.Action import Action
 import sip
 
 class WorkTab(QTabWidget):
@@ -25,14 +26,11 @@ class WorkTab(QTabWidget):
                                        )
         #设置最大宽度
         self.setStyleSheet("QTabBar::tab{max-width:150px}")
-        #self.tabBar().tabBarClicked.connect(lambda index: print(("this is %d" % index))
-        # str = "QTabBar::tab{background-color:rbg(255,255,255,0);}" + \
-        #       "QTabBar::tab:selected{color:red;background-color:rbg(255,200,255);} "
         self.tabBar().setContextMenuPolicy(Qt.CustomContextMenu)
         self.tabBar().customContextMenuRequested.connect(self.__showMenu)
         self.contextMenu = QMenu(self)
-        self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
-                                       "selection-background-color: rgb(85, 170, 255);")
+        # self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
+        #                                "selection-background-color: rgb(85, 170, 255);")
 
         self.action_CloseAll = QAction("关闭所有标签")
         self.action_CloseLeft = QAction("关闭左侧标签")
@@ -111,6 +109,7 @@ class WorkTab(QTabWidget):
     def addTab(self, widget: QWidget, icon: QIcon,  title: str) -> int:
         super().addTab(widget,icon, title)
         widget.signal_changed.connect(self.setTabIconByStatus)
+        self.setCurrentWidget(widget)
 
 
 
@@ -134,7 +133,6 @@ class Tab(QWidget):
         self.souce_markItem = []
         self.dest_markItem = []
 
-        self.setStyleSheet("background:white;")
         self.sourceWidget = QWidget()
         self.destWidget = QWidget()
         self.__map = dict()
@@ -143,9 +141,9 @@ class Tab(QWidget):
         self.setLayout(self.gridLayout)
 
         self.titleBar = QLabel()
-        self.gridLayout.addWidget(self.titleBar, 1, 0)
+        #self.gridLayout.addWidget(self.titleBar, 1, 0)
 
-        self.resultxml_comboBox = QComboBox()
+        self.resultxml_comboBox = StyledComboBox()
         self.gridLayout.addWidget(self.resultxml_comboBox, 0, 0)
         self.resultxml_comboBox.currentIndexChanged.connect(self.initProperty)
 
@@ -170,8 +168,6 @@ class Tab(QWidget):
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.__showMenu)
         self.contextMenu = QMenu(self)
-        self.contextMenu.setStyleSheet("background-color:rbg(0,0,255);"
-                                       "selection-background-color: rgb(85, 170, 255);")
 
         self.action_Copy = QAction("复制")
         self.action_PasteAndFormat = QAction("粘贴（匹配目标格式）")
@@ -287,6 +283,16 @@ class Tab(QWidget):
             self.fillComboBox(result)
         self.resultxml_comboBox.setCurrentIndex(0)
 
+    def endAction(self, result):
+        self.logGenerated.emit("执行完成")
+
+        root = XETree.parse(result).getroot()
+        if root.attrib["multiply"] == "true":
+            for item in root.iter(tag = "filename"):
+                self.fillComboBox(item.attrib["path"])
+        else:
+            self.fillComboBox(result)
+        self.resultxml_comboBox.setCurrentIndex(0)
 
     def fillComboBox(self, xmlFilePaht):
         root = XETree.parse(xmlFilePaht).getroot()
@@ -535,6 +541,7 @@ class Tab(QWidget):
         filepath = self.destFilepath
         if filepath == "":
             return
+        self.sourceSheet.save()
         self.destSheet.save()
         self.logGenerated.emit("已保存至： " + filepath)
         self.setTabStatus(False)
@@ -830,6 +837,17 @@ class TableItem(QTableWidgetItem):
     def setDataType(self, dataType):
         self.dataType = dataType
 
+class AsyncAction(QThread):
+    trigger = pyqtSignal(str)
+    def __init__(self, actionCode, params):
+        super().__init__()
+        self.actionCode = actionCode
+        self.params = params
+
+    def run(self) -> None:
+        action = Action(self.actionCode, self.params)
+        xml = action.runAciton()
+        self.trigger.emit(xml)
 
 
 #列字母转数字
@@ -902,5 +920,12 @@ def killWidget(widget):
         else:
             sip.delete(item)
     sip.delete(widget)
+
+# 窗口居中显示
+def center(dialog, width, height):
+    screen = QDesktopWidget().screenGeometry()
+    #+120 稍微向上平移
+    dialog.move((screen.width() - width) / 2, (screen.height() - height) / 2 - 120)
+
 
 

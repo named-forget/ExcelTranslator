@@ -25,8 +25,8 @@ class SettingManager(QDialog):
         self.str_OutputFolder = "OutputFolder"
         self.configFileDirectory = "./Config"
         self.configFileName = "config.xml"
-        self.xmlFolderPath = os.getcwd() + "/Resource/xml"
-        self.templateFoldetPath = os.getcwd() + "/Resource/templateFile"
+        self.xmlFolderPath = "Resource/xml"
+        self.templateFoldetPath = "Resource/templateFile"
 
         self.configFilePath = os.path.join(self.configFileDirectory, self.configFileName)
         self.__initUI()
@@ -152,17 +152,18 @@ class SettingManager(QDialog):
 
         self.mainTable.setItem(count, 0, id)
         self.mainTable.setCellWidget(count, 2, button_file)
+        button_file.clicked.connect(lambda : self.open(filter))
 
         item = QPushButton()
         item.setText("删除")
         self.mainTable.setCellWidget(count, 3, item)
         item.clicked.connect(self.delete)
 
-        button_file.clicked.connect(lambda : self.open(filter, item))
+
         self.mainTable.setCellWidget(count + 1, 0, self.button_add)
 
 
-    def open(self, filter, item) -> None:
+    def open(self, filter) -> None:
         file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter=filter)
         if file_Exolorer[0]:
             for i in range(self.mainTable.rowCount() -1):
@@ -172,11 +173,13 @@ class SettingManager(QDialog):
                     return
             destPath = ""
             if filter == "*.xlsx":
-                destPath = os.path.join(self.templateFoldetPath, os.path.basename(file_Exolorer[0]))
+                destPath = self.templateFoldetPath + "/" + os.path.basename(file_Exolorer[0])
             elif filter == "*.xml":
-                destPath = os.path.join(self.xmlFolderPath, os.path.basename(file_Exolorer[0]))
+                destPath = self.xmlFolderPath + "/" + os.path.basename(file_Exolorer[0])
             byte = open(file_Exolorer[0], "rb").read()
             open(destPath, "wb").write(byte)
+            row = self.mainTable.selectedIndexes()[0].row()
+            item = self.mainTable.item(row, 1)
             item.setText(os.path.basename(file_Exolorer[0]))
             item.setToolTip(destPath)
 
@@ -198,8 +201,11 @@ class SettingManager(QDialog):
 
         sip.delete(self.mainTable)
         self.initTable()
-        QMessageBox.about(self, "完成", "保存成功")
-
+        message = QMessageBox(self)
+        message.setWindowTitle("完成")
+        message.setWindowIcon(QIcon("Resource/icon/Icon_table.ico"))
+        message.setText("保存成功")
+        message.show()
 
 
 

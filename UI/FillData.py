@@ -12,6 +12,7 @@ from PyQt5.QtGui import *
 import os
 import xml.etree.ElementTree as XETree
 import shutil
+from FileTranslator import matchXml
 from UI.StyleComboBox import StyledComboBox
 
 class FillData(QDialog):
@@ -31,7 +32,7 @@ class FillData(QDialog):
 
     def __initUI(self):
         self.setObjectName("Main")
-        stylesheet = open("UI/Dialog.qss", "r").read()
+        stylesheet = open("UI/FillData.qss", "r").read()
         self.setWindowTitle("内容填充")
         self.setWindowModality(Qt.ApplicationModal)
         self.setStyleSheet(stylesheet)
@@ -61,7 +62,7 @@ class FillData(QDialog):
         self.button_selectFIle.setText("选择文件")
         self.button_selectFIle.clicked.connect(self.open)
 
-        #添加下拉框
+        #输出至
         self.label_OutputFolder = QLabel(text="输出目录：")
         self.label_OutputFolder.setAlignment(Qt.AlignCenter)
         self.label_OutputFolder.setObjectName("label_OutputFolder")
@@ -76,19 +77,23 @@ class FillData(QDialog):
         self.comboBox_outputfolder.setCurrentIndex(0)
         self.comboBox_outputfolder.currentIndexChanged.connect(lambda  :self.EventCombox_Output(self.comboBox_outputfolder, self.str_OutputFolder))
 
-        # 输出至：
+        #方案：
         self.label_xmlFIle = QLabel(text="转换方案：")
         self.label_xmlFIle.setAlignment(Qt.AlignCenter)
         self.label_xmlFIle.setObjectName("label_xmlFIle")
 
         self.comboBox_xmlFIle = StyledComboBox()
         self.comboBox_xmlFIle.setEditable(False)
-        self.comboBox_xmlFIle.setObjectName("comboBox_xmlFIle")
+        self.comboBox_xmlFIle.setObjectName("comboBox_xmlFile")
         self.comboBox_xmlFIle.setMaxVisibleItems(10)
 
         self.initComboBox(self.str_xmlFIle, self.comboBox_xmlFIle)
         self.comboBox_xmlFIle.setCurrentIndex(0)
         self.comboBox_xmlFIle.currentIndexChanged.connect(lambda: self.EventCombox_Output(self.comboBox_xmlFIle, self.str_xmlFIle))
+
+        self.button_distinguishXml = QPushButton()
+        self.button_distinguishXml.setText("自动选择")
+        self.button_distinguishXml.clicked.connect(self.distinguishDoc)
         #模板
         self.label_templatefile = QLabel(text="目标文件：")
         self.label_templatefile.setAlignment(Qt.AlignCenter)
@@ -109,10 +114,11 @@ class FillData(QDialog):
         self.bodyLayout.addWidget(self.label_selectFile, 0, 0)
         self.bodyLayout.addWidget(self.lineEdit_selectFile, 0, 1)
         self.bodyLayout.addWidget(self.button_selectFIle, 0, 2)
-        self.bodyLayout.addWidget(self.label_OutputFolder, 1, 0)
-        self.bodyLayout.addWidget(self.comboBox_outputfolder, 1, 1)
-        self.bodyLayout.addWidget(self.label_xmlFIle, 2, 0)
-        self.bodyLayout.addWidget(self.comboBox_xmlFIle, 2, 1)
+        self.bodyLayout.addWidget(self.label_xmlFIle, 1, 0)
+        self.bodyLayout.addWidget(self.comboBox_xmlFIle, 1, 1)
+        self.bodyLayout.addWidget(self.button_distinguishXml, 1, 2)
+        self.bodyLayout.addWidget(self.label_OutputFolder, 2, 0)
+        self.bodyLayout.addWidget(self.comboBox_outputfolder, 2, 1)
         self.bodyLayout.addWidget(self.label_templatefile, 3, 0)
         self.bodyLayout.addWidget(self.comboBox_templatefile, 3, 1)
 
@@ -162,17 +168,7 @@ class FillData(QDialog):
     def EventCombox_Output(self, combobox, flag):
         folder_Exolorer = ""
         if combobox.currentData() == "New":
-            if flag != self.str_OutputFolder:
-                if flag == self.str_templatefile:
-                    file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择文件', filter=("*.xlsx"))
-                elif flag == self.str_xmlFIle:
-                    file_Exolorer = QFileDialog.getOpenFileName(self, caption='选择xml配置文件', filter=("*.xml"))
-                if file_Exolorer[0]:
-                    f = open(file_Exolorer[0], 'r')
-                    with f:
-                        folder_Exolorer = f.name
-            elif flag == "OutputFolder":
-                folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
+            folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
 
             if folder_Exolorer != "":
                 isExistsItem = False
@@ -184,49 +180,48 @@ class FillData(QDialog):
                 for item in items:
                     if item.text == folder_Exolorer:
                         isExistsItem = True
-                        if flag != self.str_OutputFolder:
-                            existsName = ": " + item.attrib["Name"]
                 if isExistsItem:
                     QMessageBox.warning(self, '警告', '该项已存在' + existsName, QMessageBox.Yes)
                     combobox.setCurrentIndex(1)
                 else:
-                    if flag == self.str_OutputFolder:
-                        element = XETree.Element("Folder")
-                        element.text = folder_Exolorer
-                    elif flag == self.str_xmlFIle:
-                        element = XETree.Element("File")
-                        element.set("Name", "方案" + str(len(items) + 1))
-                        element.text = self.xmlFolderPath + "/" + os.path.basename(folder_Exolorer)
-                    else:
-                        element = XETree.Element("File")
-                        element.set("Name", os.path.basename(folder_Exolorer)[0:-5])
-                        element.text = self.templateFoldetPath + "/" + os.path.basename(folder_Exolorer)
+                    element = XETree.Element("Folder")
+                    element.text = folder_Exolorer
                     node.append(element)
-                    if flag == self.str_OutputFolder:
-                        combobox.addItem(folder_Exolorer, str(len(items) + 1))
-                        combobox.setCurrentIndex(len(items) + 1)
-                    elif flag == self.str_xmlFIle:
-                        if not os.path.exists(self.xmlFolderPath):
-                            os.mkdir(self.xmlFolderPath)
-                        shutil.copy(folder_Exolorer, self.xmlFolderPath + "/" + os.path.basename(folder_Exolorer))
-                        combobox.addItem("方案" + str(len(items) + 1), os.path.join(self.xmlFolderPath,
-                                                                                  os.path.basename(
-                                                                                      folder_Exolorer)))
-                        combobox.setCurrentIndex(len(items) + 1)
-                    elif flag == self.str_templatefile:
-                        if not os.path.exists(self.templateFoldetPath):
-                            os.mkdir(self.templateFoldetPath)
-                        shutil.copy(folder_Exolorer,
-                                    self.templateFoldetPath + "/" + os.path.basename(folder_Exolorer))
-                        combobox.addItem(os.path.basename(folder_Exolorer)[0:-5],
-                                         os.path.join(self.templateFoldetPath,
-                                                      os.path.basename(folder_Exolorer)))
-                        combobox.setCurrentIndex(len(items) + 1)
+
+                    combobox.addItem(folder_Exolorer, str(len(items) + 1))
+                    combobox.setCurrentIndex(len(items))
+
                     #indent(node)
                     tree.write(self.configFilePath, encoding='utf-8', xml_declaration=True)
             else:
                 combobox.setCurrentIndex(1)
         # print(combobox.currentText())
+
+    def distinguishDoc(self):
+        filepath = self.lineEdit_selectFile.text()
+        if filepath == "":
+            QMessageBox.critical(self, "警告", "选择的文件为空", QMessageBox.Ok)
+            return
+        self.button_distinguishXml.setDisabled(True)
+        self.button_distinguishXml.setText("正在识别...")
+        xmlName = ""
+        try:
+            xmlName = matchXml.main(filepath)
+        except Exception as e:
+            QMessageBox.critical(self, "错误", str(e), QMessageBox.Ok)
+        if xmlName is None or xmlName == "":
+            self.button_distinguishXml.setDisabled(False)
+            self.button_distinguishXml.setText("自动识别")
+            message = QMessageBox(self)
+            message.setWindowTitle("完成")
+            message.setWindowIcon(QIcon("Resource/icon/Icon_table.ico"))
+            message.setText("没有匹配的方案")
+            message.show()
+            return
+        index = self.comboBox_xmlFIle.findText(xmlName, Qt.MatchContains)
+        self.comboBox_xmlFIle.setCurrentIndex(index)
+        self.button_distinguishXml.setDisabled(False)
+        self.button_distinguishXml.setText("自动识别")
 
     def open(self) -> None:
         if self.mode == 1:

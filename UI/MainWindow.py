@@ -62,12 +62,9 @@ class MainWindow(QMainWindow):
 
         self.textEdit = QTextEdit()
         self.textEdit.setText('执行记录：')
-        self.textEdit.setStyleSheet("background:white;height:20%")
+        #self.textEdit.setStyleSheet("background:white;height:20%")
         self.textEdit.setReadOnly(True)
 
-        # self.vboxScorllTextEdit = QVBoxLayout()
-        # self.vboxScorllTextEdit.addWidget(self.textEdit)
-        # self.scorllTextEdit.setLayout(self.vboxScorllTextEdit)
 
         self.verticalSplitter.addWidget(self.workTab)
         self.verticalSplitter.addWidget(self.textEdit)
@@ -103,7 +100,7 @@ class MainWindow(QMainWindow):
         saveAction = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_save.ico'), '保存')
         saveAction.setShortcut('Ctrl+S')
         saveAction.setStatusTip('保存')
-        saveAction.clicked.connect(lambda :self.save(self.currentIndex()))
+        saveAction.clicked.connect(lambda :self.save(self.workTab.currentIndex()))
 
         #保存全部
         saveAllAction =  QtWidgets.QPushButton()
@@ -114,8 +111,9 @@ class MainWindow(QMainWindow):
         #配置管理
         self.comboBox_setting = DropDownMenu()
         self.comboBox_setting.setObjectName("Setting")
-        for item in self.Settings:
-            self.comboBox_setting.addItem(item, "")
+        for i in range(len(self.Settings)):
+            self.comboBox_setting.addItem(self.Settings[i], "")
+            self.comboBox_setting.setItemIcon(i, QIcon("Resource/icon/Icon_setting.ico"))
         self.comboBox_setting.currentIndexChanged.connect(self.showManager)
 
 
@@ -135,47 +133,48 @@ class MainWindow(QMainWindow):
         tb1.addWidget(self.button_multiRun)
         tb1.addWidget(self.button_checkValue)
 
-        tb2 = self.addToolBar('File')
-        tb2.addWidget(saveAction)
-        tb2.addWidget(self.button_saveAs)
-        tb2.addWidget(saveAllAction)
-
-        tb_setting = self.addToolBar("Setting")
-        tb_setting.addWidget(self.comboBox_setting)
+        tb1.addWidget(saveAction)
+        #tb1.addWidget(self.button_saveAs)
+        #tb1.addWidget(saveAllAction)
+        tb1.addWidget(self.comboBox_setting)
 
 
 
 
-        self.verticalSplitter.setStyleSheet("background-color: rgb(222, 222, 222);")
+        #self.verticalSplitter.setStyleSheet("background-color: rgb(222, 222, 222);")
 
 
         self.statusBar()
 
 
+        #遮罩
+        self.maskwidget = QWidget(self)
+        self.maskwidget.setObjectName("Mask")
+        self.maskwidget.setGeometry(0, 0, 1920, 1080)
+        self.maskwidget.raise_()
 
-        #恢复控件状态
-        # setting = QSettings("./Config/setting.ini", QSettings.IniFormat)
-        # index = setting.value(self.str_OutputFolder)
-        # if index is not None:
-        #     self.comboBox_outputfolder.setCurrentIndex(int(index))
-        # index = setting.value(self.str_xmlFIle)
+        self.masklabel = QLabel(self.maskwidget)
+        self.maskwidget.setGeometry(0, 0, 1920, 1080)
+        self.masklabel.setText("loading...")
+
+        #self.masklabel.move(self.maskwidget.rect().center())
+        # self.loadingGif = QMovie('Resource/icon/loading-image.gif')
+        # self.masklabel.setMovie(self.loadingGif)
+        # self.loadingGif.start()
+        self.maskwidget.hide()
+
+        #show
         self.setObjectName("MainWindow")
         self.setGeometry(0, 0, 1280, 760)
         self.setWindowTitle("Excel转换")
-        self.setWindowIcon(QIcon('Resource/icon/Icon_windowIcon.ico'))
+        self.setWindowIcon(QIcon('Resource/icon/Icon_table.ico'))
         #self.center()
         self.show()
         self.showMaximized()
 
-
+        #self.showMask()
         #fillDataDialog.setGeometry((self.maximumSize().width() - 500)/2,(self.maximumSize().height()-800)/2, 500, 800 )
 
-
-    # 主窗口居中显示
-    def center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
 
     def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
         super().resizeEvent(event)
@@ -215,14 +214,14 @@ class MainWindow(QMainWindow):
     def showModeManager(self):
         modeManager = SettingManager(self, self.str_xmlFIle, self.Settings[0])
         modeManager.raise_()
-        modeManager.setGeometry((self.window_width - 900) / 2, (self.window_height - 800) / 2, 905, 800)
+        center(modeManager, 905, 800)
         modeManager.setFixedSize(905, 800)
         modeManager.show()
 
     def showTemplateManager(self):
         templateManager = SettingManager(self, self.str_templatefile, self.Settings[1])
         templateManager.raise_()
-        templateManager.setGeometry((self.window_width - 900) / 2, (self.window_height - 800) / 2, 905, 800)
+        center(templateManager, 905, 800)
         templateManager.setFixedSize(905, 800)
         templateManager.show()
 
@@ -230,7 +229,7 @@ class MainWindow(QMainWindow):
         actionManager = AcitonManager(self, self.str_templatefile, self.Settings[1])
         actionManager.raise_()
         actionManager.actionShowed.connect(self.newAction)
-        actionManager.setGeometry((self.window_width - 900) / 2, (self.window_height - 800) / 2, 905, 800)
+        center(actionManager, 905, 800)
         actionManager.setFixedSize(905, 800)
         actionManager.show()
 
@@ -243,7 +242,7 @@ class MainWindow(QMainWindow):
         fillDataDialog.raise_()
         fillDataDialog.submitted.connect(self.newAction)
 
-        fillDataDialog.setGeometry((self.window_width - 500)/2,(self.window_height -500)/2, 500, 500 )
+        center(fillDataDialog, 500, 500)
         fillDataDialog.setFixedSize(500, 500)
         fillDataDialog.show()
 
@@ -251,8 +250,7 @@ class MainWindow(QMainWindow):
         fillDataDialog = FillData(self, 1)
         fillDataDialog.raise_()
         fillDataDialog.submitted.connect(self.newAction)
-
-        fillDataDialog.setGeometry((self.window_width - 500) / 2, (self.window_height - 500) / 2, 500, 500)
+        center(fillDataDialog, 500, 500)
         fillDataDialog.setFixedSize(500, 500)
         fillDataDialog.show()
 
@@ -265,10 +263,18 @@ class MainWindow(QMainWindow):
 
 
     def newAction(self, actionCode, actionName, kwargs):
+        self.showMask()
+        self.repaint()
         newtab = TabWidget.Tab(actionCode, actionName, kwargs)
-        self.workTab.addTab(newtab, QIcon("Resource/icon/Icon_tag.ico"), "actionName")
+        self.workTab.addTab(newtab, QIcon("Resource/icon/Icon_tag.ico"), actionName)
         newtab.logGenerated.connect(self.appenText)
-        newtab.run()
+        try:
+            newtab.run()
+        except Exception as e:
+            QMessageBox.critical(self, "错误", str(e), QMessageBox.Ok)
+        self.maskwidget.hide()
+
+
 
     def appenText(self, str):
         self.textEdit.append(str)
@@ -290,7 +296,9 @@ class MainWindow(QMainWindow):
                 break
 
     def save(self, index):
-        currentTab = self.widget(index)
+        currentTab = self.workTab.widget(index)
+        if currentTab is None:
+            return
         currentTab.save()
 
 
@@ -381,7 +389,10 @@ class MainWindow(QMainWindow):
         if file is not  None and os.path.isfile(file):
             os.startfile(file)
 
-
+    def showMask(self):
+        self.maskwidget.raise_()
+        #self.maskwidget.move(self.rect().center())
+        self.maskwidget.show()
 
 
 # if __name__ == '__main__':

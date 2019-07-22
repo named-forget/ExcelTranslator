@@ -47,7 +47,6 @@ QPushButton:hover{
 }
 #submit{
     margin-left: 410px;
-    margin-right: 410px;
     margin-bottom: 40px;
 }
 /*#btn_add {*/

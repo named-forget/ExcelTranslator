@@ -96,8 +96,8 @@ class ActionEdit(QDialog):
         self.mainTable.setColumnWidth(1, 200)
         self.mainTable.setColumnWidth(2, 200)
         self.mainTable.setColumnWidth(3, 91)
-        self.mainTable.setColumnWidth(3, 91)
-
+        self.mainTable.setColumnWidth(4, 91)
+        self.mainTable.setColumnWidth(5, 91)
         self.initTableData()
         self.bodyLayout.addWidget(self.mainTable)
 
@@ -301,7 +301,11 @@ class ActionEdit(QDialog):
 
         sip.delete(self.mainTable)
         self.initTable()
-        QMessageBox.about(self, "完成", "保存成功")
+        message = QMessageBox()
+        message.setWindowTitle("完成")
+        message.setWindowIcon(QIcon("Resource/icon/Icon_table.ico"))
+        message.setText("保存成功")
+        message.exec()
         self.close()
 
 
