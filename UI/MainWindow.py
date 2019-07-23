@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
     configFileName = "config.xml"
     configFilePath = os.path.join(configFileDirectory, configFileName)
     Settings = ["配置管理", "方案管理", "模板管理", "任务管理"]
+    clipboardFile = "Config/clipBoard.et"
     #屏幕尺寸
     screen_width = 0
     screen_height = 0
@@ -327,7 +328,6 @@ class MainWindow(QMainWindow):
             root.append(XETree.Element(self.str_templatefile))
             self.indent(root)  # 增加换行符
             tree.write(self.configFilePath, encoding='utf-8', xml_declaration=True)
-
 
     #给xml增加换行符
     def indent(self,elem, level=0):

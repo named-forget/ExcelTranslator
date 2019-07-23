@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<mapping input="C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券 - 副本" output="C:/Users/HHH/Documents/HHH/result" template="Resource/templateFile\受托报告导入模板-新.xlsx" writelog="0">
+<mapping input="C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券 - 副本/橙易2016年第一期持证抵押贷款证券化信托2017年03月受托机构月度报告(第13期).xlsx" output="C:/Users/HHH/Documents/HHH/result" template="Resource/templateFile\受托报告导入模板-新.xlsx" writelog="0">
 			 
 		<item desc="资产池整体表现情况" istable="true" keyword="资产池整体表现情况">
             <source anchor="资产池整体表现" anchorend="" cols="A,B,C,D,E" range="6" skiprows="1"> </source>

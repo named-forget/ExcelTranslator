@@ -119,7 +119,7 @@ class Tab(QWidget):
     isChanged = None
     logGenerated = pyqtSignal(str)
     signal_changed = pyqtSignal(QWidget, bool)
-
+    clipboardFile = "Config/clipBoard.et"
 
     def __init__(self, actionCode, acitonName ,parameters):
         super().__init__()
@@ -250,9 +250,18 @@ class Tab(QWidget):
                 cellCoorrdinnate = parseChar(cell)
                 row = int(cellCoorrdinnate.split(",")[0])
                 col = int(cellCoorrdinnate.split(",")[1])
-                self.sourceSheet.item(row, col).setBackground(sourceColor)
+                item = self.sourceSheet.item(row, col)
+                if item is None:
+                    item = TableItem("")
+                    self.sourceSheet.setItem(row, col, item)
+                item.setBackground(sourceColor)
                 sourceCellCoordinnate.append(cellCoorrdinnate)
-            self.destSheet.item(int(destCoordinnate.split(",")[0]), int(destCoordinnate.split(",")[1])).setBackground(destColor)
+            destItem = self.destSheet.item(int(destCoordinnate.split(",")[0]), int(destCoordinnate.split(",")[1]))
+            if item is None:
+                destItem = TableItem("")
+                self.sourceSheet.setItem(row, col, destItem)
+
+            destItem.setBackground(destColor)
             self.__map[destCoordinnate] = ";".join(sourceCellCoordinnate)
 
         self.titleBar.setText("任务名: {0} \n源文件： {1}   \n结果文件：{2}".format(self.actionName, os.path.basename(self.filepath),
@@ -299,6 +308,7 @@ class Tab(QWidget):
         self.resultxml_comboBox.addItem(os.path.basename(root.attrib["inputFile"])[0:-5], xmlFilePaht)
 
     def copy(self):
+        print("copy")
         widget = self.focusWidget()
         if type(widget) == Sheet:
             indexes = widget.selectedIndexes()
@@ -362,10 +372,11 @@ class Tab(QWidget):
 
             #发送到剪切板
             try:
-                win32clipboard.OpenClipboard()
-                win32clipboard.EmptyClipboard()
-                win32clipboard.SetClipboardData(win32con.CF_UNICODETEXT, clip_str)
-                win32clipboard.CloseClipboard()
+                open(self.clipboardFile, "wb").write(bytes(clip_str, encoding="utf-8"))
+                # win32clipboard.OpenClipboard()
+                # win32clipboard.EmptyClipboard()
+                # win32clipboard.SetClipboardData(win32con.CF_UNICODETEXT, clip_str)
+                # win32clipboard.CloseClipboard()
             except Exception as e:
                 QMessageBox.critical(self, "错误", e, QMessageBox.Ok)
 
@@ -375,10 +386,10 @@ class Tab(QWidget):
         widget = self.focusWidget()
         #判断是否是表格
         if  type(widget) == Sheet:
-            win32clipboard.OpenClipboard()
-            text = win32clipboard.GetClipboardData(win32con.CF_UNICODETEXT)
-            win32clipboard.CloseClipboard()
-
+            # win32clipboard.OpenClipboard()
+            # text = win32clipboard.GetClipboardData(win32con.CF_UNICODETEXT)
+            # win32clipboard.CloseClipboard()
+            text = open(self.clipboardFile, "rb").read().decode("utf-8")
 
             pattern = text.split("/s/s/s")
             rows = pattern[0].split("\r\n")

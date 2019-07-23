@@ -4,7 +4,7 @@
 		<Variable IsParameter="False" ParameterName="" Value="template.py" VariableName="PythonFile" />
 		<Variable IsParameter="False" ParameterName="XmlFile" Value="Resource/xml\222.xml" VariableName="XmlFile" />
 		<Variable IsParameter="False" ParameterName="" Value="main" VariableName="MethodName" />
-		<Variable IsParameter="True" ParameterName="inputFile" Value="C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券 - 副本" VariableName="input" />
+		<Variable IsParameter="True" ParameterName="inputFile" Value="C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券 - 副本/橙易2016年第一期持证抵押贷款证券化信托2017年03月受托机构月度报告(第13期).xlsx" VariableName="input" />
 		<Variable IsParameter="True" ParameterName="outputFile" Value="C:/Users/HHH/Documents/HHH/result" VariableName="output" />
 		<Variable IsParameter="True" ParameterName="templateFile" Value="Resource/templateFile\受托报告导入模板-新.xlsx" VariableName="template" />
 	</Action>&gt;
