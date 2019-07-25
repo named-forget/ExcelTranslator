@@ -194,7 +194,7 @@ def getValidationResult(ds):
         if pInterestPaied < 100000:
             ckResult.append("{1}:{2}:【收益分配记录】债券利息还款 [{0}] 小于10万,数据范围错误".format(pInterestPaied, d[3].cell, 0))
         if pendAmt < 100000:
-            ckResult.append("{1}:{2}【收益分配记录】债券期末金额 [{0}] 小于10万,数据范围错误".format(pendAmt, d[4].cell, 0))
+            ckResult.append("{1}:{2}:【收益分配记录】债券期末金额 [{0}] 小于10万,数据范围错误".format(pendAmt, d[4].cell, 0))
 
         if pendAmt is not None and pstartAmt is not None and pendAmt > pstartAmt:
             ckResult.append("{2};{3}:{4}:【收益分配记录】债券期末余额 [{0}] 大于期初余额{1},数据对应关系错误".format(pendAmt, pstartAmt, d[4].cell, d[1].cell, 0))
@@ -216,8 +216,8 @@ def getValidationResult(ds):
             ckResult.append("{2}{3}:{4}:【收益分配记录 与 笔数与金额特征】各债券期初余额之和 [{0}] 同资产池统计的总金额 [{1}] 相差在5%之上错误".format(bondsAmt,
                                                                                                          assetAmt, cells, ds[5][2].cell, 0))
 
-    t2 = 0
-    t4 = 0
+    t2 = 0.00
+    t4 = 0.00
     cells2 = ''
     cells4 = ''
     for d in ds[1]:
@@ -229,9 +229,11 @@ def getValidationResult(ds):
         if amtCount is not None:
             t4 += amtCount
             cells4 += str(d[4].cell) + ';'
-    if t2 != 0 and (t2 != 100 or t2 != 1):
+    t2 = round(t2, 4)
+    t4 = round(t4, 4)
+    if t2 != 0 and (t2 != 100 and t2 != 1):
         ckResult.append("{0}:{1}:【资产池整体表现情况】笔数占比之和不等于100%".format(cells2[:-1], 0))
-    if t4 != 0 and (t4 != 100 or t4 != 1):
+    if t4 != 0 and (t4 != 100 and t4 != 1):
         ckResult.append("{0}:{1}:【资产池整体表现情况】金额占比之和不等于100%".format(cells4[:-1], 0))
 
     pstartLast = None
@@ -245,7 +247,7 @@ def getValidationResult(ds):
         if pPrincipalAmt < 100000:
             ckResult.append("{1}:{2}:【现金流归集表】应收本金金额 [{0}] 小于10万,数据范围错误".format(pPrincipalAmt, d[2].cell, 0))
         if pInterestAmt < 100000:
-            ckResult.append("{1}:{2}:【现金流归集表】应收利息金额 [{0}] 小于10万,数据范围错误".format(pInterestAmt. d[3].cell, 0))
+            ckResult.append("{1}:{2}:【现金流归集表】应收利息金额 [{0}] 小于10万,数据范围错误".format(pInterestAmt, d[3].cell, 0))
 
         if pstartAmt is not None and pstartAmt is not None and pstartAmt < pPrincipalAmt:
             ckResult.append("{2};{3}:{4}:【现金流归集表】当期期初本金金额 [{0}] 小于应收本金金额 [{1}] 数据对应关系错误".format(pstartAmt,
@@ -398,60 +400,100 @@ def main(configFilePath, dateId):
         os.mkdir(log_Path)
 
     logtxtFilePath = os.path.join(scriptFolder, 'Logs',
-                                  'Log_FormatCheck_{0}.txt'.format(datetime.datetime.now().strftime('%m-%d %H%M%S')))
+                                  '{0}.txt'.format(dateId))
     mappingTree = XETree.parse(configFilePath)
     cfgRoot = mappingTree.getroot()
     sourceFolderPath = cfgRoot.attrib['sourcefolder']
-    dir_path = os.path.dirname(os.path.abspath(__file__)) + '\\MappingXml\\'  # mapping文件存放路径
+    dir_path = scriptFolder + '\\MappingXml\\'  # mapping文件存放路径
     mappingPath = dir_path + dateId + '.xml'
     if not os.path.exists(dir_path):
         os.mkdir(dir_path)
-    for dirPath, dirNames, fileNames in os.walk(sourceFolderPath):
-        config = 1
-        createXml(mappingPath, '', '', 'true')
-        for fileName in fileNames:
-            if not fileName.endswith('.xlsx') or not fileName.startswith('00受托报告数据提取;'):
-                print("【跳过】文件名称不符合，已跳过文件{0}".format(fileName))
-                continue
 
-            sourceFilePath = os.path.join(dirPath, fileName)
-
-            msg = "\n{0}".format(sourceFilePath)
+    if os.path.isfile(sourceFolderPath):
+        fileName = os.path.basename(sourceFolderPath)
+        if not fileName.endswith('.xlsx') or not fileName.startswith('00受托报告数据提取;'):
+            msg = "【跳过】文件名称不符合，已跳过文件{0}".format(fileName)
+            print("【跳过】文件名称不符合，已跳过文件{0}".format(fileName))
             writeLog(msg)
 
-            fileNameAry = fileName.split(';')
-            if len(fileNameAry) != 4:
-                msg = "【文件名错误】文件名称命名不规范"
+        msg = "\n{0}".format(sourceFolderPath)
+        writeLog(msg)
+
+        fileNameAry = fileName.split(';')
+        if len(fileNameAry) != 4:
+            msg = "【文件名错误】文件名称命名不规范"
+            writeLog(msg)
+
+        paymentPeriodID = 0
+
+        paymentPeriodID = fileNameAry[3].rstrip('.xlsx')
+        if not paymentPeriodID.isdigit() or paymentPeriodID == 0:
+            msg = "【错误】文件名中的TrustCode或报告期数设置有误"
+            writeLog(msg)
+
+        createXml(mappingPath, sourceFolderPath, sourceFolderPath, 'false')
+
+        excelwb = load_workbook(sourceFolderPath)
+        if '格式检查' in excelwb.sheetnames:
+            excelwb.remove(excelwb['格式检查'])
+            excelwb.save(sourceFolderPath)
+
+        hasError = checkFileFormat(excelwb, cfgRoot, mappingPath)
+        if hasError > 0:
+            excelwb.save(sourceFolderPath)
+            writeLog('【有格式错误】详情见文档[格式检查]sheet')
+
+    elif os.path.isdir(sourceFolderPath):
+        for dirPath, dirNames, fileNames in os.walk(sourceFolderPath):
+            config = 1
+            createXml(mappingPath, '', '', 'true')
+            for fileName in fileNames:
+                if not fileName.endswith('.xlsx') or not fileName.startswith('00受托报告数据提取;'):
+                    msg = "【跳过】文件名称不符合，已跳过文件{0}".format(fileName)
+                    print("【跳过】文件名称不符合，已跳过文件{0}".format(fileName))
+                    writeLog(msg)
+                    continue
+
+                sourceFilePath = os.path.join(dirPath, fileName)
+
+                msg = "\n{0}".format(sourceFilePath)
                 writeLog(msg)
-                continue
 
-            paymentPeriodID = 0
+                fileNameAry = fileName.split(';')
+                if len(fileNameAry) != 4:
+                    msg = "【文件名错误】文件名称命名不规范"
+                    writeLog(msg)
+                    continue
 
-            paymentPeriodID = fileNameAry[3].rstrip('.xlsx')
-            if not paymentPeriodID.isdigit() or paymentPeriodID == 0:
-                msg = "【错误】文件名中的TrustCode或报告期数设置有误"
-                writeLog(msg)
-                continue
+                paymentPeriodID = 0
 
-            mulPath = dir_path + dateId + '_' + str(config) + '.xml'
-            createXml(mulPath, sourceFilePath, sourceFilePath, 'false')
-            config += 1
-            tree = XETree.parse(mappingPath)
-            root = tree.getroot()
-            MapPath = XETree.Element('filename')  # 创建节点,单个文件的mapping文件
-            MapPath.set("path", mulPath)
-            root.append(MapPath)
-            indent(root)
-            tree.write(mappingPath, encoding='utf-8', xml_declaration=True)
+                paymentPeriodID = fileNameAry[3].rstrip('.xlsx')
+                if not paymentPeriodID.isdigit() or paymentPeriodID == 0:
+                    msg = "【错误】文件名中的TrustCode或报告期数设置有误"
+                    writeLog(msg)
+                    continue
 
-            excelwb = load_workbook(sourceFilePath)
-            if '格式检查' in excelwb.sheetnames:
-                excelwb.remove(excelwb['格式检查'])
-                excelwb.save(sourceFilePath)
+                mulPath = dir_path + dateId + '_' + str(config) + '.xml'
+                createXml(mulPath, sourceFilePath, sourceFilePath, 'false')
+                config += 1
+                tree = XETree.parse(mappingPath)
+                root = tree.getroot()
+                MapPath = XETree.Element('filename')  # 创建节点,单个文件的mapping文件
+                MapPath.set("path", mulPath)
+                root.append(MapPath)
+                indent(root)
+                tree.write(mappingPath, encoding='utf-8', xml_declaration=True)
 
-            hasError = checkFileFormat(excelwb, cfgRoot, mulPath)
-            if hasError > 0:
-                excelwb.save(sourceFilePath)
-                writeLog('【有格式错误】详情见文档[格式检查]sheet')
+                excelwb = load_workbook(sourceFilePath)
+                if '格式检查' in excelwb.sheetnames:
+                    excelwb.remove(excelwb['格式检查'])
+                    excelwb.save(sourceFilePath)
+
+                hasError = checkFileFormat(excelwb, cfgRoot, mulPath)
+                if hasError > 0:
+                    excelwb.save(sourceFilePath)
+                    writeLog('【有格式错误】详情见文档[格式检查]sheet')
+
+
 
 

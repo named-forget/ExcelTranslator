@@ -64,7 +64,7 @@ class Action:
             with open(newfile, encoding="UTF-8") as f:
                 exec(f.read())
             pwd = os.getcwd()
-            mappingPath = os.path.join( pwd, "FileTranslator", 'MappingXml', '{0}.xml'.format(now))
+            mappingPath = os.path.join(pwd, "FileTranslator", 'MappingXml', '{0}.xml'.format(now))
             return mappingPath
         except ValueError as e:
             print(e.args)

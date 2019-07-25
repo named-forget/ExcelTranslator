@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/UI/Tab.py" line="96" />
-    <bookmark url="file://$PROJECT_DIR$/UI/WorkTab.py" line="321" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="6fef069c-6d09-4a32-b094-1982b4aceeda" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/GuiRcFile/Tab.ui" beforeDir="false" afterPath="$PROJECT_DIR$/GuiRcFile/Tab.ui" afterDir="false" />
@@ -19,45 +15,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UI/WorkTab.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="195" column="72" selection-start-line="195" selection-start-column="72" selection-end-line="195" selection-end-column="72" />
-              <folding>
-                <element signature="e#27#56#0" expanded="true" />
-                <element signature="e#5403#5501#0" />
-                <element signature="e#5702#6072#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UI/Tab.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="53" column="33" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UI/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="20" column="30" lean-forward="true" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/UI/MainWindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="502" column="44" selection-start-line="502" selection-start-column="44" selection-end-line="502" selection-end-column="44" />
+            <state relative-caret-position="261">
+              <caret line="275" column="25" selection-start-line="275" selection-start-column="25" selection-end-line="275" selection-end-column="25" />
               <folding>
                 <element signature="n#!!doc" />
                 <element signature="e#66#75#0" expanded="true" />
@@ -67,24 +28,59 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ShowDIalog.py">
+        <entry file="file://$PROJECT_DIR$/UI/FillData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="208">
+              <caret line="208" column="45" lean-forward="true" selection-start-line="208" selection-start-column="45" selection-end-line="208" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/UI/TabWidget.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="594">
+              <caret line="872" column="19" selection-start-line="872" selection-start-column="19" selection-end-line="872" selection-end-column="19" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#27#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UI/openfile.py">
+        <entry file="file://$PROJECT_DIR$/FileTranslator/FileFormatCheck.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-333">
-              <caret line="90" column="64" selection-start-line="90" selection-start-column="64" selection-end-line="90" selection-end-column="64" />
+            <state relative-caret-position="4522">
+              <caret line="245" selection-start-line="245" selection-end-line="245" />
               <folding>
-                <element signature="e#196#231#0" expanded="true" />
+                <element signature="e#24#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Action/Action.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="836">
+              <caret line="66" column="48" selection-start-line="66" selection-start-column="48" selection-end-line="66" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#173#688#0" />
+                <element signature="e#726#1505#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FileTranslator/template.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5966">
+              <caret line="319" column="49" selection-start-line="319" selection-start-column="49" selection-end-line="319" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,18 +97,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>set_palette</find>
-      <find>&quot;jet&quot;</find>
-      <find>loadData</find>
-      <find>read_csv</find>
-      <find>pd</find>
-      <find>window_open</find>
-      <find>tableWidget</find>
-      <find>MainWindow</find>
-      <find>tabWidget</find>
-      <find>button_ViewTemplateFile</find>
-      <find>toolba</find>
-      <find>__</find>
       <find>wb</find>
       <find>colnum</find>
       <find>set</find>
@@ -131,6 +115,18 @@
       <find>vbox2</find>
       <find>save</find>
       <find>map</find>
+      <find>self.textEdit</find>
+      <find>appenText</find>
+      <find>TabWidget</find>
+      <find>submitted</find>
+      <find>logGenerated</find>
+      <find>p</find>
+      <find>pyqtSignal</find>
+      <find>trigger</find>
+      <find>showMask</find>
+      <find>distinguishDoc</find>
+      <find>maskwidget</find>
+      <find>repaint</find>
     </findStrings>
     <replaceStrings>
       <replace>file_Exolorer</replace>
@@ -164,12 +160,19 @@
         <option value="$PROJECT_DIR$/GuiRcFile/untitled.ui" />
         <option value="$PROJECT_DIR$/UI/Config/WorkTab.py" />
         <option value="$PROJECT_DIR$/UI/untitled.py" />
-        <option value="$PROJECT_DIR$/FileTranslator/template.py" />
         <option value="$PROJECT_DIR$/UI/test.py" />
-        <option value="$PROJECT_DIR$/ShowDIalog.py" />
         <option value="$PROJECT_DIR$/UI/MainWindow.py" />
         <option value="$PROJECT_DIR$/UI/Tab.py" />
         <option value="$PROJECT_DIR$/UI/WorkTab.py" />
+        <option value="$PROJECT_DIR$/UI/SettingManager.py" />
+        <option value="$PROJECT_DIR$/FileTranslator/FileFormatCheck_Trustee.xml" />
+        <option value="$PROJECT_DIR$/ShowDIalog.py" />
+        <option value="$PROJECT_DIR$/Action/Action.py" />
+        <option value="$PROJECT_DIR$/FileTranslator/template.py" />
+        <option value="$PROJECT_DIR$/UI/TabWidget.py" />
+        <option value="$PROJECT_DIR$/FileTranslator/FileFormatCheck.py" />
+        <option value="$PROJECT_DIR$/UI/FillData.py" />
+        <option value="$PROJECT_DIR$/Config/config.xml" />
       </list>
     </option>
   </component>
@@ -185,6 +188,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -197,66 +201,39 @@
               <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
               <item name="Config" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
-              <item name="FileTranslator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
-              <item name="GuiRcFile" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
-              <item name="Resource" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
-              <item name="Resource" type="462c0819:PsiDirectoryNode" />
-              <item name="icon" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
-              <item name="UI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ExcelTranslator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ExcelTranslator" type="462c0819:PsiDirectoryNode" />
-              <item name="UI" type="462c0819:PsiDirectoryNode" />
-              <item name="Config" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Resource/icon" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../untitled1" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="H:\PythonProject\ExcelTranslator\UI" />
-      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\UI" />
-      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource\icon" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\PythonProject\ExcelTranslator\Resource\icon" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource\icon" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\FileTranslator" />
       <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTransfor" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\PythonProject\ExcelTranslator\UI" />
+      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\UI" />
+      <recent name="C:\Users\HHH\Documents\PythonProject\ExcelTranslator\Resource\icon" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -409,11 +386,13 @@
       <workItem from="1562990680684" duration="39829000" />
       <workItem from="1563069818657" duration="39099000" />
       <workItem from="1563114595114" duration="10518000" />
+      <workItem from="1563861113442" duration="24180000" />
+      <workItem from="1564017429765" duration="2945000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152265000" />
+    <option name="totallyTimeSpent" value="179390000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -425,25 +404,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="2062" height="1126" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29391217" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29959786" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48153692" weight="0.32595575" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48353294" weight="0.39738432" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.480563" visible="true" weight="0.23167156" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48353294" weight="0.29178885" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.499501" weight="0.32997987" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.499501" weight="0.32991204" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.499501" weight="0.32997987" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.499501" weight="0.32991204" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5184631" side_tool="true" visible="true" weight="0.32595575" />
-      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.498503" weight="0.84205234" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.499501" weight="0.32997987" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.519437" side_tool="true" weight="0.32551318" />
+      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.498503" weight="0.8416422" />
+      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.499501" weight="0.32991204" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -483,26 +462,40 @@
     </ignored-roots>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self.map['M,33']" language="Python" />
+        <watch expression="d[3].cell" />
+        <watch expression="&quot;29,2&quot; in self.dest_markItem" language="Python" />
+        <watch expression="&quot;29,2&quot; in self.__map" language="Python" />
+        <watch expression="self.destSheet.item(29,2).background().color().getRgb()" language="Python" />
+        <watch expression="self.destSheet.item(27, 2).dataType" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ExcelTransfor$texteditor.coverage" NAME="texteditor Coverage Results" MODIFIED="1562825481751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ExcelTransfor$test.coverage" NAME="test Coverage Results" MODIFIED="1562841064115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$ShowDIalog.coverage" NAME="ShowDIalog Coverage Results" MODIFIED="1563125391431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$texteditor.coverage" NAME="texteditor Coverage Results" MODIFIED="1563097290332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ExcelTransfor$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1562842224222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTransfor$openfile.coverage" NAME="openfile Coverage Results" MODIFIED="1562813621195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTransfor$MainWIndow.coverage" NAME="MainWIndow Coverage Results" MODIFIED="1562825887737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$untitled.coverage" NAME="untitled Coverage Results" MODIFIED="1562955113387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTransfor$ShowDIalog.coverage" NAME="ShowDIalog Coverage Results" MODIFIED="1562842411296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ExcelTranslator$test.coverage" NAME="test Coverage Results" MODIFIED="1563124424904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$WorkTab.coverage" NAME="WorkTab Coverage Results" MODIFIED="1563003367475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$untitled.coverage" NAME="untitled Coverage Results" MODIFIED="1562955113387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/ExcelTranslator$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1563097373328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/ExcelTransfor$openfile.coverage" NAME="openfile Coverage Results" MODIFIED="1562813621195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/ExcelTranslator$worksheet.coverage" NAME="worksheet Coverage Results" MODIFIED="1563121620657" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/worksheet" />
-    <SUITE FILE_PATH="coverage/ExcelTransfor$MainWIndow.coverage" NAME="MainWIndow Coverage Results" MODIFIED="1562825887737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1563097373328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$ShowDIalog.coverage" NAME="ShowDIalog Coverage Results" MODIFIED="1564020056895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ExcelTransfor$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1562842224222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTransfor$test.coverage" NAME="test Coverage Results" MODIFIED="1562841064115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$texteditor.coverage" NAME="texteditor Coverage Results" MODIFIED="1563097290332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ExcelTranslator$WorkTab.coverage" NAME="WorkTab Coverage Results" MODIFIED="1563003367475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/ExcelTransfor$texteditor.coverage" NAME="texteditor Coverage Results" MODIFIED="1562825481751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointLogExpression">
@@ -535,89 +528,99 @@
     </expressions>
     <expressions id="watch">
       <expression>
-        <expression-string>self.map['M,33']</expression-string>
+        <expression-string>self.destSheet.item(27, 2).dataType</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.map.keys().__contains__(&quot;A,24&quot;)</expression-string>
+        <expression-string>self.e</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.map.keys().__contains__(&quot;&quot;)</expression-string>
+        <expression-string>self.destSheet.item(29,2).background().color().getRgb()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.map</expression-string>
+        <expression-string>self.destSheet.item(29,2).background().color().rgb()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.map[intToletter(item.column()) + &quot;,&quot; + str(item.row())]</expression-string>
+        <expression-string>self.destSheet.item(29,2).background().color().value()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>intToletter(item.column()) + &quot;,&quot; + str(item.row())</expression-string>
+        <expression-string>self.destSheet.item(29,2).background().color() == self.essentialColor</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>map[intToletter(item.column()) + &quot;,&quot; + str(item.row())]</expression-string>
+        <expression-string>self.destSheet.item(29,2).background().color() == QColor(255,255,255)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sheet[intToletter(col) + str(row)].value</expression-string>
+        <expression-string>self.destSheet.item(29,2).background().color()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>openpyxl.styles.colors.Color(indexed= 9)</expression-string>
+        <expression-string>&quot;29,2&quot; in self.__map</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>openpyxl.styles.colors.Color(theme = 9, tint= 0.5999938962981048)</expression-string>
+        <expression-string>&quot;29,2&quot; in self.dest_markItem</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>os.path.basename(folder_Exolorer)[0:-5]</expression-string>
+        <expression-string>t2 != 0 and (t2 != 100 and t2 != 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>os.path.basename(folder_Exolorer)[0:-4]</expression-string>
+        <expression-string>t2 != 0 and (t2 != 100 or t2 != 1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>os.path.basename(folder_Exolorer)[0,-4]</expression-string>
+        <expression-string>round(100.02, 5)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>os.path.basename(folder_Exolorer)[-4]</expression-string>
+        <expression-string>round(t2, 5)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>os.path.basename(folder_Exolorer)</expression-string>
+        <expression-string>round(t2+0, 5)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>byte.decode('utf-8')</expression-string>
+        <expression-string>round(t2+0, 4)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>os.system(&quot;explorer.exe %s&quot; % byte.decode('utf-8'))</expression-string>
+        <expression-string>round(110.2)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>round(t2)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>100 ==100.00</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -638,51 +641,13 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/xml/etree/ElementTree.py" />
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/seaborn/palettes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="221" column="12" lean-forward="true" selection-start-line="221" selection-start-column="12" selection-end-line="221" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="1013" selection-start-line="1013" selection-end-line="1013" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QWidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="1134" column="99" selection-start-line="1134" selection-start-column="93" selection-end-line="1134" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/workbook/workbook.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="69" column="42" lean-forward="true" selection-start-line="69" selection-start-column="42" selection-end-line="69" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/packaging/workbook.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="38" column="23" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/xml/etree/ElementTree.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3629">
-          <caret line="174" column="28" selection-start-line="174" selection-start-column="22" selection-end-line="174" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtCore/Qt.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/seaborn/palettes.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QWidget.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/workbook/workbook.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/packaging/workbook.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/xml/etree/ElementTree.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtCore/Qt.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -690,27 +655,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QTableWidgetItem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/ntpath.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="182" selection-start-line="182" selection-end-line="182" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/reader/excel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="110" selection-start-line="110" selection-end-line="110" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QTableWidgetItem.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/ntpath.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/reader/excel.py" />
     <entry file="file://$PROJECT_DIR$/GuiRcFile/test.ui">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -718,37 +665,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QTabWidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3705">
-          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/re.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="222" selection-start-line="222" selection-end-line="222" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Config/setting.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/texteditor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="156" column="26" selection-start-line="156" selection-start-column="26" selection-end-line="156" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UI/Config/config.ini">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-158570355/PyQt5/QtWidgets/QTabWidget.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/re.py" />
+    <entry file="file://$PROJECT_DIR$/Config/setting.ini" />
+    <entry file="file://$PROJECT_DIR$/texteditor.py" />
+    <entry file="file://$PROJECT_DIR$/UI/Config/config.ini" />
     <entry file="file://$PROJECT_DIR$/GuiRcFile/Tab.ui">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
@@ -756,61 +677,126 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UI/untitled.py">
+    <entry file="file://$PROJECT_DIR$/UI/untitled.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/worksheet/worksheet.py" />
+    <entry file="file://$PROJECT_DIR$/UI/openfile.py" />
+    <entry file="file://$PROJECT_DIR$/UI/Tab.py" />
+    <entry file="file://$PROJECT_DIR$/UI/test.py" />
+    <entry file="file://$PROJECT_DIR$/UI/WorkTab.py" />
+    <entry file="file://$PROJECT_DIR$/FileTranslator/matchXml.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="747">
-          <caret line="170" column="49" selection-start-line="170" selection-start-column="47" selection-end-line="170" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileTranslator/template.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="747">
-          <caret line="115" column="72" selection-start-line="115" selection-start-column="64" selection-end-line="115" selection-end-column="72" />
+        <state relative-caret-position="1025">
+          <caret line="134" column="35" lean-forward="true" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/openpyxl/worksheet/worksheet.py">
+    <entry file="file://$PROJECT_DIR$/ShowDIalog.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="692" lean-forward="true" selection-start-line="692" selection-end-line="692" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UI/openfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-333">
-          <caret line="90" column="64" selection-start-line="90" selection-start-column="64" selection-end-line="90" selection-end-column="64" />
-          <folding>
-            <element signature="e#196#231#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UI/Tab.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="53" column="33" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UI/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="20" column="30" lean-forward="true" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+        <state relative-caret-position="171">
+          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/UI/DialogDesigner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="52" column="56" selection-start-line="52" selection-start-column="47" selection-end-line="52" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/SettingManager.qss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/SettingManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1521">
+          <caret line="115" column="45" selection-start-line="115" selection-start-column="45" selection-end-line="115" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/StyleComboBox.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/MainWindow.qss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-171" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileTranslator/MappingXml/20190724_140941_7.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileTranslator/FileFormatCheck_Trustee.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="817">
+          <caret line="43" column="45" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-313451744/PyQt5/QtCore/pyqtSignal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileTranslator/FileFormatCheck.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4522">
+          <caret line="245" selection-start-line="245" selection-end-line="245" />
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Action/Action.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="836">
+          <caret line="66" column="48" selection-start-line="66" selection-start-column="48" selection-end-line="66" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#173#688#0" />
+            <element signature="e#726#1505#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileTranslator/template.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5966">
+          <caret line="319" column="49" selection-start-line="319" selection-start-column="49" selection-end-line="319" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/TabWidget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="872" column="19" selection-start-line="872" selection-start-column="19" selection-end-line="872" selection-end-column="19" />
+          <folding>
+            <element signature="e#27#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/UI/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="502" column="44" selection-start-line="502" selection-start-column="44" selection-end-line="502" selection-end-column="44" />
+        <state relative-caret-position="261">
+          <caret line="275" column="25" selection-start-line="275" selection-start-column="25" selection-end-line="275" selection-end-column="25" />
           <folding>
             <element signature="n#!!doc" />
             <element signature="e#66#75#0" expanded="true" />
@@ -818,25 +804,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UI/WorkTab.py">
+    <entry file="file://$PROJECT_DIR$/Config/Actions.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Config/config.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="195" column="72" selection-start-line="195" selection-start-column="72" selection-end-line="195" selection-end-column="72" />
-          <folding>
-            <element signature="e#27#56#0" expanded="true" />
-            <element signature="e#5403#5501#0" />
-            <element signature="e#5702#6072#0" />
-          </folding>
+        <state relative-caret-position="304">
+          <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ShowDIalog.py">
+    <entry file="file://$PROJECT_DIR$/UI/FillData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="208">
+          <caret line="208" column="45" lean-forward="true" selection-start-line="208" selection-start-column="45" selection-end-line="208" selection-end-column="45" />
         </state>
       </provider>
     </entry>

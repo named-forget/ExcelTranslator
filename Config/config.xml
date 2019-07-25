@@ -1,13 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Root>
 	<OutputFolder>
-	<Folder>C:/Users/HHH/Documents/HHH/result</Folder>
-<Folder>C:/Users/HHH/Desktop/结果</Folder><Folder>C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券</Folder><Folder>C:/Users/HHH/Documents/GitHub/ExcelTranslator/Config</Folder><Folder>C:/Users/HHH/Documents/GitHub/ExcelTranslator/FileTranslator</Folder><Folder>C:/Users/HHH/Desktop</Folder></OutputFolder>
+	<Folder>C:/PyCharm/pdf-docx/source/Example/消费贷</Folder><Folder>C:/PyCharm/pdf-docx/source/Example/车贷</Folder><Folder>C:/PyCharm/pdf-docx/source/Example/房贷</Folder></OutputFolder>
 <xmlFIle>
-	<File Name="222.xml">Resource/xml\222.xml</File>
+	<File Name="车贷1.xml">Resource/xml/AUTO1.xml</File>
+	<File Name="车贷2.xml">Resource/xml/AUTO2.xml</File>
+	<File Name="车贷4.xml">Resource/xml/AUTO4.xml</File>
+	<File Name="车贷5.xml">Resource/xml/AUTO5.xml</File>
+	<File Name="车贷6.xml">Resource/xml/AUTO6.xml</File>
+	<File Name="房贷1.xml">Resource/xml/RMBS1.xml</File>
+	<File Name="房贷2.xml">Resource/xml/RMBS2.xml</File>
+	<File Name="房贷3.xml">Resource/xml/RMBS3.xml</File>
+	<File Name="房贷4.xml">Resource/xml/RMBS4.xml</File>
+	<File Name="消费贷1.xml">Resource/xml/ConsumerLoan1.xml</File>
+	<File Name="消费贷2.xml">Resource/xml/ConsumerLoan2.xml</File>
+	<File Name="消费贷3.xml">Resource/xml/ConsumerLoan3.xml</File>
+	<File Name="消费贷4.xml">Resource/xml/ConsumerLoan4.xml</File>
+	<File Name="消费贷5.xml">Resource/xml/ConsumerLoan5.xml</File>
 </xmlFIle>
 <templateFile>
-	<File Name="受托报告导入模板-新.xlsx">Resource/templateFile\受托报告导入模板-新.xlsx</File>
-	<File Name="受托报告导入模板.xlsx">Resource/templateFile/受托报告导入模板.xlsx</File>
+	<File Name="受托报告导入模板-新.xlsx">Resource/templateFile\templateModel.xlsx</File>
 </templateFile>
 </Root>

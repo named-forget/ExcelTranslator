@@ -2,16 +2,16 @@
 <Actions>
 	<Action AcitonName="内容填充" ActionCode="FillData" Id="1">
 		<Variable IsParameter="False" ParameterName="" Value="template.py" VariableName="PythonFile" />
-		<Variable IsParameter="False" ParameterName="XmlFile" Value="Resource/xml\222.xml" VariableName="XmlFile" />
+		<Variable IsParameter="False" ParameterName="XmlFile" Value="Resource/xml/RMBS2.xml" VariableName="XmlFile" />
 		<Variable IsParameter="False" ParameterName="" Value="main" VariableName="MethodName" />
-		<Variable IsParameter="True" ParameterName="inputFile" Value="C:/Users/HHH/Documents/HHH/橙易2016年第一期持证抵押贷款资产支持证券 - 副本/橙易2016年第一期持证抵押贷款证券化信托2017年03月受托机构月度报告(第13期).xlsx" VariableName="input" />
-		<Variable IsParameter="True" ParameterName="outputFile" Value="C:/Users/HHH/Documents/HHH/result" VariableName="output" />
-		<Variable IsParameter="True" ParameterName="templateFile" Value="Resource/templateFile\受托报告导入模板-新.xlsx" VariableName="template" />
+		<Variable IsParameter="True" ParameterName="inputFile" Value="C:/PyCharm/pdf-docx/source/样例/房贷/房贷2.xlsx" VariableName="input" />
+		<Variable IsParameter="True" ParameterName="outputFile" Value="C:/PyCharm/pdf-docx/source/Example/房贷" VariableName="output" />
+		<Variable IsParameter="True" ParameterName="templateFile" Value="Resource/templateFile\templateModel.xlsx" VariableName="template" />
 	</Action>&gt;
 	<Action AcitonName="数值校验" ActionCode="ValueCheck" Id="2">
 		<Variable IsParameter="False" ParameterName="" Value="FileFormatCheck.py" VariableName="PythonFile" />
 		<Variable IsParameter="False" ParameterName="" Value="FileTranslator/FileFormatCheck_Trustee.xml" VariableName="XmlFile" />
 		<Variable IsParameter="False" ParameterName="" Value="main" VariableName="MethodName" />
-		<Variable IsParameter="True" ParameterName="sourcefolder" Value="C:/Users/HHH/Documents/HHH/result" VariableName="sourcefolder" />
+		<Variable IsParameter="True" ParameterName="sourcefolder" Value="C:/PyCharm/pdf-docx/source/Example/房贷" VariableName="sourcefolder" />
 	</Action>
 </Actions>

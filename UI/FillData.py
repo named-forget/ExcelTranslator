@@ -123,7 +123,6 @@ class FillData(QDialog):
         self.bodyLayout.addWidget(self.comboBox_templatefile, 3, 1)
 
 
-
         self.verticalLayout.addWidget(self.body)
         self.bottom = QWidget()
         self.bottom.setObjectName("bottom")
@@ -204,10 +203,13 @@ class FillData(QDialog):
             return
         self.button_distinguishXml.setDisabled(True)
         self.button_distinguishXml.setText("正在识别...")
+        self.repaint()
         xmlName = ""
         try:
             xmlName = matchXml.main(filepath)
         except Exception as e:
+            self.button_distinguishXml.setDisabled(False)
+            self.button_distinguishXml.setText("自动识别")
             QMessageBox.critical(self, "错误", str(e), QMessageBox.Ok)
         if xmlName is None or xmlName == "":
             self.button_distinguishXml.setDisabled(False)
@@ -222,6 +224,7 @@ class FillData(QDialog):
         self.comboBox_xmlFIle.setCurrentIndex(index)
         self.button_distinguishXml.setDisabled(False)
         self.button_distinguishXml.setText("自动识别")
+
 
     def open(self) -> None:
         if self.mode == 1:
