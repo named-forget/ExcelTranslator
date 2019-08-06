@@ -6,6 +6,7 @@
 import os
 import xml.etree.ElementTree as XETree
 import shutil
+import traceback
 from Action.Action import Action
 
 from FileTranslator import template as fileTranslator
@@ -284,7 +285,7 @@ class MainWindow(QMainWindow):
         try:
             newtab.run()
         except Exception as e:
-            QMessageBox.critical(self, "错误", str(e), QMessageBox.Ok)
+            QMessageBox.critical(self, "错误", traceback.format_exc(), QMessageBox.Ok)
         self.maskwidget.hide()
 
 

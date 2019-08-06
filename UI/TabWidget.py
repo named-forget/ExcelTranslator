@@ -12,6 +12,7 @@ import win32clipboard
 import win32con
 import numpy as np
 import sip
+import traceback
 
 class WorkTab(QTabWidget):
 
@@ -385,7 +386,7 @@ class Tab(QWidget):
                 # win32clipboard.SetClipboardData(win32con.CF_UNICODETEXT, clip_str)
                 # win32clipboard.CloseClipboard()
             except Exception as e:
-                QMessageBox.critical(self, "错误", e, QMessageBox.Ok)
+                QMessageBox.critical(self, "错误", traceback.format_exc(), QMessageBox.Ok)
 
         return
             
@@ -497,7 +498,7 @@ class Tab(QWidget):
                     self.__extractForKeyValue(cfgItem)
             self.refreshSourceSheet()
         except Exception as e:
-            QMessageBox.critical(self, "错误", "xml文件解析错误" + str(e), QMessageBox.Ok)
+            QMessageBox.critical(self, "错误", "xml文件解析错误\n" + traceback.format_exc(), QMessageBox.Ok)
 
 
     def __extractForKeyValue(self, cfgItem):
@@ -634,7 +635,7 @@ class Sheet(QTableWidget):
             self.filePath = filepath
             self.sheetName = sheetNames[sheetIndex]
         except Exception as e:
-            QMessageBox.critical(self, "错误", "解析文件发生错误: " + str(e), QMessageBox.Ok)
+            QMessageBox.critical(self, "错误", "解析文件发生错误: \n" + traceback.format_exc(), QMessageBox.Ok)
 
     def fillSheetByExcelSheetName(self, filepath, sheetName):
         try:
@@ -644,7 +645,7 @@ class Sheet(QTableWidget):
             self.sheetName = sheetName
 
         except Exception as e:
-            QMessageBox.critical(self, "错误", "解析文件发生错误：" + str(e), QMessageBox.Ok)
+            QMessageBox.critical(self, "错误", "解析文件发生错误：\n" + traceback.format_exc(), QMessageBox.Ok)
 
     #设置item位置超过table大小时自动更新大小
     def setItem(self, row: int, column: int, item: QTableWidgetItem) -> None:
@@ -760,7 +761,7 @@ class Sheet(QTableWidget):
                         sheet[intToletter(col) + str(row + 1)].value = value
                     except Exception as e:
                         print(intToletter(col) + str(row))
-                        print(e)
+                        QMessageBox.critical(self, "错误", traceback.format_exc(), QMessageBox.Ok)
         workbok.save(self.filePath)
 
 
@@ -789,7 +790,7 @@ class TableItem(QTableWidgetItem):
             super().setText(value)
             self.checkData(self.essentialColor)
         except Exception as e:
-            print(e)
+            QMessageBox.critical(self, "错误", traceback.format_exc(), QMessageBox.Ok)
 
     def updateValue(self,value):  # 根据类型进行字符串处理，D日期，P百分数，S字符串不做处理，F或不填按数字处理
         value = str(value)
@@ -821,7 +822,7 @@ class TableItem(QTableWidgetItem):
                     value = "0"
             return value
         except Exception as e:
-            print(e)
+            QMessageBox.critical(self, "错误", traceback.format_exc(), QMessageBox.Ok)
             print("ErrorValue: " + value + "Type: " + self.ataType)
 
     def checkData(self, normalColor):  # 值校验，是否符合对应类型
