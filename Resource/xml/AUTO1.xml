@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<mapping input="C:/PyCharm/pdf-docx/source/样例/00车贷案例/车贷7.xlsx" output="C:/PyCharm/pdf-docx/source/Example/房贷" template="Resource/templateFile\受托报告导入模板-新.xlsx">
+<mapping input="C:/PyCharm/pdf-docx/source/样例/00车贷案例/车贷1.xlsx" output="C:/PyCharm/pdf-docx/source/Example/车贷" template="Resource/templateFile\templateModel.xlsx">
 			 
 		<item desc="资产池整体表现情况" istable="true">
             <source anchor="资产池整体表现情况" anchorend="" cols="A,B,C,D,E" range="6" skiprows="1"> </source>
@@ -10,7 +10,7 @@
             <dest beginrow="8" cols="B,C,D,F" datatype="S,F,F,F" limited="4" />
         </item>
 		<item desc="证券分层" istable="true">
-            <source anchor="本期应支付的利息金额 (元）" anchorend="" cols="C,F,H" range="1" skiprows="-1" transposition="true"> </source>
+            <source anchor="本期应支付的利息金额" anchorend="" cols="C,F,H" range="1" skiprows="-1" transposition="true"> </source>
             <dest beginrow="8" cols="E" datatype="F" limited="3" />
         </item>		
 		<item desc="资产池现金流归集表" istable="true">
@@ -46,11 +46,11 @@
 			<dest beginrow="45" cols="M" datatype="F" limited="3" />
 		</item>
 		<item desc="资产池情况 状态" istable="true">
-            <source anchor="(六）资产池现金流入情况" anchorend="" cols="D,E" range="7" skiprows="1"> </source>
+            <source anchor="(六）资产池现金流入情况" anchorend="" cols="D,E" range="9" skiprows="1"> </source>
             <dest beginrow="24" cols="L,M" datatype="F,F" limited="6" />
         </item>	
 		<item desc="资产池情况 状态" istable="true">
-            <source anchor="本金账" anchorend="" cols="D,E" range="7" skiprows="-1"> </source>
+            <source anchor="本金账" anchorend="" cols="D,E" range="9" skiprows="-1"> </source>
             <dest beginrow="34" cols="L,M" datatype="F,F" limited="6" />
         </item>	
 		<item desc="违约处置状态" istable="true">

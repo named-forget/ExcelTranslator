@@ -46,11 +46,11 @@
 			<dest beginrow="45" cols="M" datatype="F" limited="3" />
 		</item>
 		<item desc="资产池情况 状态" istable="true">
-            <source anchor="(六）资产池现金流入情况" anchorend="" cols="D,E" range="7" skiprows="1"> </source>
+            <source anchor="(六）资产池现金流入情况" anchorend="" cols="D,E" range="9" skiprows="1"> </source>
             <dest beginrow="24" cols="L,M" datatype="F,F" limited="6" />
         </item>	
 		<item desc="资产池情况 状态" istable="true">
-            <source anchor="本金账" anchorend="" cols="D,E" range="7" skiprows="-1"> </source>
+            <source anchor="本金账" anchorend="" cols="D,E" range="9" skiprows="-1"> </source>
             <dest beginrow="34" cols="L,M" datatype="F,F" limited="6" />
         </item>	
 		<item desc="违约处置状态" istable="true">
