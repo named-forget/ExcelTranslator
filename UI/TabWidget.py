@@ -281,7 +281,14 @@ class Tab(QWidget):
         self.logGenerated.emit("开始执行任务：{0}".format(self.actionName) + log_str)
         #self.signal_changed.emit(self, True)
         result = action.runAciton()
+        fileName = os.path.basename(result).split('.')[0]
+        LogPath = os.path.join(os.getcwd(), "FileTranslator", 'Logs', '{0}.txt'.format(fileName))
         #result = "FileTranslator/MappingXml/20190720_182549.xml"
+        if os.path.exists(LogPath):
+            log = open(LogPath)
+            for line in log:
+                self.logGenerated.emit(line)
+            log.close()
         self.logGenerated.emit("执行完成")
 
         root = XETree.parse(result).getroot()

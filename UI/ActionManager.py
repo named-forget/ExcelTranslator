@@ -176,6 +176,11 @@ class AcitonManager(QDialog):
         if actioncode == "":
             QMessageBox.warning(self, "警告", "ActionCode不能为空", QMessageBox.Ok)
             return
+        tree = XETree.parse(self.configFilePath)
+        node = tree.getroot().find("Action[@ActionCode='{0}']".format(actioncode))
+        if node is None:
+            QMessageBox.warning(self, "警告", "请先点击保存再进行编辑", QMessageBox.Ok)
+            return
         actionEdit = ActionEdit(self, actioncode, "编辑参数")
         actionEdit.setFixedSize(905, 800)
         actionEdit.show()
@@ -198,7 +203,7 @@ class AcitonManager(QDialog):
         actioncode = self.mainTable.item(row, 2).text()
         self.mainTable.removeRow(row)
         self.removedAction.append(actioncode)
-        self.newId.pop(str(row))
+        #self.newId.pop(str(row))
 
     def submit(self):
         tree = XETree.parse(self.configFilePath)
@@ -216,14 +221,14 @@ class AcitonManager(QDialog):
             if actionCode == "":
                 continue
             ele_Action = XETree.Element("Action")
-            ele_Action.set("Id", k)
+            ele_Action.set("Id", Id)
             ele_Action.set("AcitonName", actionName)
             ele_Action.set("ActionCode", actionCode)
-            ele_Action.append(v)
+            #ele_Action.append(v)
             root.append(ele_Action)
         indent(root)
         tree.write(self.configFilePath, encoding='utf-8', xml_declaration=True)
-
+        self.newId.clear()
         sip.delete(self.mainTable)
         self.initTable()
         message = QMessageBox()

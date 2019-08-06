@@ -125,12 +125,17 @@ class ActionEdit(QDialog):
             self.addXmlFileRow(item.attrib["ParameterName"], item.attrib["Value"], item.attrib["IsParameter"])
         else:
             self.addXmlFileRow("", "", "False")
+        item = node.find("Variable[@VariableName='MethodName']")
+        if item is not None:
+            self.addMethodName(item.attrib["ParameterName"], item.attrib["Value"], item.attrib["IsParameter"])
+        else:
+            self.addMethodName("", "", "False")
 
         items = node.findall("Variable")
         for i in range(0, len(items)):
             count = self.mainTable.rowCount()
             varName = items[i].attrib["VariableName"]
-            if varName == "XmlFile" or varName == "PythonFile":
+            if varName == "XmlFile" or varName == "PythonFile" or varName == "MethodName":
                 continue
             item = TableItem(varName)
             item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
@@ -212,6 +217,19 @@ class ActionEdit(QDialog):
         self.mainTable.setCellWidget(1, 0, item)
         item.clicked.connect(self.openXmlFile)
 
+    def addMethodName(self, paraName, value, isParameter):
+        item = TableItem("MethodName")
+        self.mainTable.setItem(2, 1, item)
+        item = TableItem(paraName)
+        self.mainTable.setItem(2, 2, item)
+        item = TableItem(value)
+        self.mainTable.setItem(2, 3, item)
+        item = TableItem("")
+        if isParameter == "True":
+            item.setCheckState(Qt.Checked)
+        else:
+            item.setCheckState(Qt.Unchecked)
+        self.mainTable.setItem(2, 4, item)
 
     def openPyFile(self) -> None:
         root = XETree.parse(self.configFilePath)

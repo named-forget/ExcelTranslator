@@ -102,7 +102,7 @@ class SettingManager(QDialog):
         if not os.path.lexists(file):
             QMessageBox.critical(self, "错误", "文件不存在", QMessageBox.Ok)
             return
-        os.startfile(file)
+        os.startfile(os.getcwd()+"/"+ file)
 
     def initTableData(self):
         tree = XETree.parse(self.configFilePath)

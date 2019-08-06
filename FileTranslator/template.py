@@ -153,9 +153,16 @@ def extractForTable(cfgItem, MapPath):
                 tempvalue = updateValue(sheet[sCols].value, datatype[col])
                 isRight = checkData(tempvalue,datatype[col])
                 if not isRight:
+                    ErrorStr = ''
+                    if datatype[col] == 'F':
+                        ErrorStr += '（类型错误，为浮点数）'
+                    elif datatype[col] == 'P':
+                        ErrorStr += '（类型错误，为百分数,格式为xx%）'
+                    elif datatype[col] == 'D':
+                        ErrorStr += '（类型错误，为日期，格式为YYYY/MM/DD）'
                     fill = PatternFill(fill_type='solid', start_color='FF0000', end_color='FF0000')
                     destSheet[dCols].fill = fill
-                    destSheet[dCols].value = sheet[sCols].value
+                    destSheet[dCols].value = str(sheet[sCols].value) + ErrorStr
                     addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 114, 116')
                 else:
                     destSheet[dCols].value = tempvalue
@@ -201,6 +208,8 @@ def keyValueToDestExcel(tempcell, dCols, dNode, isFind, MapPath):
         fill = PatternFill(fill_type='solid', start_color='FF0000', end_color='FF0000')
         sheetD[dCols].fill = fill
         value = '0.00'
+        if isFind == 0:
+            value = 'NA'
         if tempcell is not None:
             sCols = tempcell.column + str(tempcell.row)
             addNodeForMapXml(MapPath, sCols, dCols, '', '85, 170, 255', '255, 114, 116')

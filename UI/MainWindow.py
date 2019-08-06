@@ -83,11 +83,17 @@ class MainWindow(QMainWindow):
         self.button_saveAs.setStatusTip('另存为')
         self.button_saveAs.clicked.connect(self.open)
 
-        #数值校验
-        self.button_checkValue = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_run.ico'), '数值校验')
-        self.button_checkValue.setText("数值校验")
-        self.button_checkValue.setToolTip('数值校验')
+        # 基础校验
+        self.button_checkValue = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_run.ico'), '基础资产校验')
+        self.button_checkValue.setText("基础资产校验")
+        self.button_checkValue.setToolTip('基础资产校验')
         self.button_checkValue.clicked.connect(self.valueCheck)
+
+        # 不良校验
+        self.button_NoncheckValue = QtWidgets.QPushButton(QIcon('Resource/icon/Icon_run.ico'), '不良资产校验')
+        self.button_NoncheckValue.setText("不良资产校验")
+        self.button_NoncheckValue.setToolTip('不良资产校验')
+        self.button_NoncheckValue.clicked.connect(self.NonvalueCheck)
 
         #批量运行
         self.button_multiRun = QtWidgets.QPushButton(QIcon("Resource/icon/Icon_multiRun.ico"), '批量运行')
@@ -130,10 +136,10 @@ class MainWindow(QMainWindow):
         # 首先在Qself中添加ToolBar：tb1 = self.addToolBar('File')
         # 然后在ToolBar中添加Action：tb1.addAction(newAction)
         tb1 = self.addToolBar('Edit')
-        tb1.addWidget(newAction)
-        tb1.addWidget(self.button_multiRun)
+        #tb1.addWidget(newAction)
+        #tb1.addWidget(self.button_multiRun)   #注释内容填充和批量填充
         tb1.addWidget(self.button_checkValue)
-
+        tb1.addWidget(self.button_NoncheckValue)
         tb1.addWidget(saveAction)
         #tb1.addWidget(self.button_saveAs)
         #tb1.addWidget(saveAllAction)
@@ -213,21 +219,21 @@ class MainWindow(QMainWindow):
         elif index == 3:
             self.showActionManager()
     def showModeManager(self):
-        modeManager = SettingManager(self, self.str_xmlFIle, self.Settings[0])
+        modeManager = SettingManager(self, self.str_xmlFIle, self.Settings[1])
         modeManager.raise_()
         center(modeManager, 897, 800)
         modeManager.setFixedSize(897, 800)
         modeManager.show()
 
     def showTemplateManager(self):
-        templateManager = SettingManager(self, self.str_templatefile, self.Settings[1])
+        templateManager = SettingManager(self, self.str_templatefile, self.Settings[2])
         templateManager.raise_()
         center(templateManager, 897, 800)
         templateManager.setFixedSize(897, 800)
         templateManager.show()
 
     def showActionManager(self):
-        actionManager = AcitonManager(self, self.str_templatefile, self.Settings[1])
+        actionManager = AcitonManager(self, self.str_templatefile, self.Settings[3])
         actionManager.raise_()
         actionManager.actionShowed.connect(self.newAction)
         center(actionManager, 779, 800)
@@ -260,8 +266,14 @@ class MainWindow(QMainWindow):
         if folder_Exolorer == "":
             return
         para = {"sourcefolder":folder_Exolorer}
-        self.newAction("ValueCheck" ,"数值校验", para)
+        self.newAction("ValueCheck" ,"基础资产校验", para)
 
+    def NonvalueCheck(self):
+        folder_Exolorer = QFileDialog.getExistingDirectory(self, "选择要校验的文件夹", "")
+        if folder_Exolorer == "":
+            return
+        para = {"sourcefolder":folder_Exolorer}
+        self.newAction("NonValueCheck" ,"不良资产校验", para)
 
     def newAction(self, actionCode, actionName, kwargs):
         self.showMask()
